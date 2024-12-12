@@ -1,0 +1,123 @@
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import javax.persistence.Query;
+import jud.gestorfacturas.manager.XMLManager;
+import jud.gestorfacturas.model.Cliente;
+import jud.gestorfacturas.model.Emisor;
+import jud.gestorfacturas.model.Factura;
+import jud.gestorfacturas.model.Servicio;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
+
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class GestorFacturasUnit {
+    
+    XMLManager xmlmgr;
+    Factura[] listaFacturas;
+    Servicio[] listaServicios;
+    Cliente[] listaClientes;
+    
+    public GestorFacturasUnit() {
+    }
+    
+    @BeforeAll
+    public static void setUpClass() {
+    }
+    
+    @AfterAll
+    public static void tearDownClass() {
+        
+    }
+    
+    @BeforeEach
+    public void setUp() {
+        xmlmgr = new XMLManager();
+        xmlmgr.getEntityManager().getTransaction().begin();
+        xmlmgr.getEntityManager().createQuery("DELETE FROM Factura").executeUpdate();
+        xmlmgr.getEntityManager().createQuery("DELETE FROM Cliente").executeUpdate();
+        xmlmgr.getEntityManager().getTransaction().commit();
+        insert50Facturas();        
+    }
+    
+    @AfterEach
+    public void tearDown() {
+        if (xmlmgr.getEntityManager().isOpen()) {
+            xmlmgr.getEntityManager().close();
+        }
+    }
+    
+    public void insert50Facturas() {
+        int count = 0;
+        int max_count = 50;
+        listaFacturas = new Factura[max_count];
+        listaServicios = new Servicio[max_count];
+        listaClientes = new Cliente[max_count];
+        while (count < max_count) {
+            xmlmgr.getEntityManager().getTransaction().begin();
+            //INSERT CLIENTE
+            Random ran = new Random();
+            Cliente cliente = new Cliente("Empresa Test " + String.valueOf(ran.nextInt(1000)), "Calle Falsa " + String.valueOf(ran.nextInt(1000)), String.valueOf(ran.nextInt(99999)), "B" + String.valueOf(ran.nextInt(99999999)));
+            if (xmlmgr.clienteExists(cliente)) {
+                xmlmgr.mergeIntoDB(cliente);
+            } else {
+                xmlmgr.insertIntoDB(cliente);
+            }
+            xmlmgr.getEntityManager().getTransaction().commit();
+            listaClientes[count] = cliente;
+
+            //GET UNICO EMISOR
+            Emisor emisor = xmlmgr.getUnicoEmisor();
+            
+            //INSERT FACTURA
+            Servicio[] servicios = new Servicio[ran.nextInt(1,5)];
+            //he puesto un RAND en el size
+            for (int s = 0; s < servicios.length; s++) {
+                servicios[s] = new Servicio("Servicio " + String.valueOf(ran.nextInt(999)), ran.nextDouble(0.30d), ran.nextInt(500));
+            }
+            listaServicios = servicios;
+            
+            String formaPago = (ran.nextInt(2) == 1) ? "Transferencia bancaria" : "Cheque";
+            Date dataEmision = new Date(ran.nextLong(61694780400000l));
+            Factura factura = new Factura(dataEmision.toString(), dataEmision, ran.nextInt(91), formaPago, cliente, emisor, servicios);
+            xmlmgr.getEntityManager().getTransaction().begin();
+            if (xmlmgr.facturaExists(factura)) {
+                xmlmgr.mergeIntoDB(factura);
+            } else {
+                xmlmgr.insertIntoDB(factura);
+            }
+            xmlmgr.getEntityManager().getTransaction().commit();
+            listaFacturas[count] = factura;
+
+            //List<Factura> facturas = xmlmgr.getFacturas();
+            //System.out.println(facturas);
+            count++;
+        }
+    }
+
+    @Test
+    @Order(1)
+    public void readEverything() {
+        System.out.println("-------------- TEST 1 --------------");
+        Factura[] facturas = new Factura[xmlmgr.getFacturas().size()];
+        List<Factura> listFacturas = xmlmgr.getFacturas();
+        for (int i = 0; i < listFacturas.size(); i++) {
+            facturas[i] = listFacturas.get(i);
+        }
+        
+        for (int y = 0; y < facturas.length; y++) {
+            System.out.println(listaFacturas[y].getFechaUltActualizacion() + " <--> " + facturas[y].getFechaUltActualizacion());
+            assertEquals(listaFacturas[y], facturas[y]);
+        }
+    }
+}
