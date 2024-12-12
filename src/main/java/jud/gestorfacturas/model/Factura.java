@@ -25,7 +25,6 @@ public class Factura {
     private double irpf;
     private double importeTotal;
     private Timestamp fechaUltActualizacion;
-    //private 
     
     @Override
     public String toString() {

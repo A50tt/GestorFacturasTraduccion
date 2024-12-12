@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.persistence.Query;
-import jud.gestorfacturas.manager.XMLManager;
+import jud.gestorfacturas.manager.XMLUtilities;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
@@ -23,7 +23,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GestorFacturasUnit {
     
-    XMLManager xmlmgr;
+    XMLUtilities xmlmgr;
     Factura[] listaFacturas;
     Servicio[] listaServicios;
     Cliente[] listaClientes;
@@ -42,7 +42,7 @@ public class GestorFacturasUnit {
     
     @BeforeEach
     public void setUp() {
-        xmlmgr = new XMLManager();
+        xmlmgr = new XMLUtilities();
         xmlmgr.getEntityManager().getTransaction().begin();
         xmlmgr.getEntityManager().createQuery("DELETE FROM Factura").executeUpdate();
         xmlmgr.getEntityManager().createQuery("DELETE FROM Cliente").executeUpdate();

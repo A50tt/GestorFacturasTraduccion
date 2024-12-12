@@ -10,7 +10,7 @@ import jud.gestorfacturas.model.Servicio;
 
 public class GestorFacturas {
     
-    XMLManager xmlmgr;
+    XMLUtilities xmlmgr;
 
     public static void main(String[] args) {
         GestorFacturas gf = new GestorFacturas();
@@ -18,7 +18,7 @@ public class GestorFacturas {
     }
     
     public void inicio() {
-        xmlmgr = new XMLManager();
+        xmlmgr = new XMLUtilities();
         xmlmgr.getEntityManager().getTransaction().begin();
         readEverything();
         //insert50();
