@@ -5,16 +5,24 @@ import java.io.Serializable;
 
 public class Servicio implements Serializable {
     
+    private String combinacionIdiomas;
     private String descripcion;
+    private String tipo;
     private double precioUnitario;
     private double cantidad;
     private double precioFinal;
     
-    public Servicio(String _descripcion, double _precioUnitario, double _cantidad) {
+    public Servicio(String _combinacionIdiomas, String _descripcion, String _tipo, double _precioUnitario, double _cantidad) {
+        this.combinacionIdiomas = _combinacionIdiomas;
         this.descripcion = _descripcion;
+        this.tipo = _tipo;
         this.precioUnitario = _precioUnitario;
         this.cantidad = _cantidad;
         this.precioFinal = this.precioUnitario * this.cantidad;
+    }
+    
+    public String getCombinacionIdiomas() {
+        return combinacionIdiomas;
     }
 
     public String getDescripcion() {
@@ -23,6 +31,10 @@ public class Servicio implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    
+    public String getTipo() {
+        return tipo;
     }
 
     public double getPrecioUnitario() {
@@ -52,7 +64,7 @@ public class Servicio implements Serializable {
     public static Servicio getInstanceServicioDescuento(Servicio servicio, double descuento) {
         String newDescripcion = "Descuento " + servicio.getDescripcion();
         double newPrecioUnitario = servicio.getPrecioUnitario() * (1d - (descuento / 100d));     
-        return new Servicio(newDescripcion, newPrecioUnitario, servicio.getCantidad());
+        return new Servicio(servicio.getCombinacionIdiomas(), newDescripcion, servicio.getTipo(), newPrecioUnitario, servicio.getCantidad());
     }
     
     public static String[] getInstanceStringArray(Servicio[] servicios) {

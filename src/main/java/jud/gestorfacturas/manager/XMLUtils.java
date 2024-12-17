@@ -11,11 +11,11 @@ import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Interviniente;
 
-public class XMLUtilities {
+public class XMLUtils {
     
     public EntityManager em;
     
-    public XMLUtilities() {
+    public XMLUtils() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("facturasPA");
         em = emf.createEntityManager();
     }
@@ -50,7 +50,7 @@ public class XMLUtilities {
             ps.setBytes(2, pdfData);  // byte[] array
             ps.executeUpdate();
         } catch (IOException ex) {
-            Logger.getLogger(XMLUtilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XMLUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
     }*/
 

@@ -1,10 +1,15 @@
 
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Query;
-import jud.gestorfacturas.manager.XMLUtilities;
+import jud.gestorfacturas.manager.PDFGenerator;
+import jud.gestorfacturas.manager.XMLUtils;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
@@ -23,7 +28,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GestorFacturasUnit {
     
-    XMLUtilities xmlmgr;
+    XMLUtils xmlmgr;
+    PDFGenerator pdfu;
     Factura[] listaFacturas;
     Servicio[] listaServicios;
     Cliente[] listaClientes;
@@ -42,19 +48,24 @@ public class GestorFacturasUnit {
     
     @BeforeEach
     public void setUp() {
-        xmlmgr = new XMLUtilities();
-        xmlmgr.getEntityManager().getTransaction().begin();
-        xmlmgr.getEntityManager().createQuery("DELETE FROM Factura").executeUpdate();
-        xmlmgr.getEntityManager().createQuery("DELETE FROM Cliente").executeUpdate();
-        xmlmgr.getEntityManager().getTransaction().commit();
-        insert50Facturas();        
+        pdfu = new PDFGenerator("hello.pdf");
+        xmlmgr = new XMLUtils();
+        listaFacturas = new Factura[] { xmlmgr.getFacturas().get(1) };
+//        TODO
+//        xmlmgr = new XMLUtils();
+//        xmlmgr.getEntityManager().getTransaction().begin();
+//        xmlmgr.getEntityManager().createQuery("DELETE FROM Factura").executeUpdate();
+//        xmlmgr.getEntityManager().createQuery("DELETE FROM Cliente").executeUpdate();
+//        xmlmgr.getEntityManager().getTransaction().commit();
+//        insert50Facturas();
     }
     
     @AfterEach
     public void tearDown() {
-        if (xmlmgr.getEntityManager().isOpen()) {
-            xmlmgr.getEntityManager().close();
-        }
+//        TODO
+//        if (xmlmgr.getEntityManager().isOpen()) {
+//            xmlmgr.getEntityManager().close();
+//        }
     }
     
     public void insert50Facturas() {
@@ -80,10 +91,12 @@ public class GestorFacturasUnit {
             Emisor emisor = xmlmgr.getUnicoEmisor();
             
             //INSERT FACTURA
+            String[] tiposTipo = {"Clip", "Palabra", "Error", "Página"};
+            String[] idiomas = {"ES", "EN", "PT", "IT", "FR", "DE", "RU","RU", "NL", "NO", "FI"};
             Servicio[] servicios = new Servicio[ran.nextInt(1,5)];
             //he puesto un RAND en el size
             for (int s = 0; s < servicios.length; s++) {
-                servicios[s] = new Servicio("Servicio " + String.valueOf(ran.nextInt(999)), ran.nextDouble(0.30d), ran.nextInt(500));
+                servicios[s] = new Servicio(String.valueOf(idiomas[ran.nextInt(idiomas.length)]) + " - " + String.valueOf(idiomas[ran.nextInt(idiomas.length)]),"Servicio " + String.valueOf(ran.nextInt(999)), tiposTipo[ran.nextInt(tiposTipo.length)], ran.nextDouble(0.30d), ran.nextInt(500));
             }
             listaServicios = servicios;
             
@@ -116,8 +129,15 @@ public class GestorFacturasUnit {
         }
         
         for (int y = 0; y < facturas.length; y++) {
-            System.out.println(listaFacturas[y].getFechaUltActualizacion() + " <--> " + facturas[y].getFechaUltActualizacion());
+            //System.out.println(listaFacturas[y].getFechaUltActualizacion() + " <--> " + facturas[y].getFechaUltActualizacion());
             assertEquals(listaFacturas[y], facturas[y]);
         }
+    }
+    
+    @Test
+    @Order(2)
+    public void createInvoice() {
+        System.out.println("-------------- TEST 1 --------------");
+        pdfu.createPDF(listaFacturas[0]);
     }
 }

@@ -27,5 +27,9 @@ public class Emisor extends Interviniente {
 
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
-    }    
+    }
+   
+    public String getIban() {
+        return iban;
+    }
 }
