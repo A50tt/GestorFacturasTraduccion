@@ -1,5 +1,6 @@
 package jud.gestorfacturas.manager;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -13,13 +14,10 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
-/**
- * Create a blank PDF and write the contents to a file.
- */
 public final class PDFGenerator {
 
-    private String resDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\";
-    private String imgDirectory = resDirectory + "\\img";
+    public String RESOURCE_DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\resources\\";
+    public String IMAGES_DIRECTORY = RESOURCE_DIRECTORY + "img\\";
     private String fileName;
     //private String filePath;
     PDPage page;
@@ -49,7 +47,7 @@ public final class PDFGenerator {
         }
     }
 
-    public void createPDF(Factura factura) {
+    public void createPDF(Factura factura, File file) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
         try {
@@ -59,7 +57,7 @@ public final class PDFGenerator {
             contentStream.setLeading(14.5f);
 
             //Logo
-            PDImageXObject logoImage = PDImageXObject.createFromFile(imgDirectory + "logo.png", document);
+            PDImageXObject logoImage = PDImageXObject.createFromFile(IMAGES_DIRECTORY + "logo.png", document);
             contentStream.drawImage(logoImage, 55f, (float) height - 30f - logoImage.getHeight());
 
             //Encabezado datos factura
@@ -105,7 +103,7 @@ public final class PDFGenerator {
             contentStream.endText();
 
             //Black Shape
-            PDImageXObject bsConceptsImage = PDImageXObject.createFromFile(imgDirectory + "black_shape.png", document);
+            PDImageXObject bsConceptsImage = PDImageXObject.createFromFile(IMAGES_DIRECTORY + "black_shape.png", document);
             contentStream.drawImage(bsConceptsImage, 55, 420);
             
             //Cuerpo: Descripción conceptos
@@ -129,21 +127,22 @@ public final class PDFGenerator {
             contentStream.setNonStrokingColor(1f,1f,1f);
             insertTextWithOffset("CANTIDAD", Standard14Fonts.FontName.HELVETICA_BOLD, 12, 300, 360);
             contentStream.setNonStrokingColor(0f,0f,0f);
-//            contentStream.endText();
-//            contentStream.beginText();
             contentStream.endText();
+            
             contentStream.beginText();
             insertTextWithOffset("", Standard14Fonts.FontName.HELVETICA, 12, 300, 398);
+            contentStream.setLeading(15f);
             for (Servicio servicio : factura.getListaServicios()) {
                 if (servicio.getCantidad() % (int)servicio.getCantidad() == 0) { //is integer without decimal numbers
-                    insertText("      " + Utils.formatDecimalNumberIfNecessary(servicio.getCantidad(), 2), Standard14Fonts.FontName.HELVETICA, 12);
+                    insertText("      " + Utils.formatDecimalNumberToStringIfNecessary(servicio.getCantidad(), 0), Standard14Fonts.FontName.HELVETICA, 12);
                 } else { //has decimals
-                    insertText("    " + Utils.formatDecimalNumberIfNecessary(servicio.getCantidad(), 2), Standard14Fonts.FontName.HELVETICA, 12);
+                    insertText("    " + Utils.formatDecimalNumberToStringIfNecessary(servicio.getCantidad(), 2), Standard14Fonts.FontName.HELVETICA, 12);
                 }
                 insertNewLine();
                 insertNewLine();
                 insertNewLine();
             }
+            contentStream.setLeading(14.5f);
             contentStream.endText();
 
             //Cuerpo: Precio unitario
@@ -152,13 +151,15 @@ public final class PDFGenerator {
             insertTextWithOffset("PRECIO", Standard14Fonts.FontName.HELVETICA_BOLD, 12, 410, 360);
             contentStream.setNonStrokingColor(0f,0f,0f);
             insertNewLine();
+            contentStream.setLeading(15f);
             for (Servicio servicio : factura.getListaServicios()) {
                 insertNewLine();
-                insertText(Utils.formatDecimalNumberAlways(servicio.getPrecioUnitario(), 3), Standard14Fonts.FontName.HELVETICA, 12);
+                insertText(Utils.formatDecimalNumberToStringAlways(servicio.getPrecioUnitario() ,3), Standard14Fonts.FontName.HELVETICA, 12);
                 insertNewLine();
                 insertText("€/ " + servicio.getTipo(), Standard14Fonts.FontName.HELVETICA, 12);
                 insertNewLine();
             }
+            contentStream.setLeading(14.5f);
             contentStream.endText();
 
             //Cuerpo: Precio Total/servicio
@@ -169,20 +170,22 @@ public final class PDFGenerator {
             contentStream.endText();
             contentStream.beginText();
             insertTextWithOffset("", Standard14Fonts.FontName.HELVETICA, 12, 510, 395);
+            contentStream.setLeading(15f);
             for (Servicio servicio : factura.getListaServicios()) {
-                insertText(Utils.formatDecimalNumberAlways(servicio.getPrecioFinal(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 12);
+                insertText(Utils.formatDecimalNumberToStringAlways(servicio.getPrecioFinal(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 12);
                 insertNewLine();
                 insertNewLine();
                 insertNewLine();
             }
+            contentStream.setLeading(14.5f);
             contentStream.endText();
             
             //Pie: Información de pago
             contentStream.beginText();
-            insertTextWithOffset("INFORMACIÓN DE PAGO", Standard14Fonts.FontName.HELVETICA_BOLD, 12, 70, 600);
+            insertTextWithOffset("INFORMACIÓN DE PAGO", Standard14Fonts.FontName.HELVETICA_BOLD, 12, 70, 620);
             contentStream.endText();
             contentStream.beginText();
-            insertTextWithOffset("Nombre", Standard14Fonts.FontName.HELVETICA, 10, 70, 640);
+            insertTextWithOffset("Nombre", Standard14Fonts.FontName.HELVETICA, 10, 70, 660);
             insertNewLine();
             insertText("Forma de pago", Standard14Fonts.FontName.HELVETICA, 10);
             insertNewLine();
@@ -192,26 +195,28 @@ public final class PDFGenerator {
             contentStream.endText();
             
             contentStream.beginText();
-            insertTextWithOffset(factura.getEmisor().getNombreCompleto(), Standard14Fonts.FontName.HELVETICA, 10, 150, 640);
+            insertTextWithOffset(factura.getEmisor().getNombreCompleto(), Standard14Fonts.FontName.HELVETICA, 10, 150, 661);
             insertNewLine();
             insertText(factura.getFormaPago(), Standard14Fonts.FontName.HELVETICA, 10);
             insertNewLine();
-            insertText(factura.getEmisor().getIban(), Standard14Fonts.FontName.HELVETICA, 10);
+            if (factura.getFormaPago().equals("Transferencia bancaria")) {
+                insertText(factura.getEmisor().getIban(), Standard14Fonts.FontName.HELVETICA, 10);
+            }
             insertNewLine();
             contentStream.endText();
             
             //Pie: Shape negra en precio final
-            PDImageXObject bspriceImage = PDImageXObject.createFromFile(imgDirectory + "small_black_shape.png", document);
-            contentStream.drawImage(bspriceImage, 310, 117);
+            PDImageXObject bspriceImage = PDImageXObject.createFromFile(IMAGES_DIRECTORY + "small_black_shape.png", document);
+            contentStream.drawImage(bspriceImage, 310, 97);
             
             //Pie: Precios Finales Factura
             contentStream.beginText();
             contentStream.setLeading(22f);
-            insertTextWithOffset("BASE IMPONIBLE", Standard14Fonts.FontName.HELVETICA, 14, 320, 600);
+            insertTextWithOffset("BASE IMPONIBLE", Standard14Fonts.FontName.HELVETICA, 14, 320, 620);
             insertNewLine();
-            insertText("IVA (" + Utils.formatDecimalNumberIfNecessary(factura.getTASA_IVA(), 2) + " %)", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText("IVA (" + Utils.formatDecimalNumberToStringAlways(factura.getTASA_IVA(), 2) + " %)", Standard14Fonts.FontName.HELVETICA, 14);
             insertNewLine();
-            insertText("IRPF (" + Utils.formatDecimalNumberIfNecessary(factura.getTASA_IRPF(), 2) + " %)", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText("IRPF (" + Utils.formatDecimalNumberToStringAlways(factura.getTASA_IRPF(), 2) + " %)", Standard14Fonts.FontName.HELVETICA, 14);
             insertNewLine();
             contentStream.setNonStrokingColor(1f,1f,1f);
             insertText("TOTAL", Standard14Fonts.FontName.HELVETICA, 14);
@@ -220,19 +225,19 @@ public final class PDFGenerator {
             
             contentStream.beginText();
             contentStream.setLeading(22f);
-            insertTextWithOffset(Utils.formatDecimalNumberAlways(factura.getBaseImponible(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14, 480, 600);
+            insertTextWithOffset(Utils.formatDecimalNumberToStringAlways(factura.getBaseImponible(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14, 480, 620);
             insertNewLine();
-            insertText(Utils.formatDecimalNumberAlways(factura.getIva(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText(Utils.formatDecimalNumberToStringAlways(factura.getIva(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
             insertNewLine();
-            insertText(Utils.formatDecimalNumberAlways(factura.getIrpf(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText(Utils.formatDecimalNumberToStringAlways(factura.getIrpf(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
             insertNewLine();
             contentStream.setNonStrokingColor(1f,1f,1f);
-            insertText(Utils.formatDecimalNumberAlways(factura.getImporteTotal(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText(Utils.formatDecimalNumberToStringAlways(factura.getImporteTotal(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
             contentStream.setNonStrokingColor(0f,0f,0f);
             contentStream.endText();
             
             contentStream.close();
-            document.save(this.resDirectory + this.fileName);
+            document.save(file);
             document.close();
         } catch (IOException ex) {
             Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);

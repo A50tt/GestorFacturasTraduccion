@@ -2,27 +2,38 @@
 package jud.gestorfacturas.model;
 
 import java.io.Serializable;
+import jud.gestorfacturas.manager.Utils;
 
 public class Servicio implements Serializable {
     
-    private String combinacionIdiomas;
+    private String idiomaOrigen;
+    private String idiomaDestino;
     private String descripcion;
     private String tipo;
     private double precioUnitario;
     private double cantidad;
     private double precioFinal;
     
-    public Servicio(String _combinacionIdiomas, String _descripcion, String _tipo, double _precioUnitario, double _cantidad) {
-        this.combinacionIdiomas = _combinacionIdiomas;
+    public Servicio(String _idiomaOrigen, String _idiomaDestino, String _descripcion, String _tipo, double _precioUnitario, double _cantidad) {
+        this.idiomaOrigen = _idiomaOrigen;
+        this.idiomaDestino = _idiomaDestino;
         this.descripcion = _descripcion;
         this.tipo = _tipo;
-        this.precioUnitario = _precioUnitario;
-        this.cantidad = _cantidad;
-        this.precioFinal = this.precioUnitario * this.cantidad;
+        this.precioUnitario = Utils.formatDecimalNumberToDoubleIfNecessary(_precioUnitario, 3);
+        this.cantidad = Utils.formatDecimalNumberToDoubleIfNecessary(_cantidad, 2);
+        this.precioFinal = Utils.formatDecimalNumberToDoubleIfNecessary(this.precioUnitario * this.cantidad, 2);
     }
-    
+
+    public String getIdiomaOrigen() {
+        return idiomaOrigen;
+    }
+
+    public String getIdiomaDestino() {
+        return idiomaDestino;
+    }
+
     public String getCombinacionIdiomas() {
-        return combinacionIdiomas;
+        return idiomaOrigen + " - " + idiomaDestino;
     }
 
     public String getDescripcion() {
@@ -39,6 +50,10 @@ public class Servicio implements Serializable {
 
     public double getPrecioUnitario() {
         return precioUnitario;
+    }
+    
+    public String getPrecioUnitarioString() {
+        return String.valueOf(precioUnitario);
     }
 
     public void setPrecioUnitario(double precioUnitario) {
@@ -64,7 +79,7 @@ public class Servicio implements Serializable {
     public static Servicio getInstanceServicioDescuento(Servicio servicio, double descuento) {
         String newDescripcion = "Descuento " + servicio.getDescripcion();
         double newPrecioUnitario = servicio.getPrecioUnitario() * (1d - (descuento / 100d));     
-        return new Servicio(servicio.getCombinacionIdiomas(), newDescripcion, servicio.getTipo(), newPrecioUnitario, servicio.getCantidad());
+        return new Servicio(servicio.getIdiomaOrigen(), servicio.getIdiomaDestino(), newDescripcion, servicio.getTipo(), newPrecioUnitario, servicio.getCantidad());
     }
     
     public static String[] getInstanceStringArray(Servicio[] servicios) {

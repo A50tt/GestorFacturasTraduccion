@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import jud.gestorfacturas.manager.Utils;
 
 @Entity
 public class Factura {
@@ -64,22 +65,21 @@ public class Factura {
     }
 
     public Factura() {
-
     }
 
     public Factura(String _numFactura, Date _fechaEmision, int _diasPago, String _formaPago, Cliente _cliente, Emisor _emisor, Servicio[] _listaServicios) {
         this.numFactura = _numFactura;
         this.fechaEmision = _fechaEmision;
         this.diasPago = _diasPago;
-        this.fechaVencimiento = new Date(this.fechaEmision.getTime() + this.diasPago);
+        this.fechaVencimiento = Date.valueOf(this.fechaEmision.toLocalDate().plusDays(this.diasPago));
         this.formaPago = _formaPago;
         this.cliente = _cliente;
         this.emisor = _emisor;
         this.listaServicios = _listaServicios;
         calculaServicios(); //Calcula baseImponible a partir de listaServicios
-        this.iva = baseImponible * (TASA_IVA / 100d);
-        this.irpf = -baseImponible * (TASA_IRPF / 100d);
-        this.importeTotal = baseImponible + iva - irpf;
+        this.iva = Utils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
+        this.irpf = Utils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
+        this.importeTotal = baseImponible + iva + irpf;
         this.fechaUltActualizacion = new Timestamp(System.currentTimeMillis());
     }
 
