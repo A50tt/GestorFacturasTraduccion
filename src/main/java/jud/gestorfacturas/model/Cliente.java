@@ -8,6 +8,8 @@ import javax.persistence.Table;
 @Table(name = "Clientes")
 public class Cliente extends Interviniente {
     
+    private boolean activado = true;
+    
     public Cliente() {
         super();
     }

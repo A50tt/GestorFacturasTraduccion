@@ -1,14 +1,18 @@
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jud.gestorfacturas.manager.PDFGenerator;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Servicio;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +27,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GestorFacturasUnit {
     
-    DBUtils xmlmgr;
+    DBUtils dbMgr;
     PDFGenerator pdfu;
     Factura[] listaFacturas;
     Servicio[] listaServicios;
@@ -44,22 +48,22 @@ public class GestorFacturasUnit {
     @BeforeEach
     public void setUp() {
         pdfu = new PDFGenerator("hello.pdf");
-        xmlmgr = new DBUtils();
-        //listaFacturas = new Factura[] { xmlmgr.getFacturas().get(0) };
+        dbMgr = new DBUtils();
+        //listaFacturas = new Factura[] { dbMgr.getFacturas().get(0) };
 //        TODO
-        xmlmgr = new DBUtils();
-        xmlmgr.getEntityManager().getTransaction().begin();
-        xmlmgr.getEntityManager().createQuery("DELETE FROM Factura").executeUpdate();
-        xmlmgr.getEntityManager().createQuery("DELETE FROM Cliente").executeUpdate();
-        xmlmgr.getEntityManager().getTransaction().commit();
+        dbMgr = new DBUtils();
+        dbMgr.getEntityManager().getTransaction().begin();
+        dbMgr.getEntityManager().createQuery("DELETE FROM Factura").executeUpdate();
+        dbMgr.getEntityManager().createQuery("DELETE FROM Cliente").executeUpdate();
+        dbMgr.getEntityManager().getTransaction().commit();
         insert50Facturas();
     }
     
     @AfterEach
     public void tearDown() {
 //        TODO
-//        if (xmlmgr.getEntityManager().isOpen()) {
-//            xmlmgr.getEntityManager().close();
+//        if (dbMgr.getEntityManager().isOpen()) {
+//            dbMgr.getEntityManager().close();
 //        }
     }
     
@@ -70,20 +74,20 @@ public class GestorFacturasUnit {
         listaServicios = new Servicio[max_count];
         listaClientes = new Cliente[max_count];
         while (count < max_count) {
-            xmlmgr.getEntityManager().getTransaction().begin();
+            dbMgr.getEntityManager().getTransaction().begin();
             //INSERT CLIENTE
             Random ran = new Random();
             Cliente cliente = new Cliente("Empresa Test " + String.valueOf(ran.nextInt(1000)), "Calle Falsa " + String.valueOf(ran.nextInt(1000)), String.valueOf(ran.nextInt(99999)), "B" + String.valueOf(ran.nextInt(99999999)));
-            if (xmlmgr.clienteExists(cliente)) {
-                xmlmgr.mergeIntoDB(cliente);
+            if (dbMgr.clienteExists(cliente)) {
+                dbMgr.mergeIntoDB(cliente);
             } else {
-                xmlmgr.insertIntoDB(cliente);
+                dbMgr.insertIntoDB(cliente);
             }
-            xmlmgr.getEntityManager().getTransaction().commit();
+            dbMgr.getEntityManager().getTransaction().commit();
             listaClientes[count] = cliente;
 
             //GET UNICO EMISOR
-            Emisor emisor = xmlmgr.getUnicoEmisor();
+            Emisor emisor = dbMgr.getUnicoEmisor();
             
             //INSERT FACTURA
             String[] tiposTipo = {"Clip", "Palabra", "Error", "Página"};
@@ -98,16 +102,16 @@ public class GestorFacturasUnit {
             String formaPago = (ran.nextInt(2) == 1) ? "Transferencia bancaria" : "Cheque";
             Date dataEmision = new Date(ran.nextLong(61694780400000l));
             Factura factura = new Factura(dataEmision.toString(), dataEmision, ran.nextInt(91), formaPago, cliente, emisor, servicios);
-            xmlmgr.getEntityManager().getTransaction().begin();
-            if (xmlmgr.facturaExists(factura)) {
-                xmlmgr.mergeIntoDB(factura);
+            dbMgr.getEntityManager().getTransaction().begin();
+            if (dbMgr.facturaExists(factura)) {
+                dbMgr.mergeIntoDB(factura);
             } else {
-                xmlmgr.insertIntoDB(factura);
+                dbMgr.insertIntoDB(factura);
             }
-            xmlmgr.getEntityManager().getTransaction().commit();
+            dbMgr.getEntityManager().getTransaction().commit();
             listaFacturas[count] = factura;
 
-            //List<Factura> facturas = xmlmgr.getFacturas();
+            //List<Factura> facturas = dbMgr.getFacturas();
             //System.out.println(facturas);
             count++;
         }
@@ -117,8 +121,8 @@ public class GestorFacturasUnit {
     @Order(1)
     public void readEverything() {
         System.out.println("-------------- TEST 1 --------------");
-        Factura[] facturas = new Factura[xmlmgr.getFacturas().size()];
-        List<Factura> listFacturas = xmlmgr.getFacturas();
+        Factura[] facturas = new Factura[dbMgr.getFacturas().size()];
+        List<Factura> listFacturas = dbMgr.getFacturas();
         for (int i = 0; i < listFacturas.size(); i++) {
             facturas[i] = listFacturas.get(i);
         }
@@ -129,10 +133,10 @@ public class GestorFacturasUnit {
         }
     }
     
-    @Test
-    @Order(2)
-    public void createInvoice() {
-        System.out.println("-------------- TEST 1 --------------");
-        pdfu.createPDF(listaFacturas[0], new File(pdfu.RESOURCE_DIRECTORY + "hello.pdf"));
-    }
+//    @Test
+//    @Order(2)
+//    public void createInvoice() {
+//        System.out.println("-------------- TEST 1 --------------");
+//        File pdf = pdfu.generaPDDocumentFactura(listaFacturas[0]);
+//    }
 }

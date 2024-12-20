@@ -3,7 +3,8 @@ package jud.gestorfacturas.manager;
 import java.sql.Date;
 import java.util.List;
 import java.util.Random;
-import jud.gestorfacturas.gui.CreateInvoiceController;
+import jud.gestorfacturas.gui.NuevoClienteController;
+import jud.gestorfacturas.gui.FacturaController;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
@@ -19,7 +20,7 @@ public class GestorFacturas {
     }
     
     public void inicio() {
-        CreateInvoiceController controller = new CreateInvoiceController();
+        NuevoClienteController controller = new NuevoClienteController();
         //PDFGenerator pdfu = new PDFGenerator("hello.pdf");
         //pdfu.createPDF();
         //xmlmgr = new DBUtils();

@@ -1,15 +1,22 @@
 package jud.gestorfacturas.manager;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jud.gestorfacturas.gui.FacturaController;
+import jud.gestorfacturas.gui.FacturaView;
 import jud.gestorfacturas.model.*;
 import jud.gestorfacturas.manager.Utils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
@@ -30,6 +37,11 @@ public final class PDFGenerator {
         this.fileName = _fileName;
         initialize();
     }
+ 
+    public PDFGenerator(File _file) {
+        this.fileName = _file.getName();
+        initialize();
+    }
 
     public void initialize() {
         document = new PDDocument();
@@ -47,9 +59,8 @@ public final class PDFGenerator {
         }
     }
 
-    public void createPDF(Factura factura, File file) {
+    public PDDocument generaPDDocumentFactura(Factura factura, File path) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-
         try {
             document.addPage(page);
 
@@ -237,14 +248,23 @@ public final class PDFGenerator {
             contentStream.endText();
             
             contentStream.close();
-            document.save(file);
-            document.close();
+            
+            return document;
         } catch (IOException ex) {
             Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
     
-    private void insertSeparationLine() {
+    public void openTempPDF(File tempFile) {
+        try {
+            Desktop.getDesktop().open(tempFile);
+        } catch (IOException ex) {
+            Logger.getLogger(FacturaView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void insertSeparationLine() {
         try {
             contentStream.setLeading(8f);
             contentStream.setNonStrokingColor(0.5f);

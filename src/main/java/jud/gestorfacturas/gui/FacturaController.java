@@ -4,9 +4,12 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -24,18 +28,21 @@ import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Servicio;
+import static javax.swing.JOptionPane.showMessageDialog;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.common.PDStream;
 
-public class CreateInvoiceController {
-
+public class FacturaController {
+    DBUtils dbUtils = new DBUtils();
     Utils utils = new Utils();
-    private String RESOURCE_DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\resources\\";
-    private String IMAGES_DIRECTORY = RESOURCE_DIRECTORY + "img\\";
+    protected int fichaEsCorrecta = 0; // -1 si es INCORRECTA, 0 si es NEUTRAL, 1 si es CORRECTA
+
     Color DEFAULT_BG_COLOR = Color.white;
     Color ERROR_BG_COLOR = Color.red;
     String[] TIPOS_UNIDAD = {"", "Clip", "Hora", "Minuto", "Palabra"};
     String[] FORMAS_PAGO = {"", "Transferencia Bancaria", "Cheque"};
 
-    private CreateInvoiceView view;
+    private FacturaView view;
     private JPanel jPanel;
     private JTextField numeroFraTxtField;
     private JTextField fechaEmisionTxtField;
@@ -88,8 +95,8 @@ public class CreateInvoiceController {
     private JButton previewFacturaBtn;
     private JButton registrarFacturaBtn;
 
-    public CreateInvoiceController() {
-        view = new CreateInvoiceView(this);
+    public FacturaController() {
+        view = new FacturaView(this);
         initialize();
         view.setVisible(true);
     }
@@ -104,7 +111,7 @@ public class CreateInvoiceController {
         formaPagoComboBox = view.formaPagoComboBox;
 
         nombreClienteSearchBtn = view.nombreClienteSearchBtn;
-        setSVGIcon(nombreClienteSearchBtn, new File("src\\main\\resources\\img\\busqueda_black_icon.svg"));
+        nombreClienteSearchBtn.setIcon(utils.SEARCH_FLATSVGICON);
         numeroClienteTxtField = view.numeroClienteTxtField;
         nombreClienteTxtField = view.nombreClienteTxtField;
         nifClienteTxtField = view.nifClienteTxtField;
@@ -112,8 +119,9 @@ public class CreateInvoiceController {
         codigoPostalClienteTxtField = view.codigoPostalClienteTxtField;
 
         msgLbl = view.msgLbl;
-        setSVGIcon(msgLbl, new File("src\\main\\resources\\img\\standby_icon.svg"));
-        msgLbl.setOpaque(false);
+        setStandbyStatus();
+        msgLbl.getIcon();
+        //msgLbl.setOpaque(false);
 
         concepto1TxtField = view.concepto1TxtField;
         idiomaOrigen1TxtField = view.idiomaOrigen1TxtField;
@@ -189,8 +197,23 @@ public class CreateInvoiceController {
             setDefaultBackground(concepto);
         } else if (concepto.getText().isEmpty() && (cantidad.getText().isEmpty() || precio.getText().isEmpty())) {
             setErrorBackground(concepto);
+            fichaEsCorrecta = -1;
         } else {
             setDefaultBackground(concepto);
+        }
+    }
+    
+    protected void actualizaStatusFicha() {
+        switch (this.fichaEsCorrecta) {
+            case -1:
+                setKOStatus();
+                break;
+            case 0:
+                setStandbyStatus();
+                break;
+            case 1:
+                setOKStatus();
+                break;
         }
     }
 
@@ -326,15 +349,44 @@ public class CreateInvoiceController {
         return new Factura(numFra, fechaEmision, diasPago, formaPago, cliente, emisor, servicios);
     }
 
-    protected void previewPDF(Factura factura) {
-        PDFGenerator pdfGen = new PDFGenerator("invoice_" + factura.getNumFactura() + ".pdf");
+    protected File createTempPDF(Factura factura) {
         try {
-            File tempFile = File.createTempFile("invoice_", "_" + factura.getNumFactura() + ".pdf");
-            tempFile.deleteOnExit();
-            pdfGen.createPDF(factura, tempFile);
-            Desktop.getDesktop().open(tempFile);
+            File file = File.createTempFile("invoice_" + factura.getNumFactura(), ".pdf");
+            PDFGenerator pdfGen = new PDFGenerator(file.getName());
+            PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file);
+            pdDoc.save(file);
+            return file;
         } catch (IOException ex) {
-            Logger.getLogger(CreateInvoiceView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    protected File registraFactura(Factura factura) {
+        File file = new File(utils.INVOICES_DIRECTORY + factura.getNumFactura() + ".pdf");
+        PDFGenerator pdfGen = new PDFGenerator(file);
+        PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file);
+        try {
+            pdDoc.save(file);
+            return file;
+        } catch (IOException ex) {
+            Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    protected void openFile(File file) {
+        try {
+            if (file == null) {
+                throw new NullPointerException();
+            }
+            Desktop.getDesktop().open(file);
+        } catch (IOException ex1) {
+            Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex1);
+            showErrorMessage("ERROR", ex1 + ": La factura " + file.getName() + " no se ha podido encontrar.");
+        } catch (NullPointerException ex2) {
+            Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex2);
+            showErrorMessage("ERROR", ex2 + ": La factura no se ha podido encontrar.");
         }
     }
 
@@ -460,13 +512,13 @@ public class CreateInvoiceController {
                 } else {
                     setDefaultBackground(fila[2]);
                 }
-                if (((javax.swing.JTextField) fila[3]).getText().isEmpty()) {
+                if (((javax.swing.JTextField) fila[3]).getText().isEmpty() || !utils.isParseableToDouble(((javax.swing.JTextField) fila[3]).getText().replace(",","."))) {
                     isCorrect = false;
                     setErrorBackground(fila[3]);
                 } else {
                     setDefaultBackground(fila[3]);
                 }
-                if (((javax.swing.JTextField) fila[4]).getText().isEmpty()) {
+                if (((javax.swing.JTextField) fila[4]).getText().isEmpty() || !utils.isParseableToDouble(((javax.swing.JTextField) fila[4]).getText().replace(",","."))) {
                     isCorrect = false;
                     setErrorBackground(fila[4]);
                 } else {
@@ -478,31 +530,39 @@ public class CreateInvoiceController {
                 } else {
                     setDefaultBackground(fila[5]);
                 }
-                if (((javax.swing.JTextField) fila[6]).getText().isEmpty()) {
-                    isCorrect = false;
-                    setErrorBackground(fila[6]);
-                } else {
-                    setDefaultBackground(fila[6]);
-                }
+                
+//                DADO QUE ESTE ES AUTOMÁTICO, NO DEBERÍA VERIFICARSE NI COLOREAR EN ROJO
+
+//                if (((javax.swing.JTextField) fila[6]).getText().isEmpty()) {
+//                    isCorrect = false;
+//                    setErrorBackground(fila[6]);
+//                } else {
+//                    setDefaultBackground(fila[6]);
+//                }
             } else {
                 setDefaultBackground(fila[0]);
                 setDefaultBackground(fila[1]);
                 setDefaultBackground(fila[2]);
             }
         }
+        if (isCorrect) {
+            fichaEsCorrecta = 1;
+        } else {
+            fichaEsCorrecta = -1;
+        }
         return isCorrect;
     }
 
     protected void setOKStatus() {
-        setSVGIcon(msgLbl, new File(IMAGES_DIRECTORY + "ok_status_icon.svg"));
+        setSVGIcon(msgLbl, utils.OK_FLATSVGICON);
     }
 
     protected void setKOStatus() {
-        setSVGIcon(msgLbl, new File(IMAGES_DIRECTORY + "ko_status_icon.svg"));
+        setSVGIcon(msgLbl, utils.KO_FLATSVGICON);
     }
 
     protected void setStandbyStatus() {
-        setSVGIcon(msgLbl, new File(IMAGES_DIRECTORY + "standby_icon.svg"));
+        setSVGIcon(msgLbl, utils.STANDBY_FLATSVGICON);
     }
 
     protected void setDisabledBackground(JComponent comp) {
@@ -517,8 +577,8 @@ public class CreateInvoiceController {
         ((JComponent) comp).setBackground(Color.white);
     }
 
-    protected void setSVGIcon(javax.swing.JLabel label, File icon) {
-        label.setIcon(new FlatSVGIcon(icon));
+    protected void setSVGIcon(javax.swing.JLabel label, FlatSVGIcon icon) {
+        label.setIcon(icon);
     }
 
     protected void setSVGIcon(javax.swing.JButton button, File icon) {
@@ -547,6 +607,77 @@ public class CreateInvoiceController {
         } catch (NumberFormatException e) {
             setErrorBackground(txt1);
             txtTotal.setText("");
+        }
+    }
+    
+    public void insertaFacturaEnDB () {
+        Factura factura = extraeDatosYGeneraFactura();
+        if (!dbUtils.facturaExists(factura)) {
+            File pdfFile = registraFactura(factura);
+            factura.setPdfFactura(pdfFile);
+            
+            dbUtils.getEntityManager().getTransaction().begin();
+            dbUtils.mergeIntoDB(factura);
+            dbUtils.getEntityManager().getTransaction().commit();
+            showInfoMessage("Éxito", "La factura ha sido registrada correctamente.");
+        } else {
+            LocalDateTime ts = dbUtils.getTimestampOfInvoice(factura).toLocalDateTime();
+            showErrorMessage("ERROR", "La factura " + factura.getNumFactura() + " ya fue registrada el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + ts.getMinute());
+        }
+    }
+    
+    public void descargaPDF(Factura factura) {
+        DBUtils dbUtils = new DBUtils();
+        File file = null;
+        if (dbUtils.facturaExists(factura)) {
+            file = dbUtils.getPDFFactura(factura.getNumFactura());
+        }
+        openFile(file);
+        
+    }
+    
+    public void showErrorMessage(String title, String msg) {
+        showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void showInfoMessage(String title, String msg) {
+        showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void gestionaToggleButtonVerificarDatos(java.awt.event.ItemEvent evt) {
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            if (msgLbl.getIcon().equals(utils.STANDBY_FLATSVGICON)) {
+                if (verificaEntradaDatos()) {
+                    disableAllEditables();
+                } else {
+                    fichaEsCorrecta = -1;
+                    actualizaStatusFicha();
+                    verificarFichaBtn.setSelected(false);
+                }
+            } else if (msgLbl.getIcon().equals(utils.KO_FLATSVGICON)) {
+                if (verificaEntradaDatos()) {
+                    fichaEsCorrecta = 1;
+                    actualizaStatusFicha();
+                    disableAllEditables();
+                } else {
+                    verificarFichaBtn.setSelected(false);
+                }
+            } else if (msgLbl.getIcon().equals(utils.OK_FLATSVGICON)) {
+                
+            }
+        } else if (evt.getStateChange() == ItemEvent.DESELECTED) {
+            if (msgLbl.getIcon().equals(utils.STANDBY_FLATSVGICON)) {
+                //NO DEBERÍA OCURRIR NUNCA...
+                showErrorMessage("VAYA...", "El error que nunca debia ocurrir ha ocurrido. Avísame y coméntame lo que ha pasado.");
+            } else if (msgLbl.getIcon().equals(utils.KO_FLATSVGICON)) {
+                if (fichaEsCorrecta != -1) {
+                    enableAllEditables();
+                }
+            } else if (msgLbl.getIcon().equals(utils.OK_FLATSVGICON)) {
+                fichaEsCorrecta = 0;
+                actualizaStatusFicha();
+                enableAllEditables();
+            }
         }
     }
 }

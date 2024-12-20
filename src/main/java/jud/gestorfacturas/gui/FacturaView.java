@@ -9,15 +9,15 @@ import javax.swing.DefaultComboBoxModel;
 import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Factura;
 
-public class CreateInvoiceView extends javax.swing.JFrame {
+public class FacturaView extends javax.swing.JFrame {
 
-    CreateInvoiceController controller;
+    FacturaController controller;
     
     /**
      * Creates new form NewApplication
      */
     
-    public CreateInvoiceView(CreateInvoiceController _controller) {
+    public FacturaView(FacturaController _controller) {
         this.controller = _controller;
         initComponents();
     }
@@ -110,6 +110,7 @@ public class CreateInvoiceView extends javax.swing.JFrame {
         verificarFichaBtn = new javax.swing.JToggleButton();
         previewFacturaBtn = new javax.swing.JButton();
         registrarFacturaBtn = new javax.swing.JButton();
+        descargarFacturaBtn = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -117,7 +118,7 @@ public class CreateInvoiceView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestor de facturación");
-        setMinimumSize(new java.awt.Dimension(800, 500));
+        setMinimumSize(new java.awt.Dimension(900, 500));
         setPreferredSize(new java.awt.Dimension(793, 412));
         getContentPane().setLayout(new java.awt.GridLayout(1, 2));
 
@@ -774,6 +775,11 @@ public class CreateInvoiceView extends javax.swing.JFrame {
                 verificarFichaBtnItemStateChanged(evt);
             }
         });
+        verificarFichaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verificarFichaBtnActionPerformed(evt);
+            }
+        });
         buttonsPanel.add(verificarFichaBtn);
 
         previewFacturaBtn.setText("Preview Factura");
@@ -787,7 +793,20 @@ public class CreateInvoiceView extends javax.swing.JFrame {
 
         registrarFacturaBtn.setText("Registrar y Guardar Factura");
         registrarFacturaBtn.setEnabled(false);
+        registrarFacturaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registrarFacturaBtnActionPerformed(evt);
+            }
+        });
         buttonsPanel.add(registrarFacturaBtn);
+
+        descargarFacturaBtn.setText("Descargar factura");
+        descargarFacturaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descargarFacturaBtnActionPerformed(evt);
+            }
+        });
+        buttonsPanel.add(descargarFacturaBtn);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -871,25 +890,28 @@ public class CreateInvoiceView extends javax.swing.JFrame {
     private void previewFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewFacturaBtnActionPerformed
         if (controller.verificaEntradaDatos()) {
             Factura factura = controller.extraeDatosYGeneraFactura();
-            controller.previewPDF(factura);
+            File pdfFile = controller.createTempPDF(factura);
+            controller.openFile(pdfFile);
         }
+        controller.actualizaStatusFicha();
     }//GEN-LAST:event_previewFacturaBtnActionPerformed
 
     private void verificarFichaBtnItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_verificarFichaBtnItemStateChanged
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            if (controller.verificaEntradaDatos()) {
-                controller.setOKStatus();
-                controller.disableAllEditables();
-            } else {
-                controller.setKOStatus();
-                verificarFichaBtn.setSelected(false);
-            }
-        } else if (evt.getStateChange() == ItemEvent.DESELECTED) {
-            controller.setStandbyStatus();
-            controller.enableAllEditables();
-            
-        }
+        controller.gestionaToggleButtonVerificarDatos(evt);
+        controller.actualizaStatusFicha();
     }//GEN-LAST:event_verificarFichaBtnItemStateChanged
+
+    private void registrarFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarFacturaBtnActionPerformed
+        controller.insertaFacturaEnDB();
+    }//GEN-LAST:event_registrarFacturaBtnActionPerformed
+
+    private void descargarFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descargarFacturaBtnActionPerformed
+        controller.descargaPDF(controller.extraeDatosYGeneraFactura());
+    }//GEN-LAST:event_descargarFacturaBtnActionPerformed
+
+    private void verificarFichaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificarFichaBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_verificarFichaBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -908,13 +930,13 @@ public class CreateInvoiceView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateInvoiceView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacturaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateInvoiceView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacturaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateInvoiceView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacturaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateInvoiceView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FacturaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -929,6 +951,21 @@ public class CreateInvoiceView extends javax.swing.JFrame {
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
 //                new CreateInvoiceView().setVisible(true);
+//            }
+//        });
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FacturaView().setVisible(true);
 //            }
 //        });
     }
@@ -956,6 +993,7 @@ public class CreateInvoiceView extends javax.swing.JFrame {
     private javax.swing.JPanel datosClientePanel;
     private javax.swing.JPanel datosFacturaCuerpoPanel;
     private javax.swing.JPanel datosFacturaTitulolbl;
+    private javax.swing.JButton descargarFacturaBtn;
     protected javax.swing.JTextField diasParaPagoTxtField;
     private javax.swing.JLabel diasParaPagolbl;
     protected javax.swing.JTextField direccionClienteTxtField;

@@ -1,14 +1,20 @@
 package jud.gestorfacturas.model;
 
+import java.io.File;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import jud.gestorfacturas.manager.Utils;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
 @Entity
-public class Factura {
+public class Factura implements Serializable {
 
     @Id
     private String numFactura;
@@ -16,6 +22,7 @@ public class Factura {
     private int diasPago;
     private Date fechaVencimiento;
     private String formaPago;
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Cliente cliente;
     private Emisor emisor;
     private Servicio[] listaServicios;
@@ -26,6 +33,7 @@ public class Factura {
     private double irpf;
     private double importeTotal;
     private Timestamp fechaUltActualizacion;
+    private File pdfFactura;
     
     @Override
     public String toString() {
@@ -149,4 +157,11 @@ public class Factura {
         }
     }
 
+    public File getPdfFactura() {
+        return pdfFactura;
+    }
+
+    public void setPdfFactura(File pdfFactura) {
+        this.pdfFactura = pdfFactura;
+    }
 }

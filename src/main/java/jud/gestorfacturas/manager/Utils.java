@@ -1,6 +1,8 @@
 
 package jud.gestorfacturas.manager;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.io.File;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.DecimalFormat;
@@ -15,15 +17,23 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class Utils {
-    
+
+    public String RESOURCES_DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\resources\\";
+    public String IMAGES_DIRECTORY = RESOURCES_DIRECTORY + "img\\";
+    public String INVOICES_DIRECTORY = RESOURCES_DIRECTORY + "invoices\\";
+    public FlatSVGIcon SEARCH_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "busqueda_black_icon.svg"));
+    public FlatSVGIcon OK_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "ok_status_icon.svg"));
+    public FlatSVGIcon KO_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "ko_status_icon.svg"));
+    public FlatSVGIcon STANDBY_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "standby_status_icon.svg"));
+
     public Utils() {
-        
+
     }
-    
+
     public static String formatDecimalNumberToStringIfNecessary(Double dou, int decimalDigits) {
         try {
             return Utils.formatDecimalNumber(dou, decimalDigits, "#");
-        } catch (JudException ex) {
+        } catch (CustomException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -51,10 +61,19 @@ public class Utils {
         }
     }
     
+    public static boolean isParseableToDouble (String num) {
+        try {
+            Double.parseDouble(num);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
     public static Double formatDecimalNumberToDoubleIfNecessary(Double dou, int decimalDigits) {
         try {
             return Double.parseDouble(Utils.formatDecimalNumber(dou, decimalDigits, "#").replace(",","."));
-        } catch (JudException ex) {
+        } catch (CustomException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -63,13 +82,13 @@ public class Utils {
     public static String formatDecimalNumberToStringAlways(Double dou, int decimalDigits) {
         try {
             return Utils.formatDecimalNumber(dou, decimalDigits, "0");
-        } catch (JudException ex) {
+        } catch (CustomException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    private static String formatDecimalNumber(Double dou, int decimalDigits, String optionalDecimal) throws JudException {
+    private static String formatDecimalNumber(Double dou, int decimalDigits, String optionalDecimal) throws CustomException {
         DecimalFormat df;
         if (decimalDigits > 0) {
             String digits = "";
@@ -85,7 +104,7 @@ public class Utils {
         } else if (decimalDigits == 0) {
             df = new DecimalFormat("#");
         } else {
-            throw new JudException("Decimals indicated to format < 0");
+            throw new CustomException("Decimals indicated to format < 0");
         }
         return df.format(dou);
     }

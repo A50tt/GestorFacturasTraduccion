@@ -1,7 +1,13 @@
 
 package jud.gestorfacturas.manager;
 
+import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -9,7 +15,6 @@ import javax.persistence.Query;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
-import jud.gestorfacturas.model.Interviniente;
 
 public class DBUtils {
     
@@ -28,31 +33,6 @@ public class DBUtils {
     public void onCreate() {
         em.getTransaction().begin();
     }
-    
-    
-    /*public void insertPDF() {
-        try {
-            File pdfFile = new File("C:/Users/Gord/Desktop/zzTest.pdf");
-            byte[] pdfData = new byte[(int) pdfFile.length()];
-            DataInputStream dis = new DataInputStream(new FileInputStream(pdfFile));
-            dis.readFully(pdfData);  // read from file into byte[] array
-            dis.close();
-            
-            String myConnectionString
-                    = "jdbc:mysql://localhost:3307/mydb";
-            dbConnection = DriverManager.getConnection(myConnectionString, "root", "whatever");
-            PreparedStatement ps = dbConnection.prepareStatement(
-                    "INSERT INTO project ("
-                            + "filename, "
-                            + "pdf_file "
-                            + ") VALUES (?,?)");
-            ps.setString(1, "testpdf");
-            ps.setBytes(2, pdfData);  // byte[] array
-            ps.executeUpdate();
-        } catch (IOException ex) {
-            Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
 
     public EntityManager getEntityManager() {
         return em;
@@ -68,10 +48,11 @@ public class DBUtils {
     
     public boolean facturaExists(Factura factura) {
         return (em.find(Factura.class, factura.getNumFactura()) != null);
-        /*Query qu = em.createQuery("SELECT f FROM Factura f WHERE f.numFactura = ?1");
-        qu.setParameter(1, factura.getNumFactura());
-        List s = qu.getResultList();
-        return (qu.getFirstResult() != 0);*/
+    }
+    
+    public File getPDFFactura(String numFactura) {
+        Factura factura  = em.find(Factura.class, numFactura);
+        return factura.getPdfFactura();
     }
     
     public boolean clienteExists(Cliente cliente) {
@@ -82,6 +63,11 @@ public class DBUtils {
         em.persist(obj);
     }
     
+    public Timestamp getTimestampOfInvoice(Factura factura) {
+        Factura facturaBD = em.find(Factura.class, factura.getNumFactura());
+        return facturaBD.getFechaUltActualizacion();
+    }
+
     public void mergeIntoDB(Object obj) {
         em.merge(obj);
     }

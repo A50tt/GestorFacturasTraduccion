@@ -1,8 +1,10 @@
 
 package jud.gestorfacturas.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 
 @MappedSuperclass
 public abstract class Interviniente {
