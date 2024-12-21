@@ -1,11 +1,12 @@
 
 package jud.gestorfacturas.model;
 
+import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Clientes")
+@Table(name = "Cliente")
 public class Cliente extends Interviniente {
     
     private boolean activado = true;
@@ -18,4 +19,11 @@ public class Cliente extends Interviniente {
         super(_nombre, _direccion, _codigoPostal, _nif);
     }
     
+    public boolean isActivado() {
+        return activado;
+    }
+
+    public void setActivado(boolean activado) {
+        this.activado = activado;
+    }
 }

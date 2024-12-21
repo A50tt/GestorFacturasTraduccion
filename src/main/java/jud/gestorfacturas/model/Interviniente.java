@@ -1,6 +1,7 @@
 
 package jud.gestorfacturas.model;
 
+import java.sql.Timestamp;
 import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -9,11 +10,13 @@ import javax.persistence.OneToMany;
 @MappedSuperclass
 public abstract class Interviniente {
     
+    private int id;
     private String nombre;
     private String direccion;
     private String codigoPostal;
     @Id
     private String nif;
+    private Timestamp fechaUltActualizacion;
     
     public Interviniente() {
         
@@ -24,6 +27,7 @@ public abstract class Interviniente {
         this.direccion = _direccion;
         this.codigoPostal = _codigoPostal;
         this.nif = _nif;
+        this.fechaUltActualizacion = new Timestamp(System.currentTimeMillis());
     }
     
     public String getNombre() {
@@ -56,5 +60,17 @@ public abstract class Interviniente {
 
     public void setNif(String nif) {
         this.nif = nif;
+    }
+
+    public Timestamp getFechaUltActualizacion() {
+        return fechaUltActualizacion;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }

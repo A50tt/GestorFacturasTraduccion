@@ -775,11 +775,6 @@ public class FacturaView extends javax.swing.JFrame {
                 verificarFichaBtnItemStateChanged(evt);
             }
         });
-        verificarFichaBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                verificarFichaBtnActionPerformed(evt);
-            }
-        });
         buttonsPanel.add(verificarFichaBtn);
 
         previewFacturaBtn.setText("Preview Factura");
@@ -902,16 +897,12 @@ public class FacturaView extends javax.swing.JFrame {
     }//GEN-LAST:event_verificarFichaBtnItemStateChanged
 
     private void registrarFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarFacturaBtnActionPerformed
-        controller.insertaFacturaEnDB();
+        controller.registraFactura();
     }//GEN-LAST:event_registrarFacturaBtnActionPerformed
 
     private void descargarFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descargarFacturaBtnActionPerformed
         controller.descargaPDF(controller.extraeDatosYGeneraFactura());
     }//GEN-LAST:event_descargarFacturaBtnActionPerformed
-
-    private void verificarFichaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificarFichaBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_verificarFichaBtnActionPerformed
 
     /**
      * @param args the command line arguments

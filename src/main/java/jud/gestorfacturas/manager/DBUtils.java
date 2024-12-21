@@ -10,7 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
@@ -55,8 +57,40 @@ public class DBUtils {
         return factura.getPdfFactura();
     }
     
+    public Cliente getCliente(Cliente cliente) {
+        return em.find(Cliente.class, cliente.getNif());
+    }
+    
     public boolean clienteExists(Cliente cliente) {
         return (em.find(Cliente.class, cliente.getNif()) != null);
+    }
+    
+    public Cliente getClienteByNif(String nif) {
+        return em.find(Cliente.class, nif);
+    }
+    
+    public Cliente getClienteById(String id) {
+        Query query = em.createNativeQuery("SELECT nif FROM cliente WHERE id = " + id);
+        try {
+            String nif = query.getSingleResult().toString();
+            //String _nombre, String _direccion, String _codigoPostal, String _nif
+            return em.find(Cliente.class, nif);
+        } catch (NoResultException ex1) {
+            return null;
+        } catch (PersistenceException ex2) {
+            return new Cliente (null, null, null, null);
+        }
+    }
+    
+    public int getSiguienteIdCliente() {
+        int max = 0;
+        Query query = em.createNativeQuery("SELECT max(id) FROM cliente");
+        if (query.getSingleResult() == null) {
+            max = 1;
+        } else {
+            max = (int)query.getSingleResult() + 1;
+        }
+        return max;
     }
     
     public void insertIntoDB(Object obj) {
@@ -66,6 +100,11 @@ public class DBUtils {
     public Timestamp getTimestampOfInvoice(Factura factura) {
         Factura facturaBD = em.find(Factura.class, factura.getNumFactura());
         return facturaBD.getFechaUltActualizacion();
+    }
+    
+    public Timestamp getTimestampCliente(Cliente cliente) {
+        Cliente clienteDB = em.find(Cliente.class, cliente.getNif());
+        return clienteDB.getFechaUltActualizacion();
     }
 
     public void mergeIntoDB(Object obj) {

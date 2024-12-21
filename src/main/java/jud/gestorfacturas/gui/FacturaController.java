@@ -362,7 +362,7 @@ public class FacturaController {
         }
     }
     
-    protected File registraFactura(Factura factura) {
+    protected File guardaFactura(Factura factura) {
         File file = new File(utils.INVOICES_DIRECTORY + factura.getNumFactura() + ".pdf");
         PDFGenerator pdfGen = new PDFGenerator(file);
         PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file);
@@ -610,10 +610,10 @@ public class FacturaController {
         }
     }
     
-    public void insertaFacturaEnDB () {
+    public void registraFactura () {
         Factura factura = extraeDatosYGeneraFactura();
         if (!dbUtils.facturaExists(factura)) {
-            File pdfFile = registraFactura(factura);
+            File pdfFile = guardaFactura(factura);
             factura.setPdfFactura(pdfFile);
             
             dbUtils.getEntityManager().getTransaction().begin();
