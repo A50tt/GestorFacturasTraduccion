@@ -22,6 +22,7 @@ public class Utils {
     public String IMAGES_DIRECTORY = RESOURCES_DIRECTORY + "img\\";
     public String INVOICES_DIRECTORY = RESOURCES_DIRECTORY + "invoices\\";
     public FlatSVGIcon SEARCH_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "busqueda_black_icon.svg"));
+    public FlatSVGIcon REDO_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "redo_black_icon.svg"));
     public FlatSVGIcon OK_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "ok_status_icon.svg"));
     public FlatSVGIcon KO_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "ko_status_icon.svg"));
     public FlatSVGIcon STANDBY_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "standby_status_icon.svg"));

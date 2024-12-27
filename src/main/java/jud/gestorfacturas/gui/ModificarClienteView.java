@@ -33,8 +33,12 @@ public class ModificarClienteView extends javax.swing.JFrame {
         direccionTxtField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         codigoPostalTxtField = new javax.swing.JTextField();
-        nombreClienteSearchBtn = new javax.swing.JButton();
         numeroClienteTxtField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        stateTxtField = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        nombreClienteSearchBtn = new javax.swing.JButton();
+        resetClienteBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -48,20 +52,23 @@ public class ModificarClienteView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Crear y actualizar clientes");
+        setPreferredSize(new java.awt.Dimension(620, 250));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(500, 140));
+        jPanel1.setMinimumSize(new java.awt.Dimension(800, 140));
         jPanel1.setName(""); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(500, 250));
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 140));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
-        jPanel2.setPreferredSize(new java.awt.Dimension(500, 175));
+        jPanel2.setPreferredSize(new java.awt.Dimension(500, 150));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("DATOS CLIENTE");
+        jLabel1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        jLabel1.setMinimumSize(new java.awt.Dimension(95, 16));
         jLabel1.setPreferredSize(new java.awt.Dimension(95, 16));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -72,6 +79,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setText("NIF");
+        jLabel2.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -90,6 +98,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel2.add(nifTxtField, gridBagConstraints);
 
         jLabel3.setText("Nombre");
+        jLabel3.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -107,6 +116,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel2.add(nombreTxtField, gridBagConstraints);
 
         jLabel4.setText("Dirección");
+        jLabel4.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -124,6 +134,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel2.add(direccionTxtField, gridBagConstraints);
 
         jLabel5.setText("Código Postal");
+        jLabel5.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -140,16 +151,6 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel2.add(codigoPostalTxtField, gridBagConstraints);
 
-        nombreClienteSearchBtn.setAlignmentX(0.5F);
-        nombreClienteSearchBtn.setFocusable(false);
-        nombreClienteSearchBtn.setOpaque(true);
-        nombreClienteSearchBtn.setPreferredSize(new java.awt.Dimension(30, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 1);
-        jPanel2.add(nombreClienteSearchBtn, gridBagConstraints);
-
         numeroClienteTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
         numeroClienteTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -163,6 +164,56 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel2.add(numeroClienteTxtField, gridBagConstraints);
+
+        jLabel9.setText("Estado");
+        jLabel9.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        jPanel2.add(jLabel9, gridBagConstraints);
+
+        stateTxtField.setEditable(false);
+        stateTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
+        jPanel2.add(stateTxtField, gridBagConstraints);
+
+        jPanel6.setLayout(new java.awt.GridBagLayout());
+
+        nombreClienteSearchBtn.setAlignmentX(0.5F);
+        nombreClienteSearchBtn.setFocusable(false);
+        nombreClienteSearchBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        nombreClienteSearchBtn.setOpaque(true);
+        nombreClienteSearchBtn.setPreferredSize(new java.awt.Dimension(30, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
+        jPanel6.add(nombreClienteSearchBtn, gridBagConstraints);
+
+        resetClienteBtn.setFocusable(false);
+        resetClienteBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        resetClienteBtn.setPreferredSize(new java.awt.Dimension(30, 22));
+        resetClienteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetClienteBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 5);
+        jPanel6.add(resetClienteBtn, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        jPanel2.add(jPanel6, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -188,6 +239,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Desactivar un cliente no lo");
         jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jLabel6.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         jLabel6.setPreferredSize(new java.awt.Dimension(110, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -199,6 +251,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("elimina, solo lo desactiva");
+        jLabel8.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         jLabel8.setPreferredSize(new java.awt.Dimension(110, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -209,6 +262,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("para ser utilizado.");
+        jLabel7.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -229,6 +283,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
 
         actualizarBtn.setText("Actualizar");
         actualizarBtn.setFocusPainted(false);
+        actualizarBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         actualizarBtn.setPreferredSize(new java.awt.Dimension(90, 25));
         actualizarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,6 +299,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel5.add(actualizarBtn, gridBagConstraints);
 
         activarBtn.setText("Activar");
+        activarBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         activarBtn.setPreferredSize(new java.awt.Dimension(100, 25));
         activarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -259,6 +315,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel5.add(activarBtn, gridBagConstraints);
 
         desactivarBtn.setText("Desactivar");
+        desactivarBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         desactivarBtn.setPreferredSize(new java.awt.Dimension(100, 25));
         desactivarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -274,6 +331,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel5.add(desactivarBtn, gridBagConstraints);
 
         jButton1.setText("Reiniciar");
+        jButton1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -315,12 +373,16 @@ public class ModificarClienteView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void activarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activarBtnActionPerformed
-        controller.activaDesactivaCliente(true);
+        controller.switchEstadoCliente(true);
     }//GEN-LAST:event_activarBtnActionPerformed
 
     private void desactivarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desactivarBtnActionPerformed
-        controller.activaDesactivaCliente(false);
+        controller.switchEstadoCliente(false);
     }//GEN-LAST:event_desactivarBtnActionPerformed
+
+    private void resetClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetClienteBtnActionPerformed
+        controller.reiniciarCamposEditables();
+    }//GEN-LAST:event_resetClienteBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -396,14 +458,18 @@ public class ModificarClienteView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     protected javax.swing.JTextField nifTxtField;
     protected javax.swing.JButton nombreClienteSearchBtn;
     protected javax.swing.JTextField nombreTxtField;
     protected javax.swing.JTextField numeroClienteTxtField;
+    protected javax.swing.JButton resetClienteBtn;
+    protected javax.swing.JTextField stateTxtField;
     // End of variables declaration//GEN-END:variables
 }

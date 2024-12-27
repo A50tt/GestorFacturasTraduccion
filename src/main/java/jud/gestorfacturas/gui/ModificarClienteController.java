@@ -19,9 +19,11 @@ public class ModificarClienteController {
     protected JButton anadirBtn;
     protected JTextField numeroClienteTxtField;
     protected JTextField codigoPostalTxtField;
+    protected JTextField stateTxtField;
     protected JTextField direccionTxtField;
     protected JTextField nifTxtField;
     protected JButton nombreClienteSearchBtn;
+    protected JButton resetClienteBtn;
     protected JTextField nombreTxtField;
     
     public ModificarClienteController() {
@@ -40,6 +42,9 @@ public class ModificarClienteController {
     nombreClienteSearchBtn = view.nombreClienteSearchBtn;
     nombreClienteSearchBtn.setIcon(utils.SEARCH_FLATSVGICON);
     nombreTxtField = view.nombreTxtField;
+    stateTxtField = view.stateTxtField;
+    resetClienteBtn = view.resetClienteBtn;
+    resetClienteBtn.setIcon(utils.REDO_FLATSVGICON);
     }
     
     protected void cargaDatosDeNumeroCliente() {
@@ -53,6 +58,7 @@ public class ModificarClienteController {
             direccionTxtField.setEditable(true);
             codigoPostalTxtField.setText(cliente.getCodigoPostal());
             codigoPostalTxtField.setEditable(true);
+            stateTxtField.setText(cliente.isActivado() ? "Activado" : "Desactivado");
             numeroClienteTxtField.setEditable(false);
         } else {
             showErrorMessage("Error", "El numero de cliente '" + numeroClienteTxtField.getText() + "' no existe.");
@@ -60,6 +66,7 @@ public class ModificarClienteController {
             nombreTxtField.setText("");
             direccionTxtField.setText("");
             codigoPostalTxtField.setText("");
+            stateTxtField.setText("");
         }
     }
 
@@ -111,26 +118,28 @@ public class ModificarClienteController {
         
         codigoPostalTxtField.setText(null);
         codigoPostalTxtField.setEditable(false);
+        
+        stateTxtField.setText(null);
     }
     
-    protected void activaDesactivaCliente(boolean orden) {
+    protected void switchEstadoCliente(boolean orden) {
         DBUtils dbUtils = new DBUtils();
         
         String nifOldCliente = (nifTxtField.getText() == null) ? null : nifTxtField.getText();
         
         if (!nifOldCliente.equals("")) {
             Cliente clienteDB = dbUtils.getClienteByNif(nifOldCliente);
+            String estadoString = (orden == true) ? "Activado" : "Desactivado";
             if (clienteDB.isActivado() == orden) {
-                String estadoString = (orden == true) ? "activado." : "desactivado.";
-                showInfoMessage("Acción no es necesaria", "El cliente ya se encontraba " + estadoString);
+                showInfoMessage("Acción no es necesaria", "El cliente ya se estaba " + estadoString.toLowerCase() + ".");
             } else {
                 clienteDB.setActivado(orden);
 
                 dbUtils.getEntityManager().getTransaction().begin();
                 dbUtils.mergeIntoDB(clienteDB);
                 dbUtils.getEntityManager().getTransaction().commit();
-
-                showPlainMessage("Éxito", "El cliente ha sido desactivado correctamente.");
+                stateTxtField.setText(estadoString);
+                showPlainMessage("Éxito", "El cliente ha sido " + estadoString + " correctamente.");
             }
         } else {
             showErrorMessage("Cliente no seleccionado", "No se ha seleccionado ningún cliente al que aplicar la modificación.\n"
