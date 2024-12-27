@@ -46,16 +46,13 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         actualizarBtn = new javax.swing.JButton();
-        activarBtn = new javax.swing.JButton();
-        desactivarBtn = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        switchEstadoClienteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Crear y actualizar clientes");
-        setPreferredSize(new java.awt.Dimension(620, 250));
+        setMinimumSize(new java.awt.Dimension(620, 250));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(800, 140));
         jPanel1.setName(""); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 140));
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -250,7 +247,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("elimina, solo lo desactiva");
+        jLabel8.setText("elimina, solo evita que");
         jLabel8.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         jLabel8.setPreferredSize(new java.awt.Dimension(110, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -261,7 +258,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel3.add(jLabel8, gridBagConstraints);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setText("para ser utilizado.");
+        jLabel7.setText("sea utilizado.");
         jLabel7.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -277,7 +274,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 20);
         jPanel1.add(jPanel4, gridBagConstraints);
 
-        jPanel5.setPreferredSize(new java.awt.Dimension(110, 100));
+        jPanel5.setPreferredSize(new java.awt.Dimension(100, 50));
         jPanel5.setRequestFocusEnabled(false);
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
@@ -292,65 +289,33 @@ public class ModificarClienteView extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(actualizarBtn, gridBagConstraints);
 
-        activarBtn.setText("Activar");
-        activarBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        activarBtn.setPreferredSize(new java.awt.Dimension(100, 25));
-        activarBtn.addActionListener(new java.awt.event.ActionListener() {
+        switchEstadoClienteBtn.setText("<html>&nbsp;&nbsp;Activar /<br>Desactivar</html>");
+        switchEstadoClienteBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchEstadoClienteBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        switchEstadoClienteBtn.setPreferredSize(new java.awt.Dimension(100, 50));
+        switchEstadoClienteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                activarBtnActionPerformed(evt);
+                switchEstadoClienteBtnActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(activarBtn, gridBagConstraints);
-
-        desactivarBtn.setText("Desactivar");
-        desactivarBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        desactivarBtn.setPreferredSize(new java.awt.Dimension(100, 25));
-        desactivarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                desactivarBtnActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(desactivarBtn, gridBagConstraints);
-
-        jButton1.setText("Reiniciar");
-        jButton1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(jButton1, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 20, 20);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(switchEstadoClienteBtn, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.weighty = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 0, 20);
         jPanel1.add(jPanel5, gridBagConstraints);
 
         getContentPane().add(jPanel1);
@@ -368,17 +333,9 @@ public class ModificarClienteView extends javax.swing.JFrame {
         controller.actualizaCliente();
     }//GEN-LAST:event_actualizarBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        controller.reiniciarCamposEditables();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void activarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activarBtnActionPerformed
-        controller.switchEstadoCliente(true);
-    }//GEN-LAST:event_activarBtnActionPerformed
-
-    private void desactivarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desactivarBtnActionPerformed
-        controller.switchEstadoCliente(false);
-    }//GEN-LAST:event_desactivarBtnActionPerformed
+    private void switchEstadoClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchEstadoClienteBtnActionPerformed
+        controller.switchEstadoCliente();
+    }//GEN-LAST:event_switchEstadoClienteBtnActionPerformed
 
     private void resetClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetClienteBtnActionPerformed
         controller.reiniciarCamposEditables();
@@ -444,12 +401,9 @@ public class ModificarClienteView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JButton activarBtn;
     protected javax.swing.JButton actualizarBtn;
     protected javax.swing.JTextField codigoPostalTxtField;
-    protected javax.swing.JButton desactivarBtn;
     protected javax.swing.JTextField direccionTxtField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -471,5 +425,6 @@ public class ModificarClienteView extends javax.swing.JFrame {
     protected javax.swing.JTextField numeroClienteTxtField;
     protected javax.swing.JButton resetClienteBtn;
     protected javax.swing.JTextField stateTxtField;
+    protected javax.swing.JButton switchEstadoClienteBtn;
     // End of variables declaration//GEN-END:variables
 }

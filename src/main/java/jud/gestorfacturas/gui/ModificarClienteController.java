@@ -1,6 +1,7 @@
 
 package jud.gestorfacturas.gui;
 
+import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -33,7 +34,7 @@ public class ModificarClienteController {
     }
     
     private void initialize() {
-    actualizarBtn = view.activarBtn;
+    actualizarBtn = view.switchEstadoClienteBtn;
     anadirBtn = view.actualizarBtn;
     numeroClienteTxtField = view.numeroClienteTxtField;
     codigoPostalTxtField = view.codigoPostalTxtField;
@@ -59,6 +60,11 @@ public class ModificarClienteController {
             codigoPostalTxtField.setText(cliente.getCodigoPostal());
             codigoPostalTxtField.setEditable(true);
             stateTxtField.setText(cliente.isActivado() ? "Activado" : "Desactivado");
+            if (!cliente.isActivado()) {
+                stateTxtField.setForeground(Color.red);
+            } else {
+                stateTxtField.setForeground(Color.black);
+            }
             numeroClienteTxtField.setEditable(false);
         } else {
             showErrorMessage("Error", "El numero de cliente '" + numeroClienteTxtField.getText() + "' no existe.");
@@ -122,13 +128,19 @@ public class ModificarClienteController {
         stateTxtField.setText(null);
     }
     
-    protected void switchEstadoCliente(boolean orden) {
+    protected void switchEstadoCliente() {
+        boolean orden;
         DBUtils dbUtils = new DBUtils();
         
         String nifOldCliente = (nifTxtField.getText() == null) ? null : nifTxtField.getText();
         
         if (!nifOldCliente.equals("")) {
             Cliente clienteDB = dbUtils.getClienteByNif(nifOldCliente);
+            if (clienteDB.isActivado()) {
+                orden = false; //Cliente está activado, hay que desactivarlo.
+            } else {
+                orden = true; //Cliente está desactivado, hay que activarlo.
+            }
             String estadoString = (orden == true) ? "Activado" : "Desactivado";
             if (clienteDB.isActivado() == orden) {
                 showInfoMessage("Acción no es necesaria", "El cliente ya se estaba " + estadoString.toLowerCase() + ".");
@@ -139,7 +151,13 @@ public class ModificarClienteController {
                 dbUtils.mergeIntoDB(clienteDB);
                 dbUtils.getEntityManager().getTransaction().commit();
                 stateTxtField.setText(estadoString);
-                showPlainMessage("Éxito", "El cliente ha sido " + estadoString + " correctamente.");
+                if (!orden) {
+                    stateTxtField.setForeground(Color.red);
+                } else {
+                    stateTxtField.setForeground(Color.black);
+                }
+                showPlainMessage("Éxito", "El cliente ha sido " + estadoString.toLowerCase() + " correctamente.");
+
             }
         } else {
             showErrorMessage("Cliente no seleccionado", "No se ha seleccionado ningún cliente al que aplicar la modificación.\n"
