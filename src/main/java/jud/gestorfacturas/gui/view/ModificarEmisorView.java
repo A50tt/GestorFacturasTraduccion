@@ -36,6 +36,8 @@ public class ModificarEmisorView extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         ibanTxtField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        nombreCompletoTxtField = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         actualizarBtn = new javax.swing.JButton();
 
@@ -53,7 +55,6 @@ public class ModificarEmisorView extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 140));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 150));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -112,7 +113,7 @@ public class ModificarEmisorView extends javax.swing.JFrame {
         jLabel4.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel4, gridBagConstraints);
@@ -120,7 +121,7 @@ public class ModificarEmisorView extends javax.swing.JFrame {
         direccionTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel2.add(direccionTxtField, gridBagConstraints);
@@ -129,7 +130,7 @@ public class ModificarEmisorView extends javax.swing.JFrame {
         jLabel5.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel5, gridBagConstraints);
@@ -137,7 +138,7 @@ public class ModificarEmisorView extends javax.swing.JFrame {
         codigoPostalTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel2.add(codigoPostalTxtField, gridBagConstraints);
@@ -146,7 +147,7 @@ public class ModificarEmisorView extends javax.swing.JFrame {
         jLabel9.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel9, gridBagConstraints);
@@ -154,7 +155,7 @@ public class ModificarEmisorView extends javax.swing.JFrame {
         ibanTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel2.add(ibanTxtField, gridBagConstraints);
@@ -164,6 +165,23 @@ public class ModificarEmisorView extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         jPanel2.add(jPanel6, gridBagConstraints);
+
+        jLabel6.setText("Nombre completo");
+        jLabel6.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        jPanel2.add(jLabel6, gridBagConstraints);
+
+        nombreCompletoTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
+        jPanel2.add(nombreCompletoTxtField, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -225,12 +243,14 @@ public class ModificarEmisorView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     public javax.swing.JTextField nifTxtField;
+    public javax.swing.JTextField nombreCompletoTxtField;
     public javax.swing.JTextField nombreTxtField;
     // End of variables declaration//GEN-END:variables
 }

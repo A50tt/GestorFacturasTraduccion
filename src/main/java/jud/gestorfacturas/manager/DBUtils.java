@@ -214,7 +214,64 @@ public class DBUtils {
         } catch (NoResultException ex1) {
             return null;
         }
-    } 
+    }
+    
+    public Factura getFacturaByNif(String nif) {
+        return em.find(Factura.class, nif);
+    }
+    
+    public Factura[] getFacturasFiltradas(String campoFiltro, Object valorInput) {
+        Object valor = null;
+        if (campoFiltro.equals("c.id")) {
+            valor = "'" + valorInput.toString() + "'";
+            campoFiltro += "::text";
+        } else if (campoFiltro.equals("f.importeTotal")) {
+            valor = "'" + valorInput.toString().replace(",",".") + "'";
+            campoFiltro += "::text";
+        } else {
+            valor = "'" + valorInput + "'";
+        }
+        Query nativeQuery = em.createNativeQuery("SELECT f.numfactura "
+                + "FROM Factura AS f "
+                + "INNER JOIN Cliente AS c "
+                + "ON f.cliente_nif = c.nif "
+                + "WHERE " + campoFiltro + " LIKE " + valor + " "
+                + "ORDER BY numFactura ASC");
+        List list = nativeQuery.getResultList();
+        Factura[] facturas = new Factura[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            facturas[i] = em.find(Factura.class, list.get(i));
+        }
+        return facturas;
+//        Query innerQuery = em.createQuery("SELECT f FROM Factura f, Cliente c WHERE " + campoFiltro + " LIKE :valor ORDER BY f.numFactura ASC");
+//        query.setParameter("valor", valor);
+
+//        return query.getResultList();
+//        return list;
+    }
+        
+    public List<Factura> getFacturas() {
+        Query q = em.createQuery("SELECT f FROM Factura f ORDER BY f.fechaUltActualizacion ASC");
+        return q.getResultList();
+    }
+    
+    //TODO elige cual de los dos se queda
+    
+    public Factura[] getTodasFacturas() {
+        //Query query = em.createNativeQuery("SELECT factura.numfactura, factura.fechaemision, factura.fechavencimiento, cliente.id, cliente.nombre, listaservicios ,factura.importetotal\n" +
+            //"FROM factura, cliente ORDER BY numfactura");
+        Query query = em.createNativeQuery("SELECT numfactura FROM factura ORDER BY numfactura");
+        List<String> listaNifsDB = query.getResultList();
+        Factura[] listaFacturas = new Factura[listaNifsDB.size()];
+        for (int i = 0; i < listaFacturas.length; i++) {
+            listaFacturas[i] = em.find(Factura.class, listaNifsDB.get(i));
+        }
+        try {
+            return listaFacturas;
+        } catch (NoResultException ex1) {
+            return null;
+        }
+    }
     
     public List getTodosClientesPorCampo(String nombreCampo, String valorBuscado) {
         Cliente[] clientesArray;
@@ -253,11 +310,6 @@ public class DBUtils {
 
     public void mergeIntoDB(Object obj) {
         em.merge(obj);
-    }
-    
-    public List<Factura> getFacturas() {
-        Query q = em.createQuery("SELECT f FROM Factura f ORDER BY f.fechaUltActualizacion ASC");
-        return q.getResultList();
     }
     
     public Emisor getUnicoEmisor() {

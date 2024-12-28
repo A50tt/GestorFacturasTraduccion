@@ -63,7 +63,6 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 140));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
         jPanel2.setPreferredSize(new java.awt.Dimension(500, 150));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 

@@ -5,10 +5,14 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.io.File;
 import java.math.RoundingMode;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -131,5 +135,11 @@ public class Utils {
         } catch (DateTimeException e) {
             return null;
         }
+    }
+    
+    public static String convertDateToString(Date date, String format) {
+        String pattern = format;
+        DateFormat df = new SimpleDateFormat(pattern);
+        return df.format(date);
     }
 }

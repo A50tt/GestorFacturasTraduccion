@@ -18,6 +18,7 @@ public class ModificarEmisorController implements Controller {
     protected JTextField direccionTxtField;
     protected JTextField nifTxtField;
     protected JTextField nombreTxtField;
+    protected JTextField nombreCompletoTxtField;
     protected JTextField ibanTxtField;
     
     public ModificarEmisorController(Controller _sourceController) {
@@ -30,6 +31,7 @@ public class ModificarEmisorController implements Controller {
     private void initialize() {
         nifTxtField = view.nifTxtField;
         nombreTxtField = view.nombreTxtField;
+        nombreCompletoTxtField = view.nombreCompletoTxtField;
         direccionTxtField = view.direccionTxtField;
         codigoPostalTxtField = view.codigoPostalTxtField;
         ibanTxtField = view.ibanTxtField;
@@ -44,6 +46,7 @@ public class ModificarEmisorController implements Controller {
             nifTxtField.setEditable(false);
             nifTxtField.setFocusable(false);
             nombreTxtField.setText(emisor.getNombre());
+            nombreCompletoTxtField.setText(emisor.getNombreCompleto());
             direccionTxtField.setText(emisor.getDireccion());
             codigoPostalTxtField.setText(emisor.getCodigoPostal());
             ibanTxtField.setText(emisor.getIban());
@@ -53,6 +56,7 @@ public class ModificarEmisorController implements Controller {
             nifTxtField.setEditable(true);
             nifTxtField.setFocusable(true);
             nombreTxtField.setText("");
+            nombreCompletoTxtField.setText("");
             direccionTxtField.setText("");
             codigoPostalTxtField.setText("");
             ibanTxtField.setText("");
@@ -65,6 +69,7 @@ public class ModificarEmisorController implements Controller {
         Emisor emisorDB = dbUtils.getUnicoEmisor();
         emisorDB.setNif(nifTxtField.getText());
         emisorDB.setNombre(nombreTxtField.getText());
+        emisorDB.setNombreCompleto(nombreCompletoTxtField.getText());
         emisorDB.setDireccion(direccionTxtField.getText());
         emisorDB.setCodigoPostal(codigoPostalTxtField.getText());
         emisorDB.setIban(ibanTxtField.getText());

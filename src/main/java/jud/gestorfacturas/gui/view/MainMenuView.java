@@ -2,6 +2,7 @@
 package jud.gestorfacturas.gui.view;
 
 import jud.gestorfacturas.gui.controller.FacturaController;
+import jud.gestorfacturas.gui.controller.InvoiceLookupController;
 import jud.gestorfacturas.gui.controller.MainMenuController;
 import jud.gestorfacturas.gui.controller.ModificarClienteController;
 import jud.gestorfacturas.gui.controller.ModificarEmisorController;
@@ -31,6 +32,7 @@ public class MainMenuView extends javax.swing.JFrame {
         modificarClienteBtn = new javax.swing.JButton();
         crearClienteBtn = new javax.swing.JButton();
         datosPropiosBtn = new javax.swing.JButton();
+        listarFacturasBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú principal");
@@ -60,7 +62,7 @@ public class MainMenuView extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(modificarClienteBtn, gridBagConstraints);
@@ -73,7 +75,7 @@ public class MainMenuView extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(crearClienteBtn, gridBagConstraints);
@@ -86,10 +88,23 @@ public class MainMenuView extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(datosPropiosBtn, gridBagConstraints);
+
+        listarFacturasBtn.setText("Lista de facturas");
+        listarFacturasBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listarFacturasBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(listarFacturasBtn, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -116,11 +131,17 @@ public class MainMenuView extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_datosPropiosBtnActionPerformed
 
+    private void listarFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarFacturasBtnActionPerformed
+        InvoiceLookupController il = new InvoiceLookupController(controller);
+        this.setVisible(false);
+    }//GEN-LAST:event_listarFacturasBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton crearClienteBtn;
     public javax.swing.JButton crearFacturaBtn;
     public javax.swing.JButton datosPropiosBtn;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton listarFacturasBtn;
     public javax.swing.JButton modificarClienteBtn;
     // End of variables declaration//GEN-END:variables
 

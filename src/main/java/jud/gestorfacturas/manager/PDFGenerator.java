@@ -251,7 +251,7 @@ public final class PDFGenerator {
         }
     }
     
-    public void openTempPDF(File tempFile) {
+    public static void openPDF(File tempFile) {
         try {
             Desktop.getDesktop().open(tempFile);
         } catch (IOException ex) {

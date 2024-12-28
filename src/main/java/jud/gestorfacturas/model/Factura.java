@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;

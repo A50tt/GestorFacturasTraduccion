@@ -32,6 +32,7 @@ import jud.gestorfacturas.manager.FrameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 public class FacturaController implements Controller {
+
     DBUtils dbUtils = new DBUtils();
     Utils utils = new Utils();
     protected int fichaEsCorrecta = 0; // -1 si es INCORRECTA, 0 si es NEUTRAL, 1 si es CORRECTA
@@ -100,20 +101,6 @@ public class FacturaController implements Controller {
         sourceController = _sourceController;
         initialize();
         view.setVisible(true);
-    }
-    
-    private String getNextDefaultNumFactura() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-");
-        LocalDateTime now = LocalDateTime.now();
-        String numFactura = dtf.format(now);
-        int n = 1;
-        while (true) {
-            String numFacturaAux = numFactura + String.format("%03d", n);
-            if (!dbUtils.facturaExists(numFacturaAux)) {
-                return numFacturaAux;
-            }
-            n++;
-        }
     }
 
     private void initialize() {
@@ -221,7 +208,7 @@ public class FacturaController implements Controller {
             setDefaultBackground(concepto);
         }
     }
-    
+
     public void actualizaStatusFicha() {
         switch (this.fichaEsCorrecta) {
             case -1:
@@ -380,7 +367,7 @@ public class FacturaController implements Controller {
             return null;
         }
     }
-    
+
     public File guardaFactura(Factura factura) {
         File file = new File(utils.INVOICES_DIRECTORY + factura.getNumFactura() + ".pdf");
         PDFGenerator pdfGen = new PDFGenerator(file);
@@ -393,7 +380,7 @@ public class FacturaController implements Controller {
             return null;
         }
     }
-    
+
     public void openFile(File file) {
         try {
             if (file == null) {
@@ -460,7 +447,7 @@ public class FacturaController implements Controller {
         } else {
             setDisabledBackground(fechaVencimientoTxtField);
         }
-        
+
         //FORMA DE PAGO
         if (formaPagoComboBox.getSelectedItem().equals("")) {
             isCorrect = false;
@@ -531,13 +518,13 @@ public class FacturaController implements Controller {
                 } else {
                     setDefaultBackground(fila[2]);
                 }
-                if (((javax.swing.JTextField) fila[3]).getText().isEmpty() || !utils.isParseableToDouble(((javax.swing.JTextField) fila[3]).getText().replace(",","."))) {
+                if (((javax.swing.JTextField) fila[3]).getText().isEmpty() || !utils.isParseableToDouble(((javax.swing.JTextField) fila[3]).getText().replace(",", "."))) {
                     isCorrect = false;
                     setErrorBackground(fila[3]);
                 } else {
                     setDefaultBackground(fila[3]);
                 }
-                if (((javax.swing.JTextField) fila[4]).getText().isEmpty() || !utils.isParseableToDouble(((javax.swing.JTextField) fila[4]).getText().replace(",","."))) {
+                if (((javax.swing.JTextField) fila[4]).getText().isEmpty() || !utils.isParseableToDouble(((javax.swing.JTextField) fila[4]).getText().replace(",", "."))) {
                     isCorrect = false;
                     setErrorBackground(fila[4]);
                 } else {
@@ -549,9 +536,8 @@ public class FacturaController implements Controller {
                 } else {
                     setDefaultBackground(fila[5]);
                 }
-                
-//                DADO QUE ESTE ES AUTOMÁTICO, NO DEBERÍA VERIFICARSE NI COLOREAR EN ROJO
 
+//                DADO QUE ESTE ES AUTOMÁTICO, NO DEBERÍA VERIFICARSE NI COLOREAR EN ROJO
 //                if (((javax.swing.JTextField) fila[6]).getText().isEmpty()) {
 //                    isCorrect = false;
 //                    setErrorBackground(fila[6]);
@@ -628,13 +614,13 @@ public class FacturaController implements Controller {
             txtTotal.setText("");
         }
     }
-    
-    public void registraFactura () {
+
+    public void registraFactura() {
         Factura factura = extraeDatosYGeneraFactura();
         if (!dbUtils.facturaExists(factura)) {
             File pdfFile = guardaFactura(factura);
             factura.setPdfFactura(pdfFile);
-            
+
             dbUtils.getEntityManager().getTransaction().begin();
             dbUtils.mergeIntoDB(factura);
             dbUtils.getEntityManager().getTransaction().commit();
@@ -644,7 +630,7 @@ public class FacturaController implements Controller {
             FrameUtils.showErrorMessage("ERROR", "La factura " + factura.getNumFactura() + " ya fue registrada el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%2d", ts.getMinute()) + "h.");
         }
     }
-    
+
     public void descargaPDF(Factura factura) {
         DBUtils dbUtils = new DBUtils();
         File file = null;
@@ -652,9 +638,9 @@ public class FacturaController implements Controller {
             file = dbUtils.getPDFFactura(factura.getNumFactura());
         }
         openFile(file);
-        
+
     }
-    
+
     public void gestionaToggleButtonVerificarDatos(java.awt.event.ItemEvent evt) {
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             if (msgLbl.getIcon().equals(utils.STANDBY_FLATSVGICON)) {
@@ -674,7 +660,7 @@ public class FacturaController implements Controller {
                     verificarFichaBtn.setSelected(false);
                 }
             } else if (msgLbl.getIcon().equals(utils.OK_FLATSVGICON)) {
-                
+
             }
         } else if (evt.getStateChange() == ItemEvent.DESELECTED) {
             if (msgLbl.getIcon().equals(utils.STANDBY_FLATSVGICON)) {
@@ -714,7 +700,21 @@ public class FacturaController implements Controller {
             FrameUtils.showErrorMessage("Cliente no encontrado", "El cliente '" + numeroClienteTxtField + "' no se ha encontrado en la base de datos.");
         }
     }
-    
+
+    private String getNextDefaultNumFactura() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-");
+        LocalDateTime now = LocalDateTime.now();
+        String numFactura = dtf.format(now);
+        int n = 1;
+        while (true) {
+            String numFacturaAux = numFactura + String.format("%03d", n);
+            if (!dbUtils.facturaExists(numFacturaAux)) {
+                return numFacturaAux;
+            }
+            n++;
+        }
+    }
+
     public void clearDatosCliente() {
         numeroClienteTxtField.setText("");
         nifClienteTxtField.setText("");
@@ -732,7 +732,7 @@ public class FacturaController implements Controller {
     public void abrirClienteLookupFrame() {
         ClienteLookupController clc = new ClienteLookupController(this, true);
     }
-    
+
     public void returnControlToSource() {
         this.sourceController.setVisible(true);
     }

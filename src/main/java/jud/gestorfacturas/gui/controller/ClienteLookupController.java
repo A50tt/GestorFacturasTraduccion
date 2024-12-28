@@ -75,11 +75,6 @@ public class ClienteLookupController {
                 return this;
             }
         });
-//        ((DefaultTableModel) resultadosTable.getModel()).addRow(new Object[]{"Hola 1", "Nombre 1", "Dirección 1", "CP 1", "Activado"});
-//        ((DefaultTableModel) resultadosTable.getModel()).addRow(new Object[]{"Hola 2", "Nombre 2", "Dirección 2", "CP 2", "Desactivado"});
-//        ((DefaultTableModel) resultadosTable.getModel()).addRow(new Object[]{"Hola 3", "Nombre 3", "Dirección 3", "CP 3", "Activado"});
-//        ((DefaultTableModel) resultadosTable.getModel()).addRow(new Object[]{"Hola 4", "Nombre 4", "Dirección 4", "CP 4", "Activado"});
-//        ((DefaultTableModel) resultadosTable.getModel()).addRow(new Object[]{"Hola 5", "Nombre 5", "Dirección 5", "CP 5", "Desactivado"});
     }
     
     public Cliente getCliente() {
@@ -137,7 +132,6 @@ public class ClienteLookupController {
     }
   
     public void returnClienteToSource(int row) {
-        
         if (checkIfClienteIsActivado) {
             if (view.resultadosTable.getModel().getValueAt(row, 5).toString().equals("Activado")) {
                 sourceController.recibeClienteLookup(view.resultadosTable.getModel().getValueAt(row, 0).toString());
