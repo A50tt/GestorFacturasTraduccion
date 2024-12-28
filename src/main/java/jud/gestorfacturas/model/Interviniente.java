@@ -22,7 +22,7 @@ public abstract class Interviniente {
         
     }
     
-    public Interviniente(String _nombre, String _direccion, String _codigoPostal, String _nif) {
+    public Interviniente(String _nif, String _nombre, String _direccion, String _codigoPostal) {
         this.nombre = _nombre;
         this.direccion = _direccion;
         this.codigoPostal = _codigoPostal;

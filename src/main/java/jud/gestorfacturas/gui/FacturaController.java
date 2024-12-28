@@ -29,10 +29,11 @@ import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Servicio;
 import static javax.swing.JOptionPane.showMessageDialog;
+import jud.gestorfacturas.manager.FrameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.common.PDStream;
 
-public class FacturaController {
+public class FacturaController implements Controller {
     DBUtils dbUtils = new DBUtils();
     Utils utils = new Utils();
     protected int fichaEsCorrecta = 0; // -1 si es INCORRECTA, 0 si es NEUTRAL, 1 si es CORRECTA
@@ -42,6 +43,7 @@ public class FacturaController {
     String[] TIPOS_UNIDAD = {"", "Clip", "Hora", "Minuto", "Palabra"};
     String[] FORMAS_PAGO = {"", "Transferencia Bancaria", "Cheque"};
 
+    private Controller sourceController;
     private FacturaView view;
     private JPanel jPanel;
     private JTextField numeroFraTxtField;
@@ -95,8 +97,9 @@ public class FacturaController {
     private JButton previewFacturaBtn;
     private JButton registrarFacturaBtn;
 
-    public FacturaController() {
+    public FacturaController(Controller _sourceController) {
         view = new FacturaView(this);
+        sourceController = _sourceController;
         initialize();
         view.setVisible(true);
     }
@@ -316,7 +319,7 @@ public class FacturaController {
         String direccionCliente = direccionClienteTxtField.getText();
         String codigoPostalCliente = codigoPostalClienteTxtField.getText();
         String nif = nifClienteTxtField.getText();
-        Cliente cliente = new Cliente(nombreCliente, direccionCliente, codigoPostalCliente, nif);
+        Cliente cliente = new Cliente(nif, nombreCliente, direccionCliente, codigoPostalCliente);
         DBUtils dbUtils = new DBUtils();
         Emisor emisor = dbUtils.getUnicoEmisor();
         Servicio servicio1 = null, servicio2 = null, servicio3 = null, servicio4 = null;
@@ -383,10 +386,10 @@ public class FacturaController {
             Desktop.getDesktop().open(file);
         } catch (IOException ex1) {
             Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex1);
-            showErrorMessage("ERROR", ex1 + ": La factura " + file.getName() + " no se ha podido encontrar.");
+            FrameUtils.showErrorMessage("ERROR", ex1 + ": La factura " + file.getName() + " no se ha podido encontrar.");
         } catch (NullPointerException ex2) {
             Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex2);
-            showErrorMessage("ERROR", ex2 + ": La factura no se ha podido encontrar.");
+            FrameUtils.showErrorMessage("ERROR", ex2 + ": La factura no se ha podido encontrar.");
         }
     }
 
@@ -619,10 +622,10 @@ public class FacturaController {
             dbUtils.getEntityManager().getTransaction().begin();
             dbUtils.mergeIntoDB(factura);
             dbUtils.getEntityManager().getTransaction().commit();
-            showInfoMessage("Éxito", "La factura ha sido registrada correctamente.");
+            FrameUtils.showInfoMessage("Éxito", "La factura ha sido registrada correctamente.");
         } else {
             LocalDateTime ts = dbUtils.getTimestampOfInvoice(factura).toLocalDateTime();
-            showErrorMessage("ERROR", "La factura " + factura.getNumFactura() + " ya fue registrada el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + ts.getMinute());
+            FrameUtils.showErrorMessage("ERROR", "La factura " + factura.getNumFactura() + " ya fue registrada el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + ts.getMinute());
         }
     }
     
@@ -634,14 +637,6 @@ public class FacturaController {
         }
         openFile(file);
         
-    }
-    
-    public void showErrorMessage(String title, String msg) {
-        showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
-    }
-    
-    public void showInfoMessage(String title, String msg) {
-        showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
     
     public void gestionaToggleButtonVerificarDatos(java.awt.event.ItemEvent evt) {
@@ -668,7 +663,7 @@ public class FacturaController {
         } else if (evt.getStateChange() == ItemEvent.DESELECTED) {
             if (msgLbl.getIcon().equals(utils.STANDBY_FLATSVGICON)) {
                 //NO DEBERÍA OCURRIR NUNCA...
-                showErrorMessage("VAYA...", "El error que nunca debia ocurrir ha ocurrido. Avísame y coméntame lo que ha pasado.");
+                FrameUtils.showErrorMessage("VAYA...", "El error que nunca debia ocurrir ha ocurrido. Avísame y coméntame lo que ha pasado.");
             } else if (msgLbl.getIcon().equals(utils.KO_FLATSVGICON)) {
                 if (fichaEsCorrecta != -1) {
                     enableAllEditables();
@@ -679,5 +674,51 @@ public class FacturaController {
                 enableAllEditables();
             }
         }
+    }
+
+    protected void cargaDatosDeNumeroCliente() {
+        DBUtils dbUtils = new DBUtils();
+        Cliente cliente = dbUtils.getClienteById(numeroClienteTxtField.getText());
+        if (cliente.isActivado()) {
+            if (cliente != null && cliente.getNif() != null) {
+                nifClienteTxtField.setText(cliente.getNif());
+                nombreClienteTxtField.setText(cliente.getNombre());
+                direccionClienteTxtField.setText(cliente.getDireccion());
+                codigoPostalClienteTxtField.setText(cliente.getCodigoPostal());
+            } else {
+                FrameUtils.showErrorMessage("Error", "El numero de cliente '" + numeroClienteTxtField.getText() + "' no existe.");
+                clearDatosCliente();
+            }
+        } else {
+            showMessageDialog(null, "El cliente no se puede utilizar porque está desactivado. Para activarlo, se ha de modificar desde 'Modificar clientes'.", "Cliente desactivado", JOptionPane.ERROR_MESSAGE);
+            clearDatosCliente();
+        }
+    }
+    
+    public void clearDatosCliente() {
+        numeroClienteTxtField.setText("");
+        nifClienteTxtField.setText("");
+        nombreClienteTxtField.setText("");
+        direccionClienteTxtField.setText("");
+        codigoPostalClienteTxtField.setText("");
+    }
+
+    @Override
+    public void recibeClienteLookup(String id) {
+        numeroClienteTxtField.setText(String.valueOf(id));
+        cargaDatosDeNumeroCliente();
+    }
+
+    protected void abrirClienteLookupFrame() {
+        ClienteLookupController clc = new ClienteLookupController(this, true);
+    }
+    
+    public void returnControlToSource() {
+        this.sourceController.setVisible(true);
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        view.setVisible(visible);
     }
 }

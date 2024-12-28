@@ -3,11 +3,11 @@ package jud.gestorfacturas.gui;
 
 import java.awt.event.KeyEvent;
 
-public class ModificarClienteView extends javax.swing.JFrame {
+public class ModificarEmisorView extends javax.swing.JFrame {
 
-    ModificarClienteController controller;
+    ModificarEmisorController controller;
     
-    public ModificarClienteView(ModificarClienteController _controller) {
+    public ModificarEmisorView(ModificarEmisorController _controller) {
         this.controller = _controller;
         initComponents();
     }
@@ -33,25 +33,15 @@ public class ModificarClienteView extends javax.swing.JFrame {
         direccionTxtField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         codigoPostalTxtField = new javax.swing.JTextField();
-        numeroClienteTxtField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        stateTxtField = new javax.swing.JTextField();
+        ibanTxtField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        nombreClienteSearchBtn = new javax.swing.JButton();
-        resetClienteBtn = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         actualizarBtn = new javax.swing.JButton();
-        switchEstadoClienteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear y actualizar clientes");
         setMinimumSize(new java.awt.Dimension(620, 250));
-        setPreferredSize(new java.awt.Dimension(620, 250));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -64,7 +54,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
-        jPanel2.setPreferredSize(new java.awt.Dimension(500, 150));
+        jPanel2.setPreferredSize(new java.awt.Dimension(300, 150));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
@@ -91,7 +81,8 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel2.add(jLabel2, gridBagConstraints);
 
         nifTxtField.setEditable(false);
-        nifTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
+        nifTxtField.setFocusable(false);
+        nifTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -109,8 +100,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel3, gridBagConstraints);
 
-        nombreTxtField.setEditable(false);
-        nombreTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
+        nombreTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -127,8 +117,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel4, gridBagConstraints);
 
-        direccionTxtField.setEditable(false);
-        direccionTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
+        direccionTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
@@ -145,8 +134,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel5, gridBagConstraints);
 
-        codigoPostalTxtField.setEditable(false);
-        codigoPostalTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
+        codigoPostalTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -154,21 +142,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel2.add(codigoPostalTxtField, gridBagConstraints);
 
-        numeroClienteTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
-        numeroClienteTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                numeroClienteTxtFieldKeyPressed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
-        jPanel2.add(numeroClienteTxtField, gridBagConstraints);
-
-        jLabel9.setText("Estado");
+        jLabel9.setText("IBAN");
         jLabel9.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -177,47 +151,15 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel9, gridBagConstraints);
 
-        stateTxtField.setEditable(false);
-        stateTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
+        ibanTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
-        jPanel2.add(stateTxtField, gridBagConstraints);
+        jPanel2.add(ibanTxtField, gridBagConstraints);
 
         jPanel6.setLayout(new java.awt.GridBagLayout());
-
-        nombreClienteSearchBtn.setAlignmentX(0.5F);
-        nombreClienteSearchBtn.setFocusable(false);
-        nombreClienteSearchBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        nombreClienteSearchBtn.setOpaque(true);
-        nombreClienteSearchBtn.setPreferredSize(new java.awt.Dimension(30, 22));
-        nombreClienteSearchBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreClienteSearchBtnActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
-        jPanel6.add(nombreClienteSearchBtn, gridBagConstraints);
-
-        resetClienteBtn.setFocusable(false);
-        resetClienteBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        resetClienteBtn.setPreferredSize(new java.awt.Dimension(30, 22));
-        resetClienteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetClienteBtnActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 5);
-        jPanel6.add(resetClienteBtn, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -232,58 +174,6 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(jPanel2, gridBagConstraints);
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel4.setMinimumSize(new java.awt.Dimension(110, 60));
-        jPanel4.setPreferredSize(new java.awt.Dimension(110, 40));
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel3.setMinimumSize(new java.awt.Dimension(110, 58));
-        jPanel3.setPreferredSize(new java.awt.Dimension(110, 40));
-        jPanel3.setLayout(new java.awt.GridBagLayout());
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Desactivar un cliente no lo");
-        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jLabel6.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        jLabel6.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        jPanel3.add(jLabel6, gridBagConstraints);
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("elimina, solo evita que");
-        jLabel8.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        jLabel8.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        jPanel3.add(jLabel8, gridBagConstraints);
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setText("sea utilizado.");
-        jLabel7.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        jPanel3.add(jLabel7, gridBagConstraints);
-
-        jPanel4.add(jPanel3, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 20);
-        jPanel1.add(jPanel4, gridBagConstraints);
 
         jPanel5.setPreferredSize(new java.awt.Dimension(100, 50));
         jPanel5.setRequestFocusEnabled(false);
@@ -305,23 +195,6 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(actualizarBtn, gridBagConstraints);
 
-        switchEstadoClienteBtn.setText("<html>&nbsp;&nbsp;Activar /<br>Desactivar</html>");
-        switchEstadoClienteBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        switchEstadoClienteBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        switchEstadoClienteBtn.setPreferredSize(new java.awt.Dimension(100, 50));
-        switchEstadoClienteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                switchEstadoClienteBtnActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(switchEstadoClienteBtn, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -334,28 +207,9 @@ public class ModificarClienteView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void numeroClienteTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroClienteTxtFieldKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            controller.cargaDatosDeNumeroCliente();
-        }
-    }//GEN-LAST:event_numeroClienteTxtFieldKeyPressed
-
     private void actualizarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarBtnActionPerformed
-        controller.actualizaCliente();
+        controller.actualizaEmisor();
     }//GEN-LAST:event_actualizarBtnActionPerformed
-
-    private void switchEstadoClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchEstadoClienteBtnActionPerformed
-        controller.switchEstadoCliente();
-    }//GEN-LAST:event_switchEstadoClienteBtnActionPerformed
-
-    private void resetClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetClienteBtnActionPerformed
-        controller.reiniciarCamposEditables();
-    }//GEN-LAST:event_resetClienteBtnActionPerformed
-
-    private void nombreClienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreClienteSearchBtnActionPerformed
-        // TODO
-        controller.abrirClienteLookupFrame();
-    }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         controller.returnControlToSource();
@@ -378,14 +232,46 @@ public class ModificarClienteView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModificarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarEmisorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModificarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarEmisorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModificarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarEmisorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModificarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarEmisorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
+        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new ClientesView().setVisible(true);
+//            }
+//        });
+        //</editor-fold>
+
+        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new NuevoClienteView().setVisible(true);
+//            }
+//        });
+        //</editor-fold>
+
+        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new ClientesView().setVisible(true);
+//            }
+//        });
+        //</editor-fold>
+
+        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new NuevoClienteView().setVisible(true);
+//            }
+//        });
         //</editor-fold>
 
         /* Create and display the form */
@@ -424,27 +310,18 @@ public class ModificarClienteView extends javax.swing.JFrame {
     protected javax.swing.JButton actualizarBtn;
     protected javax.swing.JTextField codigoPostalTxtField;
     protected javax.swing.JTextField direccionTxtField;
+    protected javax.swing.JTextField ibanTxtField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     protected javax.swing.JTextField nifTxtField;
-    protected javax.swing.JButton nombreClienteSearchBtn;
     protected javax.swing.JTextField nombreTxtField;
-    protected javax.swing.JTextField numeroClienteTxtField;
-    protected javax.swing.JButton resetClienteBtn;
-    protected javax.swing.JTextField stateTxtField;
-    protected javax.swing.JButton switchEstadoClienteBtn;
     // End of variables declaration//GEN-END:variables
 }

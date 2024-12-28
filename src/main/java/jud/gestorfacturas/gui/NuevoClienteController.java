@@ -9,10 +9,11 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
+import jud.gestorfacturas.manager.FrameUtils;
 import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Cliente;
 
-public class NuevoClienteController {
+public class NuevoClienteController implements Controller {
     
     Utils utils = new Utils();
     Color DEFAULT_BG_COLOR = Color.white;
@@ -20,6 +21,7 @@ public class NuevoClienteController {
     String[] RESPUESTAS_MSGBOX_FALTAN_OPCIONALES = {"Continuar", "Cancelar"};
 
     NuevoClienteView view;
+    Controller sourceController;
     
     protected JButton anadirBtn;
     protected JTextField codigoPostalTxtField;
@@ -27,8 +29,9 @@ public class NuevoClienteController {
     protected JTextField nifTxtField;
     protected JTextField nombreTxtField;
     
-    public NuevoClienteController() {
+    public NuevoClienteController(Controller _sourceController) {
         view = new NuevoClienteView(this);
+        this.sourceController = _sourceController;
         initialize();
         view.setVisible(true);
     }
@@ -89,7 +92,7 @@ public class NuevoClienteController {
         String direccionCliente = direccionTxtField.getText();
         String codigoPostalCliente = codigoPostalTxtField.getText();
         String nifCliente = nifTxtField.getText();
-        Cliente cliente = new Cliente(nombreCliente, direccionCliente, codigoPostalCliente, nifCliente);
+        Cliente cliente = new Cliente(nifCliente, nombreCliente, direccionCliente, codigoPostalCliente);
         cliente.setId(dbUtils.getSiguienteIdCliente());
         return cliente;
     }
@@ -101,19 +104,11 @@ public class NuevoClienteController {
             dbUtils.getEntityManager().getTransaction().begin();
             dbUtils.mergeIntoDB(cliente);
             dbUtils.getEntityManager().getTransaction().commit();
-            showInfoMessage("Éxito", "El cliente ha sido registrado correctamente.");
+            FrameUtils.showInfoMessage("Éxito", "El cliente ha sido registrado correctamente.");
         } else {
             LocalDateTime ts = dbUtils.getTimestampCliente(cliente).toLocalDateTime();
-            showErrorMessage("ERROR", "El número de cliente " + cliente.getId() + " con NIF " + cliente.getNif() + " ya fue registrado el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + ts.getMinute());
+            FrameUtils.showErrorMessage("ERROR", "El número de cliente " + cliente.getId() + " con NIF " + cliente.getNif() + " ya fue registrado el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + ts.getMinute());
         }
-    }
-    
-    public void showErrorMessage(String title, String msg) {
-        showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void showInfoMessage(String title, String msg) {
-        showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
     protected void setDisabledBackground(JComponent comp) {
@@ -126,5 +121,19 @@ public class NuevoClienteController {
 
     protected void setDefaultBackground(JComponent comp) {
         ((JComponent) comp).setBackground(Color.white);
+    }
+
+    @Override
+    public void recibeClienteLookup(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void returnControlToSource() {
+        this.sourceController.setVisible(true);
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        view.setVisible(visible);
     }
 }

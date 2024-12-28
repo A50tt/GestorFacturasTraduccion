@@ -7,14 +7,16 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
+import jud.gestorfacturas.manager.FrameUtils;
 import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Cliente;
 
-public class ModificarClienteController {
+public class ModificarClienteController implements Controller {
     
     Utils utils = new Utils();
     
     ModificarClienteView view;
+    Controller sourceController;
     
     protected JButton actualizarBtn;
     protected JButton anadirBtn;
@@ -27,8 +29,9 @@ public class ModificarClienteController {
     protected JButton resetClienteBtn;
     protected JTextField nombreTxtField;
     
-    public ModificarClienteController() {
+    public ModificarClienteController(Controller _sourceController) {
         view = new ModificarClienteView(this);
+        this.sourceController = _sourceController;
         initialize();
         view.setVisible(true);
     }
@@ -67,25 +70,13 @@ public class ModificarClienteController {
             }
             numeroClienteTxtField.setEditable(false);
         } else {
-            showErrorMessage("Error", "El numero de cliente '" + numeroClienteTxtField.getText() + "' no existe.");
+            FrameUtils.showErrorMessage("Error", "El numero de cliente '" + numeroClienteTxtField.getText() + "' no existe.");
             nifTxtField.setText("");
             nombreTxtField.setText("");
             direccionTxtField.setText("");
             codigoPostalTxtField.setText("");
             stateTxtField.setText("");
         }
-    }
-
-    public void showPlainMessage(String title, String msg) {
-        showMessageDialog(null, msg, title, JOptionPane.PLAIN_MESSAGE);
-    }
-
-    public void showErrorMessage(String title, String msg) {
-        showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void showInfoMessage(String title, String msg) {
-        showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
     protected void actualizaCliente () {
@@ -103,9 +94,9 @@ public class ModificarClienteController {
             dbUtils.mergeIntoDB(clienteDB);
             dbUtils.getEntityManager().getTransaction().commit();
             
-            showPlainMessage("Éxito", "El cliente ha sido actualizado correctamente.");
+            FrameUtils.showPlainMessage("Éxito", "El cliente ha sido actualizado correctamente.");
         } else {
-            showErrorMessage("Cliente no seleccionado", "No se ha seleccionado ningún cliente al que aplicar la modificación.\n"
+            FrameUtils.showErrorMessage("Cliente no seleccionado", "No se ha seleccionado ningún cliente al que aplicar la modificación.\n"
                     + "Introduce el número de cliente y pulsa 'Enter' o utiliza la búsqueda manual.");
         }
     }
@@ -143,7 +134,7 @@ public class ModificarClienteController {
             }
             String estadoString = (orden == true) ? "Activado" : "Desactivado";
             if (clienteDB.isActivado() == orden) {
-                showInfoMessage("Acción no es necesaria", "El cliente ya se estaba " + estadoString.toLowerCase() + ".");
+                FrameUtils.showInfoMessage("Acción no es necesaria", "El cliente ya se estaba " + estadoString.toLowerCase() + ".");
             } else {
                 clienteDB.setActivado(orden);
 
@@ -156,13 +147,32 @@ public class ModificarClienteController {
                 } else {
                     stateTxtField.setForeground(Color.black);
                 }
-                showPlainMessage("Éxito", "El cliente ha sido " + estadoString.toLowerCase() + " correctamente.");
+                FrameUtils.showPlainMessage("Éxito", "El cliente ha sido " + estadoString.toLowerCase() + " correctamente.");
 
             }
         } else {
-            showErrorMessage("Cliente no seleccionado", "No se ha seleccionado ningún cliente al que aplicar la modificación.\n"
+            FrameUtils.showErrorMessage("Cliente no seleccionado", "No se ha seleccionado ningún cliente al que aplicar la modificación.\n"
                     + "Introduce el número de cliente y pulsa 'Enter' o utiliza la búsqueda manual.");
         }
     }
     
+    public void recibeClienteLookup(String id) {
+        numeroClienteTxtField.setText(String.valueOf(id));
+        cargaDatosDeNumeroCliente();
+    }
+ 
+    protected void abrirClienteLookupFrame() {
+        ClienteLookupController clc = new ClienteLookupController(this, false);
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        view.setVisible(visible);
+    }
+
+    @Override
+    public void returnControlToSource() {
+        this.sourceController.setVisible(true);
+    }
+
 }

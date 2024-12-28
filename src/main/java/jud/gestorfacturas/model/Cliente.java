@@ -15,8 +15,8 @@ public class Cliente extends Interviniente {
         super();
     }
     
-    public Cliente (String _nombre, String _direccion, String _codigoPostal, String _nif) {
-        super(_nombre, _direccion, _codigoPostal, _nif);
+    public Cliente (String _nif, String _nombre, String _direccion, String _codigoPostal) {
+        super(_nif, _nombre, _direccion, _codigoPostal);
     }
     
     public boolean isActivado() {

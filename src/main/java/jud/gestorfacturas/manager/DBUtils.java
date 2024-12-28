@@ -5,6 +5,7 @@ import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,8 +30,9 @@ public class DBUtils {
     
     @Override
     protected void finalize() throws Throwable {
-        // TODO Auto-generated method stub
-        // do some crazy stuff here
+        if (em.isOpen()) {
+            em.close();
+        }
     }
     public void onCreate() {
         em.getTransaction().begin();
@@ -60,6 +62,14 @@ public class DBUtils {
     public Cliente getCliente(Cliente cliente) {
         return em.find(Cliente.class, cliente.getNif());
     }
+
+    public Cliente[] getAllClientes(Cliente[] clientes) {
+        Cliente[] clientesArray = new Cliente[clientes.length];
+        for (int i = 0; i < clientes.length; i++) {
+            clientesArray[i] = em.find(Cliente.class, clientes[i].getNif());
+        }
+        return clientesArray;
+    }
     
     public boolean clienteExists(Cliente cliente) {
         return (em.find(Cliente.class, cliente.getNif()) != null);
@@ -81,6 +91,26 @@ public class DBUtils {
             return new Cliente (null, null, null, null);
         }
     }
+    
+    public List getTodosClientes() {
+        Cliente[] clientesArray;
+        Query query = em.createNativeQuery("SELECT id, nif, nombre, direccion, codigopostal, activado FROM cliente ORDER BY id");
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex1) {
+            return null;
+        }
+    } 
+    
+    public List getTodosClientesPorCampo(String nombreCampo, String valorBuscado) {
+        Cliente[] clientesArray;
+        Query query = em.createNativeQuery("SELECT id, nif, nombre, direccion, codigopostal, activado FROM cliente WHERE " + nombreCampo + " LIKE '" + valorBuscado + "' ORDER BY id");
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex1) {
+            return null;
+        }
+    } 
     
     public int getSiguienteIdCliente() {
         int max = 0;

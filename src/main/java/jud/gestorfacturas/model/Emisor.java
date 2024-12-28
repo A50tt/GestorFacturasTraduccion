@@ -17,7 +17,7 @@ public class Emisor extends Interviniente {
     }
     
     public Emisor (String _nombre, String _nombreCompleto, String _direccion, String _codigoPostal, String _nif, String _iban) {
-        super(_nombre, _direccion, _codigoPostal, _nif);
+        super(_nif, _nombre, _direccion, _codigoPostal);
         this.nombreCompleto = _nombreCompleto;
         this.iban = _iban;
     }
@@ -32,5 +32,9 @@ public class Emisor extends Interviniente {
    
     public String getIban() {
         return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
     }
 }

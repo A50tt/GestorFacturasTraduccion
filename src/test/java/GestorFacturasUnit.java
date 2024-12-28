@@ -77,7 +77,7 @@ public class GestorFacturasUnit {
             dbMgr.getEntityManager().getTransaction().begin();
             //INSERT CLIENTE
             Random ran = new Random();
-            Cliente cliente = new Cliente("Empresa Test " + String.valueOf(ran.nextInt(1000)), "Calle Falsa " + String.valueOf(ran.nextInt(1000)), String.valueOf(ran.nextInt(99999)), "B" + String.valueOf(ran.nextInt(99999999)));
+            Cliente cliente = new Cliente("B" + String.valueOf(ran.nextInt(99999999)), "Empresa Test " + String.valueOf(ran.nextInt(1000)), "Calle Falsa " + String.valueOf(ran.nextInt(1000)), String.valueOf(ran.nextInt(99999)));
             if (dbMgr.clienteExists(cliente)) {
                 dbMgr.mergeIntoDB(cliente);
             } else {

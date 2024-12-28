@@ -39,9 +39,14 @@ public class NuevoClienteView extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         anadirBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear y actualizar clientes");
         setPreferredSize(new java.awt.Dimension(600, 250));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setName(""); // NOI18N
@@ -206,6 +211,10 @@ public class NuevoClienteView extends javax.swing.JFrame {
             controller.registraCliente(controller.generaCliente());
         }
     }//GEN-LAST:event_anadirBtnActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        controller.returnControlToSource();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

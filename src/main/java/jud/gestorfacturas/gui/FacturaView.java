@@ -4,6 +4,7 @@ package jud.gestorfacturas.gui;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import jud.gestorfacturas.manager.Utils;
@@ -116,10 +117,15 @@ public class FacturaView extends javax.swing.JFrame {
         openMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestor de facturación");
         setMinimumSize(new java.awt.Dimension(900, 500));
         setPreferredSize(new java.awt.Dimension(793, 412));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridLayout(1, 2));
 
         jPanel.setLayout(new java.awt.GridBagLayout());
@@ -275,6 +281,11 @@ public class FacturaView extends javax.swing.JFrame {
         nombreClienteSearchBtn.setFocusable(false);
         nombreClienteSearchBtn.setOpaque(true);
         nombreClienteSearchBtn.setPreferredSize(new java.awt.Dimension(30, 22));
+        nombreClienteSearchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombreClienteSearchBtnActionPerformed(evt);
+            }
+        });
         jPanel5.add(nombreClienteSearchBtn, java.awt.BorderLayout.EAST);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -285,8 +296,12 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         jPanel2.add(jPanel5, gridBagConstraints);
 
-        numeroClienteTxtField.setEditable(false);
         numeroClienteTxtField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        numeroClienteTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                numeroClienteTxtFieldKeyPressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -305,15 +320,15 @@ public class FacturaView extends javax.swing.JFrame {
         nombreClientelbl.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.3;
         jPanel4.add(nombreClientelbl, gridBagConstraints);
 
-        nombreClienteTxtField.setText("Cliente Ejempllo");
+        nombreClienteTxtField.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
@@ -323,14 +338,14 @@ public class FacturaView extends javax.swing.JFrame {
         nifClientelbl.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(nifClientelbl, gridBagConstraints);
 
-        nifClienteTxtField.setText("X12345678");
+        nifClienteTxtField.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         jPanel4.add(nifClienteTxtField, gridBagConstraints);
@@ -343,7 +358,7 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(direccionClientelbl, gridBagConstraints);
 
-        direccionClienteTxtField.setText("Calle Ejem");
+        direccionClienteTxtField.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -359,7 +374,7 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(codigoPostalClientelbl, gridBagConstraints);
 
-        codigoPostalClienteTxtField.setText("08110");
+        codigoPostalClienteTxtField.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -835,8 +850,6 @@ public class FacturaView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    
     
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         System.exit(0);
@@ -903,6 +916,20 @@ public class FacturaView extends javax.swing.JFrame {
     private void descargarFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descargarFacturaBtnActionPerformed
         controller.descargaPDF(controller.extraeDatosYGeneraFactura());
     }//GEN-LAST:event_descargarFacturaBtnActionPerformed
+
+    private void nombreClienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreClienteSearchBtnActionPerformed
+        controller.abrirClienteLookupFrame();
+    }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
+
+    private void numeroClienteTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroClienteTxtFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            controller.cargaDatosDeNumeroCliente();
+        }
+    }//GEN-LAST:event_numeroClienteTxtFieldKeyPressed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        controller.returnControlToSource();
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

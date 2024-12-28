@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import jud.gestorfacturas.gui.NuevoClienteController;
 import jud.gestorfacturas.gui.FacturaController;
+import jud.gestorfacturas.gui.MainMenuController;
 import jud.gestorfacturas.gui.ModificarClienteController;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
@@ -21,9 +22,10 @@ public class GestorFacturas {
     }
     
     public void inicio() {
+        MainMenuController mainMenu = new MainMenuController();
         //FacturaController controller = new FacturaController();
         //NuevoClienteController controller = new NuevoClienteController();
-        ModificarClienteController controller = new ModificarClienteController();
+        //ModificarClienteController controller = new ModificarClienteController();
         //PDFGenerator pdfu = new PDFGenerator("hello.pdf");
         //pdfu.createPDF();
         //xmlmgr = new DBUtils();
