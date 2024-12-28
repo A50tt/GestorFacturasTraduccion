@@ -1,7 +1,6 @@
 
 package jud.gestorfacturas.model;
 
-import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -16,7 +15,11 @@ public class Emisor extends Interviniente {
         super();
     }
     
-    public Emisor (String _nombre, String _nombreCompleto, String _direccion, String _codigoPostal, String _nif, String _iban) {
+    public static Emisor getDummyInstance() {
+        return new Emisor("dummy", null, null, null, null, null);
+    }
+    
+    public Emisor (String _nif, String _nombre, String _nombreCompleto, String _direccion, String _codigoPostal, String _iban) {
         super(_nif, _nombre, _direccion, _codigoPostal);
         this.nombreCompleto = _nombreCompleto;
         this.iban = _iban;

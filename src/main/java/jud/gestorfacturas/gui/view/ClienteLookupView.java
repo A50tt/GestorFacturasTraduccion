@@ -1,7 +1,6 @@
 
 package jud.gestorfacturas.gui.view;
 
-import java.awt.event.KeyEvent;
 import jud.gestorfacturas.gui.controller.ClienteLookupController;
 
 public class ClienteLookupView extends javax.swing.JFrame {

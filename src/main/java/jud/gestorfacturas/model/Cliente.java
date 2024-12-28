@@ -15,6 +15,10 @@ public class Cliente extends Interviniente {
         super();
     }
     
+    public static Cliente getDummyInstance() {
+        return new Cliente("dummy", null, null, null);
+    }
+    
     public Cliente (String _nif, String _nombre, String _direccion, String _codigoPostal) {
         super(_nif, _nombre, _direccion, _codigoPostal);
     }

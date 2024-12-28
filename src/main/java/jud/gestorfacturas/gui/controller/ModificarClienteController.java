@@ -4,8 +4,6 @@ package jud.gestorfacturas.gui.controller;
 import jud.gestorfacturas.gui.view.ModificarClienteView;
 import java.awt.Color;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.FrameUtils;

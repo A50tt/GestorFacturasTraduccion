@@ -1,7 +1,6 @@
 
 package jud.gestorfacturas.gui.view;
 
-import java.awt.event.KeyEvent;
 import jud.gestorfacturas.gui.controller.ModificarEmisorController;
 
 public class ModificarEmisorView extends javax.swing.JFrame {
@@ -60,7 +59,7 @@ public class ModificarEmisorView extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setText("DATOS CLIENTE");
+        jLabel1.setText("DATOS PROPIOS");
         jLabel1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         jLabel1.setMinimumSize(new java.awt.Dimension(95, 16));
         jLabel1.setPreferredSize(new java.awt.Dimension(95, 16));

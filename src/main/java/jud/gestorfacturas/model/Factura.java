@@ -1,17 +1,16 @@
 package jud.gestorfacturas.model;
 
 import java.io.File;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import jud.gestorfacturas.manager.Utils;
-import org.apache.pdfbox.pdmodel.PDDocument;
 
 @Entity
 public class Factura implements Serializable {
@@ -73,6 +72,11 @@ public class Factura implements Serializable {
     }
 
     public Factura() {
+        
+    }
+    
+    public static Factura getDummyInstance() {
+        return new Factura("dummy", new Date(System.currentTimeMillis()), 0, null, null, null, null);
     }
 
     public Factura(String _numFactura, Date _fechaEmision, int _diasPago, String _formaPago, Cliente _cliente, Emisor _emisor, Servicio[] _listaServicios) {
@@ -152,8 +156,10 @@ public class Factura implements Serializable {
     }
     
     private void calculaServicios() {
-        for (Servicio servicio : this.listaServicios) {
-            baseImponible += servicio.getPrecioFinal();
+        if (this.listaServicios != null) {
+            for (Servicio servicio : this.listaServicios) {
+                baseImponible += servicio.getPrecioFinal();
+            }
         }
     }
 

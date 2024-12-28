@@ -1,18 +1,13 @@
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jud.gestorfacturas.manager.PDFGenerator;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Servicio;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,6 +73,7 @@ public class GestorFacturasUnit {
             //INSERT CLIENTE
             Random ran = new Random();
             Cliente cliente = new Cliente("B" + String.valueOf(ran.nextInt(99999999)), "Empresa Test " + String.valueOf(ran.nextInt(1000)), "Calle Falsa " + String.valueOf(ran.nextInt(1000)), String.valueOf(ran.nextInt(99999)));
+            cliente.setId(dbMgr.getSiguienteIdCliente());
             if (dbMgr.clienteExists(cliente)) {
                 dbMgr.mergeIntoDB(cliente);
             } else {

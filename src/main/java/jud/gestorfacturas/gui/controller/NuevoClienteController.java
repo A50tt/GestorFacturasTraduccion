@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.FrameUtils;
@@ -108,7 +107,7 @@ public class NuevoClienteController implements Controller {
             FrameUtils.showInfoMessage("Éxito", "El cliente ha sido registrado correctamente.");
         } else {
             LocalDateTime ts = dbUtils.getTimestampCliente(cliente).toLocalDateTime();
-            FrameUtils.showErrorMessage("ERROR", "El número de cliente " + cliente.getId() + " con NIF " + cliente.getNif() + " ya fue registrado el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + ts.getMinute());
+            FrameUtils.showErrorMessage("ERROR", "El NIF '" + cliente.getNif() + "' ya fue registrado el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%02d", ts.getMinute()) + "h. Pertenece al cliente número '" + cliente.getId() + "'.");
         }
     }
 

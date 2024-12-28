@@ -3,13 +3,10 @@ package jud.gestorfacturas.gui.controller;
 import jud.gestorfacturas.gui.view.ClienteLookupView;
 import java.awt.Color;
 import java.awt.Component;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -108,8 +105,8 @@ public class ClienteLookupController {
         for (int i = 0; i < listaClientesFiltrados.size(); i++) {
             Object[] cliente = ((Object[])listaClientesFiltrados.get(i));
             int id = (Integer) cliente[0];
-            String nif = cliente[1].toString();
-            String nombre = cliente[2].toString();
+            String nombre = cliente[1].toString();
+            String nif = cliente[2].toString();
             String direccion = cliente[3].toString();
             String codigoPostal = cliente[4].toString();
             String estado = ((boolean)cliente[5] == true) ? "Activado" : "Desactivado";
@@ -137,10 +134,6 @@ public class ClienteLookupController {
         List listaClientesFiltrados = dbUtils.getTodosClientesPorCampo(propiedad, valor);
         deleteAllClientesRows();
         addClientesRows(listaClientesFiltrados);
-    }
-    
-    public void showDebugMsg(String msg) {
-        showMessageDialog(null, msg, "DEBUG", JOptionPane.PLAIN_MESSAGE);
     }
   
     public void returnClienteToSource(int row) {

@@ -1,14 +1,10 @@
 
 package jud.gestorfacturas.gui.view;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.awt.Color;
-import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import jud.gestorfacturas.gui.controller.FacturaController;
-import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Factura;
 
 public class FacturaView extends javax.swing.JFrame {
@@ -112,11 +108,6 @@ public class FacturaView extends javax.swing.JFrame {
         verificarFichaBtn = new javax.swing.JToggleButton();
         previewFacturaBtn = new javax.swing.JButton();
         registrarFacturaBtn = new javax.swing.JButton();
-        descargarFacturaBtn = new javax.swing.JButton();
-        menuBar = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
-        openMenuItem = new javax.swing.JMenuItem();
-        exitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestor de facturación");
@@ -810,14 +801,6 @@ public class FacturaView extends javax.swing.JFrame {
         });
         buttonsPanel.add(registrarFacturaBtn);
 
-        descargarFacturaBtn.setText("Descargar factura");
-        descargarFacturaBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                descargarFacturaBtnActionPerformed(evt);
-            }
-        });
-        buttonsPanel.add(descargarFacturaBtn);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -828,33 +811,9 @@ public class FacturaView extends javax.swing.JFrame {
 
         getContentPane().add(jPanel);
 
-        fileMenu.setMnemonic('f');
-        fileMenu.setText("Test");
-
-        openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Open");
-        fileMenu.add(openMenuItem);
-
-        exitMenuItem.setMnemonic('x');
-        exitMenuItem.setText("Exit");
-        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(exitMenuItem);
-
-        menuBar.add(fileMenu);
-
-        setJMenuBar(menuBar);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_exitMenuItemActionPerformed
-
     private void precio1TxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precio1TxtFieldKeyReleased
         controller.calculaPrecioServicio(precio1TxtField, cantidad1TxtField, totalImporte1TxtField);
     }//GEN-LAST:event_precio1TxtFieldKeyReleased
@@ -913,10 +872,6 @@ public class FacturaView extends javax.swing.JFrame {
         controller.registraFactura();
     }//GEN-LAST:event_registrarFacturaBtnActionPerformed
 
-    private void descargarFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descargarFacturaBtnActionPerformed
-        controller.descargaPDF(controller.extraeDatosYGeneraFactura());
-    }//GEN-LAST:event_descargarFacturaBtnActionPerformed
-
     private void nombreClienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreClienteSearchBtnActionPerformed
         controller.abrirClienteLookupFrame();
     }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
@@ -952,12 +907,10 @@ public class FacturaView extends javax.swing.JFrame {
     public javax.swing.JPanel datosClientePanel;
     public javax.swing.JPanel datosFacturaCuerpoPanel;
     public javax.swing.JPanel datosFacturaTitulolbl;
-    public javax.swing.JButton descargarFacturaBtn;
     public javax.swing.JTextField diasParaPagoTxtField;
     public javax.swing.JLabel diasParaPagolbl;
     public javax.swing.JTextField direccionClienteTxtField;
     public javax.swing.JLabel direccionClientelbl;
-    public javax.swing.JMenuItem exitMenuItem;
     public javax.swing.JPanel facturaPanel;
     public javax.swing.JPanel facturacionPanel;
     public javax.swing.JPanel facturacionTituloPanel;
@@ -966,7 +919,6 @@ public class FacturaView extends javax.swing.JFrame {
     public javax.swing.JLabel fechaEmisionlbl;
     public javax.swing.JTextField fechaVencimientoTxtField;
     public javax.swing.JLabel fechaVencimientolbl;
-    public javax.swing.JMenu fileMenu;
     public javax.swing.JComboBox<String> formaPagoComboBox;
     public javax.swing.JLabel formaPagolbl;
     public javax.swing.JTextField idiomaDestino1TxtField;
@@ -989,7 +941,6 @@ public class FacturaView extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel3;
     public javax.swing.JPanel jPanel4;
     public javax.swing.JPanel jPanel5;
-    public javax.swing.JMenuBar menuBar;
     public javax.swing.JPanel msgContainerPanel;
     public javax.swing.JLabel msgLbl;
     public javax.swing.JPanel msgPanel;
@@ -1001,7 +952,6 @@ public class FacturaView extends javax.swing.JFrame {
     public javax.swing.JTextField numeroClienteTxtField;
     public javax.swing.JTextField numeroFraTxtField;
     public javax.swing.JLabel numeroFralbl;
-    public javax.swing.JMenuItem openMenuItem;
     public javax.swing.JTextField precio1TxtField;
     public javax.swing.JTextField precio2TxtField;
     public javax.swing.JTextField precio3TxtField;

@@ -39,19 +39,23 @@ public class ModificarEmisorController implements Controller {
     public void cargaDatosEmisor() {
         DBUtils dbUtils = new DBUtils();
         Emisor emisor = dbUtils.getUnicoEmisor();
-        if (emisor != null && emisor.getNif() != null) {
+        if (emisor.getNif() != null && emisor.getNif() != null) {
             nifTxtField.setText(emisor.getNif());
+            nifTxtField.setEditable(false);
+            nifTxtField.setFocusable(false);
             nombreTxtField.setText(emisor.getNombre());
             direccionTxtField.setText(emisor.getDireccion());
             codigoPostalTxtField.setText(emisor.getCodigoPostal());
             ibanTxtField.setText(emisor.getIban());
         } else {
-            FrameUtils.showErrorMessage("Error", "No se han podido recuperar los datos.");
-            nifTxtField.setText("ERROR");
-            nombreTxtField.setText("ERROR");
-            direccionTxtField.setText("ERROR");
-            codigoPostalTxtField.setText("ERROR");
-            ibanTxtField.setText("ERROR");
+            FrameUtils.showInfoMessage("Datos no encontrados", "No se han encontrado datos anteriores.");
+            nifTxtField.setText("");
+            nifTxtField.setEditable(true);
+            nifTxtField.setFocusable(true);
+            nombreTxtField.setText("");
+            direccionTxtField.setText("");
+            codigoPostalTxtField.setText("");
+            ibanTxtField.setText("");
         }
     }
 
@@ -59,6 +63,7 @@ public class ModificarEmisorController implements Controller {
         DBUtils dbUtils = new DBUtils();
 
         Emisor emisorDB = dbUtils.getUnicoEmisor();
+        emisorDB.setNif(nifTxtField.getText());
         emisorDB.setNombre(nombreTxtField.getText());
         emisorDB.setDireccion(direccionTxtField.getText());
         emisorDB.setCodigoPostal(codigoPostalTxtField.getText());
@@ -69,6 +74,8 @@ public class ModificarEmisorController implements Controller {
         dbUtils.getEntityManager().getTransaction().commit();
 
         FrameUtils.showPlainMessage("Éxito", "Los datos han sido actualizados correctamente.");
+        nifTxtField.setEditable(false);
+        nifTxtField.setFocusable(false);
     }
  
     @Override

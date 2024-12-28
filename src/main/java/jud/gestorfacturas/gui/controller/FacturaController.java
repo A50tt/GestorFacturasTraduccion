@@ -9,8 +9,8 @@ import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +18,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -29,10 +28,8 @@ import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Servicio;
-import static javax.swing.JOptionPane.showMessageDialog;
 import jud.gestorfacturas.manager.FrameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.common.PDStream;
 
 public class FacturaController implements Controller {
     DBUtils dbUtils = new DBUtils();
@@ -42,7 +39,7 @@ public class FacturaController implements Controller {
     public Color DEFAULT_BG_COLOR = Color.white;
     public Color ERROR_BG_COLOR = Color.red;
     public String[] TIPOS_UNIDAD = {"", "Clip", "Hora", "Minuto", "Palabra"};
-    public String[] FORMAS_PAGO = {"", "Transferencia Bancaria", "Cheque"};
+    public String[] FORMAS_PAGO = {"", "Transferencia bancaria", "Cheque"};
 
     private Controller sourceController;
     private FacturaView view;
@@ -104,12 +101,30 @@ public class FacturaController implements Controller {
         initialize();
         view.setVisible(true);
     }
+    
+    private String getNextDefaultNumFactura() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-");
+        LocalDateTime now = LocalDateTime.now();
+        String numFactura = dtf.format(now);
+        int n = 1;
+        while (true) {
+            String numFacturaAux = numFactura + String.format("%03d", n);
+            if (!dbUtils.facturaExists(numFacturaAux)) {
+                return numFacturaAux;
+            }
+            n++;
+        }
+    }
 
     private void initialize() {
         jPanel = view.jPanel;
-
         numeroFraTxtField = view.numeroFraTxtField;
+        numeroFraTxtField.setText(getNextDefaultNumFactura());
         fechaEmisionTxtField = view.fechaEmisionTxtField;
+        String year = String.format("%04d", LocalDateTime.now().getYear());
+        String month = String.format("%02d", LocalDateTime.now().getMonthValue());
+        String day = String.format("%02d", LocalDateTime.now().getDayOfMonth());
+        fechaEmisionTxtField.setText(day + "-" + month + "-" + year);
         diasParaPagoTxtField = view.diasParaPagoTxtField;
         fechaVencimientoTxtField = view.fechaVencimientoTxtField;
         formaPagoComboBox = view.formaPagoComboBox;
@@ -626,7 +641,7 @@ public class FacturaController implements Controller {
             FrameUtils.showInfoMessage("Éxito", "La factura ha sido registrada correctamente.");
         } else {
             LocalDateTime ts = dbUtils.getTimestampOfInvoice(factura).toLocalDateTime();
-            FrameUtils.showErrorMessage("ERROR", "La factura " + factura.getNumFactura() + " ya fue registrada el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + ts.getMinute());
+            FrameUtils.showErrorMessage("ERROR", "La factura " + factura.getNumFactura() + " ya fue registrada el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%2d", ts.getMinute()) + "h.");
         }
     }
     
@@ -680,19 +695,23 @@ public class FacturaController implements Controller {
     public void cargaDatosDeNumeroCliente() {
         DBUtils dbUtils = new DBUtils();
         Cliente cliente = dbUtils.getClienteById(numeroClienteTxtField.getText());
-        if (cliente.isActivado()) {
-            if (cliente != null && cliente.getNif() != null) {
-                nifClienteTxtField.setText(cliente.getNif());
-                nombreClienteTxtField.setText(cliente.getNombre());
-                direccionClienteTxtField.setText(cliente.getDireccion());
-                codigoPostalClienteTxtField.setText(cliente.getCodigoPostal());
+        if (cliente != null) {
+            if (cliente.isActivado()) {
+                if (cliente != null && cliente.getNif() != null) {
+                    nifClienteTxtField.setText(cliente.getNif());
+                    nombreClienteTxtField.setText(cliente.getNombre());
+                    direccionClienteTxtField.setText(cliente.getDireccion());
+                    codigoPostalClienteTxtField.setText(cliente.getCodigoPostal());
+                } else {
+                    FrameUtils.showErrorMessage("Error", "El numero de cliente '" + numeroClienteTxtField.getText() + "' no existe.");
+                    clearDatosCliente();
+                }
             } else {
-                FrameUtils.showErrorMessage("Error", "El numero de cliente '" + numeroClienteTxtField.getText() + "' no existe.");
+                FrameUtils.showErrorMessage("Cliente desactivado", "El cliente no se puede utilizar porque está desactivado. Para activarlo, se ha de modificar desde 'Modificar clientes'.");
                 clearDatosCliente();
             }
         } else {
-            showMessageDialog(null, "El cliente no se puede utilizar porque está desactivado. Para activarlo, se ha de modificar desde 'Modificar clientes'.", "Cliente desactivado", JOptionPane.ERROR_MESSAGE);
-            clearDatosCliente();
+            FrameUtils.showErrorMessage("Cliente no encontrado", "El cliente '" + numeroClienteTxtField + "' no se ha encontrado en la base de datos.");
         }
     }
     

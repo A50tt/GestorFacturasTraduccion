@@ -34,6 +34,7 @@ public class MainMenuView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú principal");
+        setPreferredSize(new java.awt.Dimension(300, 240));
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 

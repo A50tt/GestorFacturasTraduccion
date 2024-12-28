@@ -42,7 +42,7 @@ public class NuevoClienteView extends javax.swing.JFrame {
         anadirBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Crear y actualizar clientes");
+        setTitle("Crear cliente");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
