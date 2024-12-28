@@ -1,11 +1,14 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.view;
 
-public class NuevoClienteView extends javax.swing.JFrame {
+import java.awt.event.KeyEvent;
+import jud.gestorfacturas.gui.controller.ModificarEmisorController;
 
-    NuevoClienteController controller;
+public class ModificarEmisorView extends javax.swing.JFrame {
+
+    ModificarEmisorController controller;
     
-    public NuevoClienteView(NuevoClienteController _controller) {
+    public ModificarEmisorView(ModificarEmisorController _controller) {
         this.controller = _controller;
         initComponents();
     }
@@ -31,17 +34,15 @@ public class NuevoClienteView extends javax.swing.JFrame {
         direccionTxtField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         codigoPostalTxtField = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        ibanTxtField = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        anadirBtn = new javax.swing.JButton();
+        actualizarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear y actualizar clientes");
-        setPreferredSize(new java.awt.Dimension(600, 250));
+        setMinimumSize(new java.awt.Dimension(620, 250));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -50,25 +51,29 @@ public class NuevoClienteView extends javax.swing.JFrame {
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setName(""); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(526, 250));
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 140));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(450, 175));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        jPanel2.setPreferredSize(new java.awt.Dimension(300, 150));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("DATOS CLIENTE");
+        jLabel1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        jLabel1.setMinimumSize(new java.awt.Dimension(95, 16));
         jLabel1.setPreferredSize(new java.awt.Dimension(95, 16));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel1, gridBagConstraints);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel2.setText("NIF *");
+        jLabel2.setText("NIF");
+        jLabel2.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -76,7 +81,9 @@ public class NuevoClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel2, gridBagConstraints);
 
-        nifTxtField.setPreferredSize(new java.awt.Dimension(80, 20));
+        nifTxtField.setEditable(false);
+        nifTxtField.setFocusable(false);
+        nifTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -85,7 +92,8 @@ public class NuevoClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel2.add(nifTxtField, gridBagConstraints);
 
-        jLabel3.setText("Nombre *");
+        jLabel3.setText("Nombre");
+        jLabel3.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -93,7 +101,7 @@ public class NuevoClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel3, gridBagConstraints);
 
-        nombreTxtField.setPreferredSize(new java.awt.Dimension(80, 20));
+        nombreTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -102,6 +110,7 @@ public class NuevoClienteView extends javax.swing.JFrame {
         jPanel2.add(nombreTxtField, gridBagConstraints);
 
         jLabel4.setText("Dirección");
+        jLabel4.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -109,7 +118,7 @@ public class NuevoClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel4, gridBagConstraints);
 
-        direccionTxtField.setPreferredSize(new java.awt.Dimension(80, 20));
+        direccionTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
@@ -118,6 +127,7 @@ public class NuevoClienteView extends javax.swing.JFrame {
         jPanel2.add(direccionTxtField, gridBagConstraints);
 
         jLabel5.setText("Código Postal");
+        jLabel5.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -125,13 +135,36 @@ public class NuevoClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jLabel5, gridBagConstraints);
 
-        codigoPostalTxtField.setPreferredSize(new java.awt.Dimension(80, 20));
+        codigoPostalTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel2.add(codigoPostalTxtField, gridBagConstraints);
+
+        jLabel9.setText("IBAN");
+        jLabel9.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        jPanel2.add(jLabel9, gridBagConstraints);
+
+        ibanTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
+        jPanel2.add(ibanTxtField, gridBagConstraints);
+
+        jPanel6.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        jPanel2.add(jPanel6, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -141,64 +174,33 @@ public class NuevoClienteView extends javax.swing.JFrame {
         gridBagConstraints.ipady = 5;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         jPanel1.add(jPanel2, gridBagConstraints);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel3.setPreferredSize(new java.awt.Dimension(250, 64));
-        jPanel3.setLayout(new java.awt.GridLayout(3, 0));
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setText("El NIF es único para cada cliente.");
-        jPanel3.add(jLabel6);
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        jLabel7.setText("Si se introduce un cliente con un NIF");
-        jPanel3.add(jLabel7);
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        jLabel8.setText("ya existente, el cliente no se añadirá.");
-        jPanel3.add(jLabel8);
-
-        jPanel4.add(jPanel3, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 20);
-        jPanel1.add(jPanel4, gridBagConstraints);
-
-        jPanel5.setPreferredSize(new java.awt.Dimension(100, 100));
+        jPanel5.setPreferredSize(new java.awt.Dimension(100, 50));
         jPanel5.setRequestFocusEnabled(false);
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        anadirBtn.setText("Añadir");
-        anadirBtn.setPreferredSize(new java.awt.Dimension(90, 25));
-        anadirBtn.addActionListener(new java.awt.event.ActionListener() {
+        actualizarBtn.setText("Actualizar");
+        actualizarBtn.setFocusPainted(false);
+        actualizarBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        actualizarBtn.setPreferredSize(new java.awt.Dimension(90, 25));
+        actualizarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                anadirBtnActionPerformed(evt);
+                actualizarBtnActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel5.add(anadirBtn, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(actualizarBtn, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 20, 20);
+        gridBagConstraints.weighty = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 0, 20);
         jPanel1.add(jPanel5, gridBagConstraints);
 
         getContentPane().add(jPanel1);
@@ -206,77 +208,30 @@ public class NuevoClienteView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void anadirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anadirBtnActionPerformed
-        if (controller.verificarCamposCorrectos()) {
-            controller.registraCliente(controller.generaCliente());
-        }
-    }//GEN-LAST:event_anadirBtnActionPerformed
+    private void actualizarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarBtnActionPerformed
+        controller.actualizaEmisor();
+    }//GEN-LAST:event_actualizarBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         controller.returnControlToSource();
     }//GEN-LAST:event_formWindowClosing
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NuevoClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NuevoClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NuevoClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NuevoClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new ClientesView().setVisible(true);
-//            }
-//        });
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new NuevoClienteView().setVisible(true);
-//            }
-//        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JButton anadirBtn;
-    protected javax.swing.JTextField codigoPostalTxtField;
-    protected javax.swing.JTextField direccionTxtField;
+    public javax.swing.JButton actualizarBtn;
+    public javax.swing.JTextField codigoPostalTxtField;
+    public javax.swing.JTextField direccionTxtField;
+    public javax.swing.JTextField ibanTxtField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    protected javax.swing.JTextField nifTxtField;
-    protected javax.swing.JTextField nombreTxtField;
+    private javax.swing.JPanel jPanel6;
+    public javax.swing.JTextField nifTxtField;
+    public javax.swing.JTextField nombreTxtField;
     // End of variables declaration//GEN-END:variables
 }

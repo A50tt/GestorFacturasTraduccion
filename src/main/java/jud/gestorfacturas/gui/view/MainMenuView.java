@@ -1,5 +1,11 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.view;
+
+import jud.gestorfacturas.gui.controller.FacturaController;
+import jud.gestorfacturas.gui.controller.MainMenuController;
+import jud.gestorfacturas.gui.controller.ModificarClienteController;
+import jud.gestorfacturas.gui.controller.ModificarEmisorController;
+import jud.gestorfacturas.gui.controller.NuevoClienteController;
 
 public class MainMenuView extends javax.swing.JFrame {
 
@@ -28,7 +34,6 @@ public class MainMenuView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú principal");
-        setPreferredSize(new java.awt.Dimension(600, 400));
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -110,47 +115,12 @@ public class MainMenuView extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_datosPropiosBtnActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainMenuView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainMenuView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainMenuView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainMenuView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new MainMenuView().setVisible(true);
-//            }
-//        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JButton crearClienteBtn;
-    protected javax.swing.JButton crearFacturaBtn;
-    protected javax.swing.JButton datosPropiosBtn;
+    public javax.swing.JButton crearClienteBtn;
+    public javax.swing.JButton crearFacturaBtn;
+    public javax.swing.JButton datosPropiosBtn;
     private javax.swing.JPanel jPanel1;
-    protected javax.swing.JButton modificarClienteBtn;
+    public javax.swing.JButton modificarClienteBtn;
     // End of variables declaration//GEN-END:variables
 
 }

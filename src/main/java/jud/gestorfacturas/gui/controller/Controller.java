@@ -1,5 +1,5 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.controller;
 
 public interface Controller {
 

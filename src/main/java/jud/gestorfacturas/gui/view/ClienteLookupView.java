@@ -1,7 +1,8 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.view;
 
 import java.awt.event.KeyEvent;
+import jud.gestorfacturas.gui.controller.ClienteLookupController;
 
 public class ClienteLookupView extends javax.swing.JFrame {
     
@@ -132,49 +133,15 @@ public class ClienteLookupView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_inputTextFieldKeyReleased
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClienteLookupView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClienteLookupView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClienteLookupView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClienteLookupView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new ClienteLookupView().setVisible(true);
-//            }
-//        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JComboBox<String> campoClienteComboBox;
-    protected javax.swing.JTextField inputTextField;
+    public javax.swing.JComboBox<String> campoClienteComboBox;
+    public javax.swing.JTextField inputTextField;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    protected javax.swing.JTable resultadosTable;
+    public javax.swing.JTable resultadosTable;
     // End of variables declaration//GEN-END:variables
 }

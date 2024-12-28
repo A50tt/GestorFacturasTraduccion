@@ -1,5 +1,5 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.view;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
@@ -7,6 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import javax.swing.DefaultComboBoxModel;
+import jud.gestorfacturas.gui.controller.FacturaController;
 import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Factura;
 
@@ -120,7 +121,6 @@ public class FacturaView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestor de facturación");
         setMinimumSize(new java.awt.Dimension(900, 500));
-        setPreferredSize(new java.awt.Dimension(793, 412));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -931,149 +931,90 @@ public class FacturaView extends javax.swing.JFrame {
         controller.returnControlToSource();
     }//GEN-LAST:event_formWindowClosed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FacturaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FacturaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FacturaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FacturaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new CreateInvoiceView().setVisible(true);
-//            }
-//        });
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new FacturaView().setVisible(true);
-//            }
-//        });
-    }
-    
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel TipoTituloLabel;
-    private javax.swing.JPanel buttonsPanel;
-    protected javax.swing.JTextField cantidad1TxtField;
-    protected javax.swing.JTextField cantidad2TxtField;
-    protected javax.swing.JTextField cantidad3TxtField;
-    protected javax.swing.JTextField cantidad4TxtField;
-    private javax.swing.JLabel cantidadTituloLabel;
-    private javax.swing.JPanel clientePanel;
-    private javax.swing.JLabel clienteTitulolbl;
-    protected javax.swing.JTextField codigoPostalClienteTxtField;
-    private javax.swing.JLabel codigoPostalClientelbl;
-    protected javax.swing.JTextField concepto1TxtField;
-    protected javax.swing.JTextField concepto2TxtField;
-    protected javax.swing.JTextField concepto3TxtField;
-    protected javax.swing.JTextField concepto4TxtField;
-    private javax.swing.JPanel conceptosPanel;
-    private javax.swing.JLabel conceptosTituloLabel;
-    private javax.swing.JPanel datosClientePanel;
-    private javax.swing.JPanel datosFacturaCuerpoPanel;
-    private javax.swing.JPanel datosFacturaTitulolbl;
-    private javax.swing.JButton descargarFacturaBtn;
-    protected javax.swing.JTextField diasParaPagoTxtField;
-    private javax.swing.JLabel diasParaPagolbl;
-    protected javax.swing.JTextField direccionClienteTxtField;
-    private javax.swing.JLabel direccionClientelbl;
-    private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JPanel facturaPanel;
-    private javax.swing.JPanel facturacionPanel;
-    private javax.swing.JPanel facturacionTituloPanel;
-    private javax.swing.JLabel facturacionTitulolbl;
-    protected javax.swing.JTextField fechaEmisionTxtField;
-    private javax.swing.JLabel fechaEmisionlbl;
-    protected javax.swing.JTextField fechaVencimientoTxtField;
-    private javax.swing.JLabel fechaVencimientolbl;
-    private javax.swing.JMenu fileMenu;
-    protected javax.swing.JComboBox<String> formaPagoComboBox;
-    private javax.swing.JLabel formaPagolbl;
-    protected javax.swing.JTextField idiomaDestino1TxtField;
-    protected javax.swing.JTextField idiomaDestino2TxtField;
-    protected javax.swing.JTextField idiomaDestino3TxtField;
-    protected javax.swing.JTextField idiomaDestino4TxtField;
-    private javax.swing.JLabel idiomaDestinoTituloLabel;
-    protected javax.swing.JTextField idiomaOrigen1TxtField;
-    protected javax.swing.JTextField idiomaOrigen2TxtField;
-    protected javax.swing.JTextField idiomaOrigen3TxtField;
-    protected javax.swing.JTextField idiomaOrigen4TxtField;
-    private javax.swing.JLabel idiomaOrigenTituloLabel;
-    protected javax.swing.JComboBox<String> item1ComboBox;
-    protected javax.swing.JComboBox<String> item2ComboBox;
-    protected javax.swing.JComboBox<String> item3ComboBox;
-    protected javax.swing.JComboBox<String> item4ComboBox;
-    private javax.swing.JLabel jLabel1;
-    protected javax.swing.JPanel jPanel;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JMenuBar menuBar;
-    private javax.swing.JPanel msgContainerPanel;
-    protected javax.swing.JLabel msgLbl;
-    private javax.swing.JPanel msgPanel;
-    protected javax.swing.JTextField nifClienteTxtField;
-    private javax.swing.JLabel nifClientelbl;
-    protected javax.swing.JButton nombreClienteSearchBtn;
-    protected javax.swing.JTextField nombreClienteTxtField;
-    private javax.swing.JLabel nombreClientelbl;
-    protected javax.swing.JTextField numeroClienteTxtField;
-    protected javax.swing.JTextField numeroFraTxtField;
-    private javax.swing.JLabel numeroFralbl;
-    private javax.swing.JMenuItem openMenuItem;
-    protected javax.swing.JTextField precio1TxtField;
-    protected javax.swing.JTextField precio2TxtField;
-    protected javax.swing.JTextField precio3TxtField;
-    protected javax.swing.JTextField precio4TxtField;
-    private javax.swing.JLabel precioTituloLabel;
-    protected javax.swing.JButton previewFacturaBtn;
-    protected javax.swing.JButton registrarFacturaBtn;
-    protected javax.swing.JTextField totalImporte1TxtField;
-    protected javax.swing.JTextField totalImporte2TxtField;
-    protected javax.swing.JTextField totalImporte3TxtField;
-    protected javax.swing.JTextField totalImporte4TxtField;
-    private javax.swing.JLabel totalImporteTituloLabel;
-    protected javax.swing.JToggleButton verificarFichaBtn;
+    public javax.swing.JLabel TipoTituloLabel;
+    public javax.swing.JPanel buttonsPanel;
+    public javax.swing.JTextField cantidad1TxtField;
+    public javax.swing.JTextField cantidad2TxtField;
+    public javax.swing.JTextField cantidad3TxtField;
+    public javax.swing.JTextField cantidad4TxtField;
+    public javax.swing.JLabel cantidadTituloLabel;
+    public javax.swing.JPanel clientePanel;
+    public javax.swing.JLabel clienteTitulolbl;
+    public javax.swing.JTextField codigoPostalClienteTxtField;
+    public javax.swing.JLabel codigoPostalClientelbl;
+    public javax.swing.JTextField concepto1TxtField;
+    public javax.swing.JTextField concepto2TxtField;
+    public javax.swing.JTextField concepto3TxtField;
+    public javax.swing.JTextField concepto4TxtField;
+    public javax.swing.JPanel conceptosPanel;
+    public javax.swing.JLabel conceptosTituloLabel;
+    public javax.swing.JPanel datosClientePanel;
+    public javax.swing.JPanel datosFacturaCuerpoPanel;
+    public javax.swing.JPanel datosFacturaTitulolbl;
+    public javax.swing.JButton descargarFacturaBtn;
+    public javax.swing.JTextField diasParaPagoTxtField;
+    public javax.swing.JLabel diasParaPagolbl;
+    public javax.swing.JTextField direccionClienteTxtField;
+    public javax.swing.JLabel direccionClientelbl;
+    public javax.swing.JMenuItem exitMenuItem;
+    public javax.swing.JPanel facturaPanel;
+    public javax.swing.JPanel facturacionPanel;
+    public javax.swing.JPanel facturacionTituloPanel;
+    public javax.swing.JLabel facturacionTitulolbl;
+    public javax.swing.JTextField fechaEmisionTxtField;
+    public javax.swing.JLabel fechaEmisionlbl;
+    public javax.swing.JTextField fechaVencimientoTxtField;
+    public javax.swing.JLabel fechaVencimientolbl;
+    public javax.swing.JMenu fileMenu;
+    public javax.swing.JComboBox<String> formaPagoComboBox;
+    public javax.swing.JLabel formaPagolbl;
+    public javax.swing.JTextField idiomaDestino1TxtField;
+    public javax.swing.JTextField idiomaDestino2TxtField;
+    public javax.swing.JTextField idiomaDestino3TxtField;
+    public javax.swing.JTextField idiomaDestino4TxtField;
+    public javax.swing.JLabel idiomaDestinoTituloLabel;
+    public javax.swing.JTextField idiomaOrigen1TxtField;
+    public javax.swing.JTextField idiomaOrigen2TxtField;
+    public javax.swing.JTextField idiomaOrigen3TxtField;
+    public javax.swing.JTextField idiomaOrigen4TxtField;
+    public javax.swing.JLabel idiomaOrigenTituloLabel;
+    public javax.swing.JComboBox<String> item1ComboBox;
+    public javax.swing.JComboBox<String> item2ComboBox;
+    public javax.swing.JComboBox<String> item3ComboBox;
+    public javax.swing.JComboBox<String> item4ComboBox;
+    public javax.swing.JLabel jLabel1;
+    public javax.swing.JPanel jPanel;
+    public javax.swing.JPanel jPanel2;
+    public javax.swing.JPanel jPanel3;
+    public javax.swing.JPanel jPanel4;
+    public javax.swing.JPanel jPanel5;
+    public javax.swing.JMenuBar menuBar;
+    public javax.swing.JPanel msgContainerPanel;
+    public javax.swing.JLabel msgLbl;
+    public javax.swing.JPanel msgPanel;
+    public javax.swing.JTextField nifClienteTxtField;
+    public javax.swing.JLabel nifClientelbl;
+    public javax.swing.JButton nombreClienteSearchBtn;
+    public javax.swing.JTextField nombreClienteTxtField;
+    public javax.swing.JLabel nombreClientelbl;
+    public javax.swing.JTextField numeroClienteTxtField;
+    public javax.swing.JTextField numeroFraTxtField;
+    public javax.swing.JLabel numeroFralbl;
+    public javax.swing.JMenuItem openMenuItem;
+    public javax.swing.JTextField precio1TxtField;
+    public javax.swing.JTextField precio2TxtField;
+    public javax.swing.JTextField precio3TxtField;
+    public javax.swing.JTextField precio4TxtField;
+    public javax.swing.JLabel precioTituloLabel;
+    public javax.swing.JButton previewFacturaBtn;
+    public javax.swing.JButton registrarFacturaBtn;
+    public javax.swing.JTextField totalImporte1TxtField;
+    public javax.swing.JTextField totalImporte2TxtField;
+    public javax.swing.JTextField totalImporte3TxtField;
+    public javax.swing.JTextField totalImporte4TxtField;
+    public javax.swing.JLabel totalImporteTituloLabel;
+    public javax.swing.JToggleButton verificarFichaBtn;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -1,7 +1,8 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.view;
 
 import java.awt.event.KeyEvent;
+import jud.gestorfacturas.gui.controller.ModificarClienteController;
 
 public class ModificarClienteView extends javax.swing.JFrame {
 
@@ -51,7 +52,6 @@ public class ModificarClienteView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear y actualizar clientes");
         setMinimumSize(new java.awt.Dimension(620, 250));
-        setPreferredSize(new java.awt.Dimension(620, 250));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -361,69 +361,10 @@ public class ModificarClienteView extends javax.swing.JFrame {
         controller.returnControlToSource();
     }//GEN-LAST:event_formWindowClosing
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModificarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModificarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModificarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModificarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new ClientesView().setVisible(true);
-//            }
-//        });
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new NuevoClienteView().setVisible(true);
-//            }
-//        });
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new ClientesView().setVisible(true);
-//            }
-//        });
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new NuevoClienteView().setVisible(true);
-//            }
-//        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JButton actualizarBtn;
-    protected javax.swing.JTextField codigoPostalTxtField;
-    protected javax.swing.JTextField direccionTxtField;
+    public javax.swing.JButton actualizarBtn;
+    public javax.swing.JTextField codigoPostalTxtField;
+    public javax.swing.JTextField direccionTxtField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -439,12 +380,12 @@ public class ModificarClienteView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    protected javax.swing.JTextField nifTxtField;
-    protected javax.swing.JButton nombreClienteSearchBtn;
-    protected javax.swing.JTextField nombreTxtField;
-    protected javax.swing.JTextField numeroClienteTxtField;
-    protected javax.swing.JButton resetClienteBtn;
-    protected javax.swing.JTextField stateTxtField;
-    protected javax.swing.JButton switchEstadoClienteBtn;
+    public javax.swing.JTextField nifTxtField;
+    public javax.swing.JButton nombreClienteSearchBtn;
+    public javax.swing.JTextField nombreTxtField;
+    public javax.swing.JTextField numeroClienteTxtField;
+    public javax.swing.JButton resetClienteBtn;
+    public javax.swing.JTextField stateTxtField;
+    public javax.swing.JButton switchEstadoClienteBtn;
     // End of variables declaration//GEN-END:variables
 }

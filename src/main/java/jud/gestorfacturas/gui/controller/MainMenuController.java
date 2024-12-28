@@ -1,6 +1,7 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.controller;
 
+import jud.gestorfacturas.gui.view.MainMenuView;
 import javax.swing.JButton;
 
 public class MainMenuController implements Controller {

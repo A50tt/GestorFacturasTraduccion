@@ -1,5 +1,6 @@
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.controller;
 
+import jud.gestorfacturas.gui.view.FacturaView;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Component;
@@ -38,10 +39,10 @@ public class FacturaController implements Controller {
     Utils utils = new Utils();
     protected int fichaEsCorrecta = 0; // -1 si es INCORRECTA, 0 si es NEUTRAL, 1 si es CORRECTA
 
-    Color DEFAULT_BG_COLOR = Color.white;
-    Color ERROR_BG_COLOR = Color.red;
-    String[] TIPOS_UNIDAD = {"", "Clip", "Hora", "Minuto", "Palabra"};
-    String[] FORMAS_PAGO = {"", "Transferencia Bancaria", "Cheque"};
+    public Color DEFAULT_BG_COLOR = Color.white;
+    public Color ERROR_BG_COLOR = Color.red;
+    public String[] TIPOS_UNIDAD = {"", "Clip", "Hora", "Minuto", "Palabra"};
+    public String[] FORMAS_PAGO = {"", "Transferencia Bancaria", "Cheque"};
 
     private Controller sourceController;
     private FacturaView view;
@@ -165,7 +166,7 @@ public class FacturaController implements Controller {
         setBackgroundColorToAllComponents(jPanel, DEFAULT_BG_COLOR);
     }
 
-    protected void setBackgroundColorToAllComponents(Component comp, Color color) {
+    public void setBackgroundColorToAllComponents(Component comp, Color color) {
         if (comp instanceof JPanel) {
             for (Component newComp : ((JPanel) comp).getComponents()) {
                 setBackgroundColorToAllComponents(newComp, color);
@@ -175,7 +176,7 @@ public class FacturaController implements Controller {
         }
     }
 
-    protected void calculaFechaVencimiento(javax.swing.JTextField fechaEmision, javax.swing.JTextField diasSumar, javax.swing.JTextField fechaVencimiento) {
+    public void calculaFechaVencimiento(javax.swing.JTextField fechaEmision, javax.swing.JTextField diasSumar, javax.swing.JTextField fechaVencimiento) {
         if (!fechaEmision.getText().isEmpty()) {
             try {
                 Date fechaEmisionDate = utils.convertStringToDate(fechaEmision.getText());
@@ -195,7 +196,7 @@ public class FacturaController implements Controller {
 
     //Este método no está actualmente en uso.
     //Sirve para actualizar el campo de texto Concepto en caso de que se quiere verificar el formate dado el evento KeyRelease
-    protected void verificaConceptosServicio(javax.swing.JTextField concepto, javax.swing.JTextField cantidad, javax.swing.JTextField precio) {
+    public void verificaConceptosServicio(javax.swing.JTextField concepto, javax.swing.JTextField cantidad, javax.swing.JTextField precio) {
         if (concepto.getText().isEmpty() && cantidad.getText().isEmpty() && precio.getText().isEmpty()) {
             setDefaultBackground(concepto);
         } else if (concepto.getText().isEmpty() && (cantidad.getText().isEmpty() || precio.getText().isEmpty())) {
@@ -206,7 +207,7 @@ public class FacturaController implements Controller {
         }
     }
     
-    protected void actualizaStatusFicha() {
+    public void actualizaStatusFicha() {
         switch (this.fichaEsCorrecta) {
             case -1:
                 setKOStatus();
@@ -220,7 +221,7 @@ public class FacturaController implements Controller {
         }
     }
 
-    protected void disableAllEditables() {
+    public void disableAllEditables() {
         numeroFraTxtField.setEditable(false);
         fechaEmisionTxtField.setEditable(false);
         diasParaPagoTxtField.setEditable(false);
@@ -265,7 +266,7 @@ public class FacturaController implements Controller {
         registrarFacturaBtn.setEnabled(true);
     }
 
-    protected void enableAllEditables() {
+    public void enableAllEditables() {
         numeroFraTxtField.setEditable(true);
         fechaEmisionTxtField.setEditable(true);
         diasParaPagoTxtField.setEditable(true);
@@ -310,7 +311,7 @@ public class FacturaController implements Controller {
         registrarFacturaBtn.setEnabled(false);
     }
 
-    protected Factura extraeDatosYGeneraFactura() {
+    public Factura extraeDatosYGeneraFactura() {
         String numFra = numeroFraTxtField.getText();
         Date fechaEmision = utils.convertStringToDate(fechaEmisionTxtField.getText());
         int diasPago = Integer.valueOf(diasParaPagoTxtField.getText());
@@ -352,7 +353,7 @@ public class FacturaController implements Controller {
         return new Factura(numFra, fechaEmision, diasPago, formaPago, cliente, emisor, servicios);
     }
 
-    protected File createTempPDF(Factura factura) {
+    public File createTempPDF(Factura factura) {
         try {
             File file = File.createTempFile("invoice_" + factura.getNumFactura(), ".pdf");
             PDFGenerator pdfGen = new PDFGenerator(file.getName());
@@ -365,7 +366,7 @@ public class FacturaController implements Controller {
         }
     }
     
-    protected File guardaFactura(Factura factura) {
+    public File guardaFactura(Factura factura) {
         File file = new File(utils.INVOICES_DIRECTORY + factura.getNumFactura() + ".pdf");
         PDFGenerator pdfGen = new PDFGenerator(file);
         PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file);
@@ -378,7 +379,7 @@ public class FacturaController implements Controller {
         }
     }
     
-    protected void openFile(File file) {
+    public void openFile(File file) {
         try {
             if (file == null) {
                 throw new NullPointerException();
@@ -393,7 +394,7 @@ public class FacturaController implements Controller {
         }
     }
 
-    protected boolean verificaEntradaDatos() {
+    public boolean verificaEntradaDatos() {
         boolean isCorrect = true;
 
         //NUM FACTURA
@@ -556,39 +557,39 @@ public class FacturaController implements Controller {
         return isCorrect;
     }
 
-    protected void setOKStatus() {
+    public void setOKStatus() {
         setSVGIcon(msgLbl, utils.OK_FLATSVGICON);
     }
 
-    protected void setKOStatus() {
+    public void setKOStatus() {
         setSVGIcon(msgLbl, utils.KO_FLATSVGICON);
     }
 
-    protected void setStandbyStatus() {
+    public void setStandbyStatus() {
         setSVGIcon(msgLbl, utils.STANDBY_FLATSVGICON);
     }
 
-    protected void setDisabledBackground(JComponent comp) {
+    public void setDisabledBackground(JComponent comp) {
         ((JComponent) comp).setBackground(new Color(238, 238, 238));
     }
 
-    protected void setErrorBackground(JComponent comp) {
+    public void setErrorBackground(JComponent comp) {
         ((JComponent) comp).setBackground(Color.red);
     }
 
-    protected void setDefaultBackground(JComponent comp) {
+    public void setDefaultBackground(JComponent comp) {
         ((JComponent) comp).setBackground(Color.white);
     }
 
-    protected void setSVGIcon(javax.swing.JLabel label, FlatSVGIcon icon) {
+    public void setSVGIcon(javax.swing.JLabel label, FlatSVGIcon icon) {
         label.setIcon(icon);
     }
 
-    protected void setSVGIcon(javax.swing.JButton button, File icon) {
+    public void setSVGIcon(javax.swing.JButton button, File icon) {
         button.setIcon(new FlatSVGIcon(icon));
     }
 
-    protected void calculaPrecioServicio(javax.swing.JTextField txt1, javax.swing.JTextField txt2, javax.swing.JTextField txtTotal) {
+    public void calculaPrecioServicio(javax.swing.JTextField txt1, javax.swing.JTextField txt2, javax.swing.JTextField txtTotal) {
         try {
             if (!txt1.getText().isEmpty()) {
                 Double d1 = Double.valueOf(txt1.getText().replace(",", "."));
@@ -676,7 +677,7 @@ public class FacturaController implements Controller {
         }
     }
 
-    protected void cargaDatosDeNumeroCliente() {
+    public void cargaDatosDeNumeroCliente() {
         DBUtils dbUtils = new DBUtils();
         Cliente cliente = dbUtils.getClienteById(numeroClienteTxtField.getText());
         if (cliente.isActivado()) {
@@ -709,7 +710,7 @@ public class FacturaController implements Controller {
         cargaDatosDeNumeroCliente();
     }
 
-    protected void abrirClienteLookupFrame() {
+    public void abrirClienteLookupFrame() {
         ClienteLookupController clc = new ClienteLookupController(this, true);
     }
     

@@ -1,6 +1,7 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.controller;
 
+import jud.gestorfacturas.gui.view.ModificarEmisorView;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
@@ -35,7 +36,7 @@ public class ModificarEmisorController implements Controller {
         cargaDatosEmisor();
     }
     
-    protected void cargaDatosEmisor() {
+    public void cargaDatosEmisor() {
         DBUtils dbUtils = new DBUtils();
         Emisor emisor = dbUtils.getUnicoEmisor();
         if (emisor != null && emisor.getNif() != null) {
@@ -54,7 +55,7 @@ public class ModificarEmisorController implements Controller {
         }
     }
 
-    protected void actualizaEmisor() {
+    public void actualizaEmisor() {
         DBUtils dbUtils = new DBUtils();
 
         Emisor emisorDB = dbUtils.getUnicoEmisor();

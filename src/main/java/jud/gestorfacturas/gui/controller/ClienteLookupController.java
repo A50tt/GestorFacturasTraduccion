@@ -1,5 +1,6 @@
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.controller;
 
+import jud.gestorfacturas.gui.view.ClienteLookupView;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -88,13 +89,13 @@ public class ClienteLookupController {
         return null;
     }
     
-    protected void lookupAllClientes() {
+    public void lookupAllClientes() {
         List listaClientesFiltrados = dbUtils.getTodosClientes();
         deleteAllClientesRows();
         addClientesRows(listaClientesFiltrados);
     }
 
-    protected void deleteAllClientesRows() {
+    public void deleteAllClientesRows() {
         if (resultadosTable != null) {
             int rowsAlready = ((DefaultTableModel) resultadosTable.getModel()).getRowCount();
             for (int i = 0; i < rowsAlready; i++) {
@@ -103,7 +104,7 @@ public class ClienteLookupController {
         }
     }
 
-    protected void addClientesRows(List listaClientesFiltrados) {
+    public void addClientesRows(List listaClientesFiltrados) {
         for (int i = 0; i < listaClientesFiltrados.size(); i++) {
             Object[] cliente = ((Object[])listaClientesFiltrados.get(i));
             int id = (Integer) cliente[0];
@@ -116,7 +117,7 @@ public class ClienteLookupController {
         }
     }
 
-    protected void lookupClientes() {
+    public void lookupClientes() {
         String valor = view.inputTextField.getText();
         if (valor.contains("*")) {
             valor = valor.replace("*", "%");
@@ -138,11 +139,11 @@ public class ClienteLookupController {
         addClientesRows(listaClientesFiltrados);
     }
     
-    protected void showDebugMsg(String msg) {
+    public void showDebugMsg(String msg) {
         showMessageDialog(null, msg, "DEBUG", JOptionPane.PLAIN_MESSAGE);
     }
   
-    protected void returnClienteToSource(int row) {
+    public void returnClienteToSource(int row) {
         
         if (checkIfClienteIsActivado) {
             if (view.resultadosTable.getModel().getValueAt(row, 5).toString().equals("Activado")) {

@@ -1,6 +1,7 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.controller;
 
+import jud.gestorfacturas.gui.view.ModificarClienteView;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -51,7 +52,7 @@ public class ModificarClienteController implements Controller {
     resetClienteBtn.setIcon(utils.REDO_FLATSVGICON);
     }
     
-    protected void cargaDatosDeNumeroCliente() {
+    public void cargaDatosDeNumeroCliente() {
         DBUtils dbUtils = new DBUtils();
         Cliente cliente = dbUtils.getClienteById(numeroClienteTxtField.getText());
         if (cliente != null && cliente.getNif() != null) {
@@ -79,7 +80,7 @@ public class ModificarClienteController implements Controller {
         }
     }
 
-    protected void actualizaCliente () {
+    public void actualizaCliente () {
         DBUtils dbUtils = new DBUtils();
         
         String nifOldCliente = (nifTxtField.getText() == null) ? null : nifTxtField.getText();
@@ -101,7 +102,7 @@ public class ModificarClienteController implements Controller {
         }
     }
     
-    protected void reiniciarCamposEditables() {
+    public void reiniciarCamposEditables() {
         numeroClienteTxtField.setText(null);
         numeroClienteTxtField.setEditable(true);
         
@@ -119,7 +120,7 @@ public class ModificarClienteController implements Controller {
         stateTxtField.setText(null);
     }
     
-    protected void switchEstadoCliente() {
+    public void switchEstadoCliente() {
         boolean orden;
         DBUtils dbUtils = new DBUtils();
         
@@ -161,7 +162,7 @@ public class ModificarClienteController implements Controller {
         cargaDatosDeNumeroCliente();
     }
  
-    protected void abrirClienteLookupFrame() {
+    public void abrirClienteLookupFrame() {
         ClienteLookupController clc = new ClienteLookupController(this, false);
     }
 

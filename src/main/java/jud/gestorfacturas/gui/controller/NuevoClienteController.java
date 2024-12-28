@@ -1,6 +1,7 @@
 
-package jud.gestorfacturas.gui;
+package jud.gestorfacturas.gui.controller;
 
+import jud.gestorfacturas.gui.view.NuevoClienteView;
 import java.awt.Color;
 import java.time.LocalDateTime;
 import javax.swing.JButton;
@@ -44,7 +45,7 @@ public class NuevoClienteController implements Controller {
     nombreTxtField = view.nombreTxtField;
     }
     
-    protected boolean verificarCamposCorrectos() {
+    public boolean verificarCamposCorrectos() {
         boolean isCorrect = true;
         boolean faltaInfoOpcional = false;
         if (nifTxtField.getText().isEmpty()) {
@@ -86,7 +87,7 @@ public class NuevoClienteController implements Controller {
         return isCorrect;
     }
     
-    protected Cliente generaCliente() {
+    public Cliente generaCliente() {
         DBUtils dbUtils = new DBUtils();
         String nombreCliente = nombreTxtField.getText();
         String direccionCliente = direccionTxtField.getText();
@@ -97,7 +98,7 @@ public class NuevoClienteController implements Controller {
         return cliente;
     }
     
-    protected void registraCliente(Cliente cliente) {
+    public void registraCliente(Cliente cliente) {
         DBUtils dbUtils = new DBUtils();
         
         if (!dbUtils.clienteExists(cliente)) {
@@ -111,15 +112,15 @@ public class NuevoClienteController implements Controller {
         }
     }
 
-    protected void setDisabledBackground(JComponent comp) {
+    public void setDisabledBackground(JComponent comp) {
         ((JComponent) comp).setBackground(new Color(238, 238, 238));
     }
 
-    protected void setErrorBackground(JComponent comp) {
+    public void setErrorBackground(JComponent comp) {
         ((JComponent) comp).setBackground(Color.red);
     }
 
-    protected void setDefaultBackground(JComponent comp) {
+    public void setDefaultBackground(JComponent comp) {
         ((JComponent) comp).setBackground(Color.white);
     }
 
