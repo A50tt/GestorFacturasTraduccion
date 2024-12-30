@@ -1,6 +1,7 @@
 
 package jud.gestorfacturas.gui.view;
 
+import jud.gestorfacturas.gui.controller.ConfigurationController;
 import jud.gestorfacturas.gui.controller.FacturaController;
 import jud.gestorfacturas.gui.controller.InvoiceLookupController;
 import jud.gestorfacturas.gui.controller.MainMenuController;
@@ -33,11 +34,13 @@ public class MainMenuView extends javax.swing.JFrame {
         crearClienteBtn = new javax.swing.JButton();
         datosPropiosBtn = new javax.swing.JButton();
         listarFacturasBtn = new javax.swing.JButton();
+        configBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú principal");
         setPreferredSize(new java.awt.Dimension(300, 240));
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         crearFacturaBtn.setText("Crear factura");
@@ -106,6 +109,20 @@ public class MainMenuView extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(listarFacturasBtn, gridBagConstraints);
 
+        configBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                configBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        jPanel1.add(configBtn, gridBagConstraints);
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -136,7 +153,13 @@ public class MainMenuView extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_listarFacturasBtnActionPerformed
 
+    private void configBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configBtnActionPerformed
+        ConfigurationController cc = new ConfigurationController(controller);
+        this.setVisible(false);
+    }//GEN-LAST:event_configBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton configBtn;
     public javax.swing.JButton crearClienteBtn;
     public javax.swing.JButton crearFacturaBtn;
     public javax.swing.JButton datosPropiosBtn;

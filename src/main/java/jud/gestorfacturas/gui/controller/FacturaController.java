@@ -117,7 +117,7 @@ public class FacturaController implements Controller {
         formaPagoComboBox = view.formaPagoComboBox;
 
         nombreClienteSearchBtn = view.nombreClienteSearchBtn;
-        nombreClienteSearchBtn.setIcon(utils.SEARCH_FLATSVGICON);
+        nombreClienteSearchBtn.setIcon(FrameUtils.SEARCH_FLATSVGICON);
         numeroClienteTxtField = view.numeroClienteTxtField;
         nombreClienteTxtField = view.nombreClienteTxtField;
         nifClienteTxtField = view.nifClienteTxtField;
@@ -369,7 +369,7 @@ public class FacturaController implements Controller {
     }
 
     public File guardaFactura(Factura factura) {
-        File file = new File(utils.INVOICES_DIRECTORY + factura.getNumFactura() + ".pdf");
+        File file = new File(PDFGenerator.INVOICES_DIRECTORY + factura.getNumFactura() + ".pdf");
         PDFGenerator pdfGen = new PDFGenerator(file);
         PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file);
         try {
@@ -559,15 +559,15 @@ public class FacturaController implements Controller {
     }
 
     public void setOKStatus() {
-        setSVGIcon(msgLbl, utils.OK_FLATSVGICON);
+        setSVGIcon(msgLbl, FrameUtils.OK_FLATSVGICON);
     }
 
     public void setKOStatus() {
-        setSVGIcon(msgLbl, utils.KO_FLATSVGICON);
+        setSVGIcon(msgLbl, FrameUtils.KO_FLATSVGICON);
     }
 
     public void setStandbyStatus() {
-        setSVGIcon(msgLbl, utils.STANDBY_FLATSVGICON);
+        setSVGIcon(msgLbl, FrameUtils.STANDBY_FLATSVGICON);
     }
 
     public void setDisabledBackground(JComponent comp) {
@@ -643,7 +643,7 @@ public class FacturaController implements Controller {
 
     public void gestionaToggleButtonVerificarDatos(java.awt.event.ItemEvent evt) {
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            if (msgLbl.getIcon().equals(utils.STANDBY_FLATSVGICON)) {
+            if (msgLbl.getIcon().equals(FrameUtils.STANDBY_FLATSVGICON)) {
                 if (verificaEntradaDatos()) {
                     disableAllEditables();
                 } else {
@@ -651,7 +651,7 @@ public class FacturaController implements Controller {
                     actualizaStatusFicha();
                     verificarFichaBtn.setSelected(false);
                 }
-            } else if (msgLbl.getIcon().equals(utils.KO_FLATSVGICON)) {
+            } else if (msgLbl.getIcon().equals(FrameUtils.KO_FLATSVGICON)) {
                 if (verificaEntradaDatos()) {
                     fichaEsCorrecta = 1;
                     actualizaStatusFicha();
@@ -659,18 +659,18 @@ public class FacturaController implements Controller {
                 } else {
                     verificarFichaBtn.setSelected(false);
                 }
-            } else if (msgLbl.getIcon().equals(utils.OK_FLATSVGICON)) {
+            } else if (msgLbl.getIcon().equals(FrameUtils.OK_FLATSVGICON)) {
 
             }
         } else if (evt.getStateChange() == ItemEvent.DESELECTED) {
-            if (msgLbl.getIcon().equals(utils.STANDBY_FLATSVGICON)) {
+            if (msgLbl.getIcon().equals(FrameUtils.STANDBY_FLATSVGICON)) {
                 //NO DEBERÍA OCURRIR NUNCA...
                 FrameUtils.showErrorMessage("VAYA...", "El error que nunca debia ocurrir ha ocurrido. Avísame y coméntame lo que ha pasado.");
-            } else if (msgLbl.getIcon().equals(utils.KO_FLATSVGICON)) {
+            } else if (msgLbl.getIcon().equals(FrameUtils.KO_FLATSVGICON)) {
                 if (fichaEsCorrecta != -1) {
                     enableAllEditables();
                 }
-            } else if (msgLbl.getIcon().equals(utils.OK_FLATSVGICON)) {
+            } else if (msgLbl.getIcon().equals(FrameUtils.OK_FLATSVGICON)) {
                 fichaEsCorrecta = 0;
                 actualizaStatusFicha();
                 enableAllEditables();

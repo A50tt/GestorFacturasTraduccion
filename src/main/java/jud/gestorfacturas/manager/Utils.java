@@ -1,8 +1,6 @@
 
 package jud.gestorfacturas.manager;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.io.File;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.DateFormat;
@@ -10,23 +8,12 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class Utils {
-
-    public String RESOURCES_DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\resources\\";
-    public String IMAGES_DIRECTORY = RESOURCES_DIRECTORY + "img\\";
-    public String INVOICES_DIRECTORY = RESOURCES_DIRECTORY + "invoices\\";
-    public FlatSVGIcon SEARCH_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "busqueda_black_icon.svg"));
-    public FlatSVGIcon REDO_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "redo_black_icon.svg"));
-    public FlatSVGIcon OK_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "ok_status_icon.svg"));
-    public FlatSVGIcon KO_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "ko_status_icon.svg"));
-    public FlatSVGIcon STANDBY_FLATSVGICON = new FlatSVGIcon(new File(IMAGES_DIRECTORY + "standby_status_icon.svg"));
 
     public Utils() {
 

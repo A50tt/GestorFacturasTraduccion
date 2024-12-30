@@ -43,11 +43,11 @@ public class ModificarClienteController implements Controller {
     direccionTxtField = view.direccionTxtField;
     nifTxtField = view.nifTxtField;
     nombreClienteSearchBtn = view.nombreClienteSearchBtn;
-    nombreClienteSearchBtn.setIcon(utils.SEARCH_FLATSVGICON);
+    nombreClienteSearchBtn.setIcon(FrameUtils.SEARCH_FLATSVGICON);
     nombreTxtField = view.nombreTxtField;
     stateTxtField = view.stateTxtField;
     resetClienteBtn = view.resetClienteBtn;
-    resetClienteBtn.setIcon(utils.REDO_FLATSVGICON);
+    resetClienteBtn.setIcon(FrameUtils.REDO_FLATSVGICON);
     }
     
     public void cargaDatosDeNumeroCliente() {

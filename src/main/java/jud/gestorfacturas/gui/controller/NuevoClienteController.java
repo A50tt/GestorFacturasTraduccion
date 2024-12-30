@@ -67,8 +67,7 @@ public class NuevoClienteController implements Controller {
         }
         
         if (isCorrect && faltaInfoOpcional) {
-            int input = JOptionPane.showOptionDialog(null, "Faltan campos opcionales por completar. ¿Continuar?", "Campos incompletos", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, RESPUESTAS_MSGBOX_FALTAN_OPCIONALES, null);
-            //showInfoMessage("Faltan campos opcionales" ,"No todos los campos han sido completados. ¿Proceder?");
+            int input = FrameUtils.showQuestionBox("Campos incompletos", "Faltan campos opcionales por completar. ¿Continuar?");
             if (input == 1) { //0 si ok, 1 si cancel
                 if (direccionTxtField.getText().isEmpty()) {
                     isCorrect = false;
@@ -104,7 +103,7 @@ public class NuevoClienteController implements Controller {
             dbUtils.getEntityManager().getTransaction().begin();
             dbUtils.mergeIntoDB(cliente);
             dbUtils.getEntityManager().getTransaction().commit();
-            FrameUtils.showInfoMessage("Éxito", "El cliente ha sido registrado correctamente.");
+            FrameUtils.showInfoMessage("Éxito", "El cliente ha sido registrado correctamente. Cliente n.º " + cliente.getId() + ".");
         } else {
             LocalDateTime ts = dbUtils.getTimestampCliente(cliente).toLocalDateTime();
             FrameUtils.showErrorMessage("ERROR", "El NIF '" + cliente.getNif() + "' ya fue registrado el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%02d", ts.getMinute()) + "h. Pertenece al cliente número '" + cliente.getId() + "'.");

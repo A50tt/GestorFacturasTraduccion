@@ -3,6 +3,7 @@ package jud.gestorfacturas.gui.controller;
 
 import jud.gestorfacturas.gui.view.MainMenuView;
 import javax.swing.JButton;
+import jud.gestorfacturas.manager.FrameUtils;
 
 public class MainMenuController implements Controller {
     
@@ -13,6 +14,7 @@ public class MainMenuController implements Controller {
     JButton crearClienteBtn;
     JButton modificarClienteBtn;
     JButton datosPropiosBtn;
+    JButton configBtn;
     
     public MainMenuController() {
         view = new MainMenuView(this);
@@ -32,6 +34,8 @@ public class MainMenuController implements Controller {
         crearClienteBtn = view.crearClienteBtn;
         modificarClienteBtn = view.modificarClienteBtn;
         datosPropiosBtn = view.datosPropiosBtn;
+        configBtn = view.configBtn;
+        configBtn.setIcon(FrameUtils.CONFIG_FLATSVGICON);
     }
 
     @Override

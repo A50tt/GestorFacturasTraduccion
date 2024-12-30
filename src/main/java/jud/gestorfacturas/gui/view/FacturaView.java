@@ -149,7 +149,6 @@ public class FacturaView extends javax.swing.JFrame {
         datosFacturaCuerpoPanel.add(numeroFralbl, gridBagConstraints);
         numeroFralbl.getAccessibleContext().setAccessibleDescription("");
 
-        numeroFraTxtField.setText("2024-12-20");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -166,7 +165,6 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         datosFacturaCuerpoPanel.add(fechaEmisionlbl, gridBagConstraints);
 
-        fechaEmisionTxtField.setText("20-12-2024");
         fechaEmisionTxtField.setToolTipText("Son válidos cualquiera de los siguientes formatos:\ndd/MM/yyyy\ndd-MM-yyyy\ndd/MM/yy\ndd-MM-yy\nddMMyyyy\nddMMyy");
         fechaEmisionTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -187,7 +185,6 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         datosFacturaCuerpoPanel.add(diasParaPagolbl, gridBagConstraints);
 
-        diasParaPagoTxtField.setText("30");
         diasParaPagoTxtField.setToolTipText("Ha de ser un número entero");
         diasParaPagoTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -210,7 +207,6 @@ public class FacturaView extends javax.swing.JFrame {
         datosFacturaCuerpoPanel.add(fechaVencimientolbl, gridBagConstraints);
 
         fechaVencimientoTxtField.setEditable(false);
-        fechaVencimientoTxtField.setText("19-01-2025");
         fechaVencimientoTxtField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         fechaVencimientoTxtField.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -477,8 +473,6 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.weightx = 0.3;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         conceptosPanel.add(totalImporteTituloLabel, gridBagConstraints);
-
-        concepto1TxtField.setText("Concepto 1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -486,7 +480,6 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(concepto1TxtField, gridBagConstraints);
 
-        cantidad1TxtField.setText("6,50");
         cantidad1TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
         cantidad1TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -500,7 +493,6 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(cantidad1TxtField, gridBagConstraints);
 
-        precio1TxtField.setText("200");
         precio1TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
         precio1TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -515,7 +507,6 @@ public class FacturaView extends javax.swing.JFrame {
         conceptosPanel.add(precio1TxtField, gridBagConstraints);
 
         totalImporte1TxtField.setEditable(false);
-        totalImporte1TxtField.setText("1300,00");
         totalImporte1TxtField.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -656,8 +647,6 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         conceptosPanel.add(idiomaOrigenTituloLabel, gridBagConstraints);
-
-        idiomaOrigen1TxtField.setText("ES");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -693,7 +682,6 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         conceptosPanel.add(idiomaDestinoTituloLabel, gridBagConstraints);
 
-        idiomaDestino1TxtField.setText("EN");
         idiomaDestino1TxtField.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;

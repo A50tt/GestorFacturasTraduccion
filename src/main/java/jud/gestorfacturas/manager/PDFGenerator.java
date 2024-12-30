@@ -1,5 +1,6 @@
 package jud.gestorfacturas.manager;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +19,11 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 public final class PDFGenerator {
 
-    public String RESOURCE_DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\resources\\";
-    public String IMAGES_DIRECTORY = RESOURCE_DIRECTORY + "img\\";
+    public static String RESOURCES_DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\resources\\";
+    public static String IMAGES_DIRECTORY = RESOURCES_DIRECTORY + "img\\";
+    public static String INVOICES_DIRECTORY = RESOURCES_DIRECTORY + "invoices\\";
+    public static String JUDITH_LOGO = IMAGES_DIRECTORY + "logo_judith.png";
+    
     private String fileName;
     //private String filePath;
     PDPage page;
@@ -63,7 +67,7 @@ public final class PDFGenerator {
             contentStream.setLeading(14.5f);
 
             //Logo
-            PDImageXObject logoImage = PDImageXObject.createFromFile(IMAGES_DIRECTORY + "logo.png", document);
+            PDImageXObject logoImage = PDImageXObject.createFromFile(JUDITH_LOGO, document);
             contentStream.drawImage(logoImage, 55f, (float) height - 30f - logoImage.getHeight());
 
             //Encabezado datos factura

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>judith</groupId>
     <artifactId>GestorFacturas</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>release</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -94,4 +94,30 @@
         <maven.compiler.release>23</maven.compiler.release>
         <exec.mainClass>jud.gestorfacturas.GestorFacturas</exec.mainClass>
     </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>jud.gestorfacturas.manager.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin> 
+        </plugins>
+    </build>
 </project>

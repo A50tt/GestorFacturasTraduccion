@@ -125,9 +125,6 @@
                   </Constraints>
                 </Component>
                 <Component class="javax.swing.JTextField" name="numeroFraTxtField">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="2024-12-20"/>
-                  </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
@@ -150,7 +147,6 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="fechaEmisionTxtField">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="20-12-2024"/>
                     <Property name="toolTipText" type="java.lang.String" value="Son v&#xe1;lidos cualquiera de los siguientes formatos:&#xa;dd/MM/yyyy&#xa;dd-MM-yyyy&#xa;dd/MM/yy&#xa;dd-MM-yy&#xa;ddMMyyyy&#xa;ddMMyy"/>
                   </Properties>
                   <Events>
@@ -178,7 +174,6 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="diasParaPagoTxtField">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="30"/>
                     <Property name="toolTipText" type="java.lang.String" value="Ha de ser un n&#xfa;mero entero"/>
                   </Properties>
                   <Events>
@@ -207,7 +202,6 @@
                 <Component class="javax.swing.JTextField" name="fechaVencimientoTxtField">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
-                    <Property name="text" type="java.lang.String" value="19-01-2025"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Text Cursor"/>
                     </Property>
@@ -693,9 +687,6 @@
                   </Constraints>
                 </Component>
                 <Component class="javax.swing.JTextField" name="concepto1TxtField">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Concepto 1"/>
-                  </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
@@ -707,7 +698,6 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="cantidad1TxtField">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="6,50"/>
                     <Property name="toolTipText" type="java.lang.String" value="El formato ha de ser un n&#xfa;mero (entero o decimal) que no contenga espacios ni letras."/>
                   </Properties>
                   <Events>
@@ -724,7 +714,6 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="precio1TxtField">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="200"/>
                     <Property name="toolTipText" type="java.lang.String" value="El formato ha de ser un n&#xfa;mero (entero o decimal) que no contenga espacios ni letras."/>
                   </Properties>
                   <Events>
@@ -742,7 +731,6 @@
                 <Component class="javax.swing.JTextField" name="totalImporte1TxtField">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
-                    <Property name="text" type="java.lang.String" value="1300,00"/>
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
@@ -934,9 +922,6 @@
                   </Constraints>
                 </Component>
                 <Component class="javax.swing.JTextField" name="idiomaOrigen1TxtField">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="ES"/>
-                  </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
@@ -989,7 +974,6 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="idiomaDestino1TxtField">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="EN"/>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
                   <AuxValues>

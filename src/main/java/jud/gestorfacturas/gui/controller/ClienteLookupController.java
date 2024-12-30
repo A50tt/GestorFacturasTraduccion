@@ -116,11 +116,10 @@ public class ClienteLookupController {
         }
         String campo = view.campoClienteComboBox.getSelectedItem().toString();
         String propiedad = null;
-        //{"NIF", "Nombre", "Dirección", "Código postal"};
         if (campo == tiposCampo[0]) {
-            propiedad = "nif";
-        } else if (campo == tiposCampo[1]) {
             propiedad = "nombre";
+        } else if (campo == tiposCampo[1]) {
+            propiedad = "nif";
         } else if (campo == tiposCampo[2]) {
             propiedad = "direccion";
         } else if (campo == tiposCampo[3]) {

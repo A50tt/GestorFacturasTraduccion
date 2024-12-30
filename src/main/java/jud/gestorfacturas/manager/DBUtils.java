@@ -5,20 +5,19 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
 import org.eclipse.persistence.exceptions.DatabaseException;
-import org.postgresql.util.PSQLException;
 
 public class DBUtils {
     
     public EntityManager em;
+    
+    private String createJudithDBQuery = "";
  
     private String createFacturasTableQuery = "CREATE TABLE public.facturas "
             + "("
@@ -85,8 +84,9 @@ public class DBUtils {
             + "OWNER to postgres;";
     
     public DBUtils() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("facturasPA");
-        em = emf.createEntityManager();
+        em = EntityManagerLoader.getEntityManagerConfiguredInstance();
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory(new PropertiesLoader().getEntityManagerName());
+//        em = emf.createEntityManager();
     }
     
     @Override
