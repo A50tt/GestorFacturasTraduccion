@@ -178,7 +178,8 @@ public class NuevoClienteView extends javax.swing.JFrame {
         jPanel5.setRequestFocusEnabled(false);
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        anadirBtn.setText("Añadir");
+        anadirBtn.setText("Guardar");
+        anadirBtn.setToolTipText("");
         anadirBtn.setPreferredSize(new java.awt.Dimension(90, 25));
         anadirBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,9 +209,7 @@ public class NuevoClienteView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void anadirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anadirBtnActionPerformed
-        if (controller.verificarCamposCorrectos()) {
-            controller.registraCliente(controller.generaCliente());
-        }
+        controller.guardarCliente();
     }//GEN-LAST:event_anadirBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

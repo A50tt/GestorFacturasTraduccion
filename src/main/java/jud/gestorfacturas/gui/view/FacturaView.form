@@ -341,6 +341,7 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="nombreClienteSearchBtn">
                           <Properties>
+                            <Property name="toolTipText" type="java.lang.String" value="Buscar..."/>
                             <Property name="alignmentX" type="float" value="0.5"/>
                             <Property name="focusable" type="boolean" value="false"/>
                             <Property name="opaque" type="boolean" value="true"/>
@@ -1112,7 +1113,7 @@
                 <Property name="text" type="java.lang.String" value="Verificar"/>
               </Properties>
               <Events>
-                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="verificarFichaBtnItemStateChanged"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verificarFichaBtnItemClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="previewFacturaBtn">

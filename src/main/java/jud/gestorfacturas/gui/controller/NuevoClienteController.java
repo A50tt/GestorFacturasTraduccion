@@ -15,7 +15,6 @@ import jud.gestorfacturas.model.Cliente;
 
 public class NuevoClienteController implements Controller {
     
-    Utils utils = new Utils();
     Color DEFAULT_BG_COLOR = Color.white;
     Color ERROR_BG_COLOR = Color.red;
     String[] RESPUESTAS_MSGBOX_FALTAN_OPCIONALES = {"Continuar", "Cancelar"};
@@ -44,45 +43,53 @@ public class NuevoClienteController implements Controller {
     nombreTxtField = view.nombreTxtField;
     }
     
+    public void guardarCliente() {
+        if (verificarCamposCorrectos()) {
+            registraCliente(generaCliente());
+        }
+    }
+    
     public boolean verificarCamposCorrectos() {
-        boolean isCorrect = true;
+        int obligatorios = 0; // Cuenta los campos obligatorios rellenados
+        int opcionales = 0; // Cuenta los campos obligatorios rellenados
         boolean faltaInfoOpcional = false;
         if (nifTxtField.getText().isEmpty()) {
-            isCorrect = false;
+            obligatorios--;
             nifTxtField.setBackground(ERROR_BG_COLOR);
         } else {
+            obligatorios++;
             nifTxtField.setBackground(DEFAULT_BG_COLOR);
         }
         if (nombreTxtField.getText().isEmpty()) {
-            isCorrect = false;
+            obligatorios--;
             nombreTxtField.setBackground(ERROR_BG_COLOR);
         } else {
+            obligatorios++;
             nombreTxtField.setBackground(DEFAULT_BG_COLOR);
         }
-        if (direccionTxtField.getText().isEmpty()) {
-            faltaInfoOpcional = false;
+        if (!direccionTxtField.getText().isEmpty()) {
+            opcionales++;
         }
-        if (codigoPostalTxtField.getText().isEmpty()) {
-            faltaInfoOpcional = true;
+        if (!codigoPostalTxtField.getText().isEmpty()) {
+            opcionales++;
         }
         
-        if (isCorrect && faltaInfoOpcional) {
+        if (obligatorios == 2 && opcionales < 2) {
+            setDefaultBackground(direccionTxtField);
+            setDefaultBackground(codigoPostalTxtField);
+            
             int input = FrameUtils.showQuestionBox("Campos incompletos", "Faltan campos opcionales por completar. ¿Continuar?");
-            if (input == 1) { //0 si ok, 1 si cancel
-                if (direccionTxtField.getText().isEmpty()) {
-                    isCorrect = false;
-                    setErrorBackground(direccionTxtField);
-                }
-                if (codigoPostalTxtField.getText().isEmpty()) {
-                    isCorrect = false;
-                    setErrorBackground(codigoPostalTxtField);
-                }
-            } else {
-                setDefaultBackground(direccionTxtField);
-                setDefaultBackground(codigoPostalTxtField);
+            if (input == 0) { //0 si ok, 1 si cancel
+                opcionales = 2;
             }
         }
-        return isCorrect;
+        if (obligatorios < 2) {
+            FrameUtils.showPlainMessage("Error", "Por favor, rellene todos los campos obligatorios.");
+        }
+        if (obligatorios == 2 && opcionales == 2) {
+            return true;
+        }
+        return false;
     }
     
     public Cliente generaCliente() {
@@ -103,10 +110,10 @@ public class NuevoClienteController implements Controller {
             dbUtils.getEntityManager().getTransaction().begin();
             dbUtils.mergeIntoDB(cliente);
             dbUtils.getEntityManager().getTransaction().commit();
-            FrameUtils.showInfoMessage("Éxito", "El cliente ha sido registrado correctamente. Cliente n.º " + cliente.getId() + ".");
+            FrameUtils.showInfoMessage("Éxito", "El cliente ha sido registrado correctamente con el ID n.º " + cliente.getId() + ".");
         } else {
             LocalDateTime ts = dbUtils.getTimestampCliente(cliente).toLocalDateTime();
-            FrameUtils.showErrorMessage("ERROR", "El NIF '" + cliente.getNif() + "' ya fue registrado el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%02d", ts.getMinute()) + "h. Pertenece al cliente número '" + cliente.getId() + "'.");
+            FrameUtils.showErrorMessage("ERROR", "El NIF '" + cliente.getNif() + "' ya fue registrado el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%02d", ts.getMinute()) + "h. Pertenece al cliente con ID n.º '" + cliente.getId() + "'.");
         }
     }
 

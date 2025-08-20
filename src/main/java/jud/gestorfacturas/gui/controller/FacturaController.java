@@ -41,7 +41,9 @@ public class FacturaController implements Controller {
     public Color ERROR_BG_COLOR = Color.red;
     public String[] TIPOS_UNIDAD = {"", "Clip", "Hora", "Minuto", "Palabra"};
     public String[] FORMAS_PAGO = {"", "Transferencia bancaria", "Cheque"};
-
+    private final String ERROR_GENERANDO_FACTURA_NO_EMISOR = "No se puede generar la factura porque no se ha informado de los datos del emisor. Por favor, hágalo en el módulo 'Datos propios' en el menú principal.";
+    private final String ERROR_EMISOR_NO_IBAN = "El EMISOR no tiene un IBAN informado y se ha elegido la forma de pago '" + FORMAS_PAGO[1] + "'. No se puede hacer una factura correcta.";
+    
     private Controller sourceController;
     private FacturaView view;
     private JPanel jPanel;
@@ -209,7 +211,8 @@ public class FacturaController implements Controller {
         }
     }
 
-    public void actualizaStatusFicha() {
+    public void actualizaStatusFicha(int status) {
+        this.fichaEsCorrecta = status;
         switch (this.fichaEsCorrecta) {
             case -1:
                 setKOStatus();
@@ -395,6 +398,16 @@ public class FacturaController implements Controller {
             FrameUtils.showErrorMessage("ERROR", ex2 + ": La factura no se ha podido encontrar.");
         }
     }
+    
+    public void previewFacturaBtnPulsado() {
+        if (dbUtils.getUnicoEmisor() != null) {
+            Factura factura = extraeDatosYGeneraFactura();
+            File pdfFile = createTempPDF(factura);
+            openFile(pdfFile);
+        } else {
+            FrameUtils.showErrorMessage("Error al generar factura", ERROR_GENERANDO_FACTURA_NO_EMISOR);
+        }
+    }
 
     public boolean verificaEntradaDatos() {
         boolean isCorrect = true;
@@ -454,7 +467,7 @@ public class FacturaController implements Controller {
             setErrorBackground(formaPagoComboBox);
         } else {
             setDisabledBackground(formaPagoComboBox);
-        }
+        } 
 
         //NOMBRE CLIENTE
         if (nombreClienteTxtField.getText().isEmpty()) {
@@ -536,24 +549,19 @@ public class FacturaController implements Controller {
                 } else {
                     setDefaultBackground(fila[5]);
                 }
-
-//                DADO QUE ESTE ES AUTOMÁTICO, NO DEBERÍA VERIFICARSE NI COLOREAR EN ROJO
-//                if (((javax.swing.JTextField) fila[6]).getText().isEmpty()) {
-//                    isCorrect = false;
-//                    setErrorBackground(fila[6]);
-//                } else {
-//                    setDefaultBackground(fila[6]);
-//                }
             } else {
                 setDefaultBackground(fila[0]);
                 setDefaultBackground(fila[1]);
                 setDefaultBackground(fila[2]);
+                setDefaultBackground(fila[3]);
+                setDefaultBackground(fila[4]);
             }
         }
+        // Si va a devolver que es válido, informamos en caso de que se haya seleccionado 'Transf. bancaria' y no esté informado en el emisor.
         if (isCorrect) {
-            fichaEsCorrecta = 1;
-        } else {
-            fichaEsCorrecta = -1;
+            if (formaPagoComboBox.getSelectedItem() == FORMAS_PAGO[1] && dbUtils.getUnicoEmisor().getIban() == null) {
+                FrameUtils.showInfoMessage("Aviso", ERROR_EMISOR_NO_IBAN);
+            }
         }
         return isCorrect;
     }
@@ -616,18 +624,30 @@ public class FacturaController implements Controller {
     }
 
     public void registraFactura() {
-        Factura factura = extraeDatosYGeneraFactura();
-        if (!dbUtils.facturaExists(factura)) {
-            File pdfFile = guardaFactura(factura);
-            factura.setPdfFactura(pdfFile);
+        // Comprobamos que el emisor está informado para poder hacer la factura.
+        Emisor emisor = dbUtils.getUnicoEmisor();
+        if (emisor != null) {
+            Factura factura = extraeDatosYGeneraFactura();
+            // Ahora comprobamos que tenga informado IBAN si la forma de pago es 'Transferencia bancaria'.
+            if (factura.getFormaPago() == FORMAS_PAGO[1] && emisor.getIban() != null) {
+                // Si la factura existe en la BD, sigue con el registro. De lo contrario muestra el error.
+                if (!dbUtils.facturaExists(factura)) {
+                    File pdfFile = guardaFactura(factura);
+                    factura.setPdfFactura(pdfFile);
 
-            dbUtils.getEntityManager().getTransaction().begin();
-            dbUtils.mergeIntoDB(factura);
-            dbUtils.getEntityManager().getTransaction().commit();
-            FrameUtils.showInfoMessage("Éxito", "La factura ha sido registrada correctamente.");
+                    dbUtils.getEntityManager().getTransaction().begin();
+                    dbUtils.mergeIntoDB(factura);
+                    dbUtils.getEntityManager().getTransaction().commit();
+                    FrameUtils.showInfoMessage("Éxito", "La factura ha sido registrada correctamente.");
+                } else {
+                    LocalDateTime ts = dbUtils.getTimestampOfInvoice(factura).toLocalDateTime();
+                    FrameUtils.showErrorMessage("Error", "La factura " + factura.getNumFactura() + " ya fue registrada el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%2d", ts.getMinute()) + "h.");
+                }
+            } else {
+                FrameUtils.showErrorMessage("Error al generar factura", ERROR_EMISOR_NO_IBAN);
+            }
         } else {
-            LocalDateTime ts = dbUtils.getTimestampOfInvoice(factura).toLocalDateTime();
-            FrameUtils.showErrorMessage("ERROR", "La factura " + factura.getNumFactura() + " ya fue registrada el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%2d", ts.getMinute()) + "h.");
+            FrameUtils.showErrorMessage("Error al generar factura", ERROR_GENERANDO_FACTURA_NO_EMISOR);
         }
     }
 
@@ -641,41 +661,23 @@ public class FacturaController implements Controller {
 
     }
 
-    public void gestionaToggleButtonVerificarDatos(java.awt.event.ItemEvent evt) {
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            if (msgLbl.getIcon().equals(FrameUtils.STANDBY_FLATSVGICON)) {
-                if (verificaEntradaDatos()) {
-                    disableAllEditables();
-                } else {
-                    fichaEsCorrecta = -1;
-                    actualizaStatusFicha();
-                    verificarFichaBtn.setSelected(false);
-                }
-            } else if (msgLbl.getIcon().equals(FrameUtils.KO_FLATSVGICON)) {
-                if (verificaEntradaDatos()) {
-                    fichaEsCorrecta = 1;
-                    actualizaStatusFicha();
-                    disableAllEditables();
-                } else {
-                    verificarFichaBtn.setSelected(false);
-                }
-            } else if (msgLbl.getIcon().equals(FrameUtils.OK_FLATSVGICON)) {
-
+    public void gestionaToggleButtonVerificarDatos() {
+        // Si está verificando los datos introducidos...
+        if (fichaEsCorrecta == 0) {
+            boolean verificacion = verificaEntradaDatos();
+            //boolean verificacion = false;
+            fichaEsCorrecta = verificacion == true ? 1 : -1;
+            if (fichaEsCorrecta == 1) {
+                actualizaStatusFicha(1);
+            } else if (fichaEsCorrecta == -1) {
+                actualizaStatusFicha(-1);
             }
-        } else if (evt.getStateChange() == ItemEvent.DESELECTED) {
-            if (msgLbl.getIcon().equals(FrameUtils.STANDBY_FLATSVGICON)) {
-                //NO DEBERÍA OCURRIR NUNCA...
-                FrameUtils.showErrorMessage("VAYA...", "El error que nunca debia ocurrir ha ocurrido. Avísame y coméntame lo que ha pasado.");
-            } else if (msgLbl.getIcon().equals(FrameUtils.KO_FLATSVGICON)) {
-                if (fichaEsCorrecta != -1) {
-                    enableAllEditables();
-                }
-            } else if (msgLbl.getIcon().equals(FrameUtils.OK_FLATSVGICON)) {
-                fichaEsCorrecta = 0;
-                actualizaStatusFicha();
-                enableAllEditables();
-            }
+            disableAllEditables();
+        } else { // Está retrocediendo la verificación para modificar datos.
+            actualizaStatusFicha(0);
+            enableAllEditables();
         }
+        //verificarFichaBtn.setSelected(false);
     }
 
     public void cargaDatosDeNumeroCliente() {

@@ -2,7 +2,6 @@
 package jud.gestorfacturas.gui.view;
 
 import jud.gestorfacturas.gui.controller.ConfigurationController;
-import jud.gestorfacturas.gui.controller.FacturaController;
 import jud.gestorfacturas.gui.controller.InvoiceLookupController;
 import jud.gestorfacturas.gui.controller.MainMenuController;
 import jud.gestorfacturas.gui.controller.ModificarClienteController;
@@ -109,6 +108,7 @@ public class MainMenuView extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(listarFacturasBtn, gridBagConstraints);
 
+        configBtn.setToolTipText("Configuración del servidor");
         configBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 configBtnActionPerformed(evt);
@@ -129,8 +129,7 @@ public class MainMenuView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearFacturaBtnActionPerformed
-        FacturaController fc = new FacturaController(controller);
-        this.setVisible(false);
+        controller.openCrearFacturaView();
     }//GEN-LAST:event_crearFacturaBtnActionPerformed
 
     private void crearClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearClienteBtnActionPerformed

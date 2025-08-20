@@ -254,7 +254,8 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="anadirBtn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
+                <Property name="text" type="java.lang.String" value="Guardar"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[90, 25]"/>
                 </Property>

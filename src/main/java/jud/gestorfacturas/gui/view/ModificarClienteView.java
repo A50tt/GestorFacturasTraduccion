@@ -80,7 +80,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel2.add(jLabel1, gridBagConstraints);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel2.setText("NIF");
+        jLabel2.setText("NIF *");
         jLabel2.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -99,7 +99,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel2.add(nifTxtField, gridBagConstraints);
 
-        jLabel3.setText("Nombre");
+        jLabel3.setText("Nombre *");
         jLabel3.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -187,6 +187,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
 
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
+        nombreClienteSearchBtn.setToolTipText("Buscar...");
         nombreClienteSearchBtn.setAlignmentX(0.5F);
         nombreClienteSearchBtn.setFocusable(false);
         nombreClienteSearchBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
@@ -203,6 +204,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel6.add(nombreClienteSearchBtn, gridBagConstraints);
 
+        resetClienteBtn.setToolTipText("Borrar datos");
         resetClienteBtn.setFocusable(false);
         resetClienteBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         resetClienteBtn.setPreferredSize(new java.awt.Dimension(30, 22));

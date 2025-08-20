@@ -176,14 +176,6 @@ public class DBUtils {
     public Cliente getCliente(Cliente cliente) {
         return em.find(Cliente.class, cliente.getNif());
     }
-
-    public Cliente[] getAllClientes(Cliente[] clientes) {
-        Cliente[] clientesArray = new Cliente[clientes.length];
-        for (int i = 0; i < clientes.length; i++) {
-            clientesArray[i] = em.find(Cliente.class, clientes[i].getNif());
-        }
-        return clientesArray;
-    }
     
     public boolean clienteExists(Cliente cliente) {
         return (em.find(Cliente.class, cliente.getNif()) != null);
@@ -193,6 +185,14 @@ public class DBUtils {
         return em.find(Cliente.class, nif);
     }
     
+    public boolean hayClientesActivos() {
+        Query query = em.createNativeQuery("SELECT activado FROM cliente WHERE activado = 'true'");
+        if (query.getResultList().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     public Cliente getClienteById(String id) {
         Query query = em.createNativeQuery("SELECT nif FROM cliente WHERE id = " + id);
         try {
@@ -206,8 +206,7 @@ public class DBUtils {
         }
     }
     
-    public List getTodosClientes() {
-        Cliente[] clientesArray;
+    public List<Cliente> getTodosClientes() {
         Query query = em.createNativeQuery("SELECT id, nif, nombre, direccion, codigopostal, activado FROM cliente ORDER BY id");
         try {
             return query.getResultList();
@@ -317,6 +316,6 @@ public class DBUtils {
         if (query.getResultList().size() != 0) {
             return (Emisor)query.getResultList().get(0);
         }
-        return new Emisor();
+        return null;
     }
 }

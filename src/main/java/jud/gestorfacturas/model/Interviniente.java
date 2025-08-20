@@ -21,7 +21,7 @@ public abstract class Interviniente {
     public Interviniente() {
         
     }
-    
+
     public Interviniente(String _nif, String _nombre, String _direccion, String _codigoPostal) {
         this.nombre = _nombre;
         this.direccion = _direccion;

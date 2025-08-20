@@ -12,10 +12,14 @@ import jud.gestorfacturas.model.Cliente;
 
 public class ModificarClienteController implements Controller {
     
-    Utils utils = new Utils();
+    DBUtils dbUtils = new DBUtils();
     
     ModificarClienteView view;
     Controller sourceController;
+    
+    private final String ERROR_CLIENT_OBLIGATORY_FIELDS = "Por favor, rellene todos los campos obligatorios.";
+    private final Color DEFAULT_BG_COLOR = Color.white;
+    private final Color ERROR_BG_COLOR = Color.red;
     
     protected JButton actualizarBtn;
     protected JButton anadirBtn;
@@ -51,7 +55,6 @@ public class ModificarClienteController implements Controller {
     }
     
     public void cargaDatosDeNumeroCliente() {
-        DBUtils dbUtils = new DBUtils();
         Cliente cliente = dbUtils.getClienteById(numeroClienteTxtField.getText());
         if (cliente != null && cliente.getNif() != null) {
             nifTxtField.setText(cliente.getNif());
@@ -78,23 +81,29 @@ public class ModificarClienteController implements Controller {
         }
     }
 
-    public void actualizaCliente () {
-        DBUtils dbUtils = new DBUtils();
+    public void actualizaCliente() {
+        String nombreCliente = (nombreTxtField.getText().isBlank()) ? null : nifTxtField.getText();
         
-        String nifOldCliente = (nifTxtField.getText() == null) ? null : nifTxtField.getText();
-        
-        if (!nifOldCliente.equals("")) {
-            Cliente clienteDB = dbUtils.getClienteByNif(nifOldCliente);
+        if (nombreCliente != null) {
+            Cliente clienteDB = dbUtils.getClienteByNif(nifTxtField.getText());
             clienteDB.setNombre(nombreTxtField.getText());
             clienteDB.setDireccion(direccionTxtField.getText());
             clienteDB.setCodigoPostal(codigoPostalTxtField.getText());
             
+            nombreTxtField.setBackground(DEFAULT_BG_COLOR);
+            
             dbUtils.getEntityManager().getTransaction().begin();
             dbUtils.mergeIntoDB(clienteDB);
             dbUtils.getEntityManager().getTransaction().commit();
-            
+
             FrameUtils.showPlainMessage("Éxito", "El cliente ha sido actualizado correctamente.");
-        } else {
+        } else if (nifTxtField.getText().isBlank()) {
+            FrameUtils.showErrorMessage("Cliente no seleccionado", "No se ha seleccionado ningún cliente al que aplicar la modificación.\n"
+                    + "Introduce el número de cliente y pulsa 'Enter' o utiliza la búsqueda manual.");
+        } else if (nombreCliente == null) {
+            nombreTxtField.setBackground(ERROR_BG_COLOR);
+            FrameUtils.showErrorMessage("Error", ERROR_CLIENT_OBLIGATORY_FIELDS);
+        } else if (nifTxtField.getText().isBlank()) {
             FrameUtils.showErrorMessage("Cliente no seleccionado", "No se ha seleccionado ningún cliente al que aplicar la modificación.\n"
                     + "Introduce el número de cliente y pulsa 'Enter' o utiliza la búsqueda manual.");
         }
@@ -119,9 +128,7 @@ public class ModificarClienteController implements Controller {
     }
     
     public void switchEstadoCliente() {
-        boolean orden;
-        DBUtils dbUtils = new DBUtils();
-        
+        boolean orden;        
         String nifOldCliente = (nifTxtField.getText() == null) ? null : nifTxtField.getText();
         
         if (!nifOldCliente.equals("")) {

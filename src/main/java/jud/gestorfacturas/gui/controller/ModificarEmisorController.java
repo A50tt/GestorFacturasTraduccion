@@ -1,6 +1,7 @@
 
 package jud.gestorfacturas.gui.controller;
 
+import java.awt.Color;
 import jud.gestorfacturas.gui.view.ModificarEmisorView;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -13,6 +14,9 @@ public class ModificarEmisorController implements Controller {
     ModificarEmisorView view;
     Controller sourceController;
     
+    Color DEFAULT_BG_COLOR = Color.white;
+    Color ERROR_BG_COLOR = Color.red;
+
     protected JButton actualizarBtn;
     protected JTextField codigoPostalTxtField;
     protected JTextField direccionTxtField;
@@ -41,20 +45,17 @@ public class ModificarEmisorController implements Controller {
     public void cargaDatosEmisor() {
         DBUtils dbUtils = new DBUtils();
         Emisor emisor = dbUtils.getUnicoEmisor();
-        if (emisor.getNif() != null && emisor.getNif() != null) {
+        //if (emisor.getNif() != null && emisor.getNif() != null)
+        if (emisor != null) {
             nifTxtField.setText(emisor.getNif());
-            nifTxtField.setEditable(false);
-            nifTxtField.setFocusable(false);
             nombreTxtField.setText(emisor.getNombre());
             nombreCompletoTxtField.setText(emisor.getNombreCompleto());
             direccionTxtField.setText(emisor.getDireccion());
             codigoPostalTxtField.setText(emisor.getCodigoPostal());
             ibanTxtField.setText(emisor.getIban());
         } else {
-            FrameUtils.showInfoMessage("Datos no encontrados", "No se han encontrado datos anteriores.");
+            FrameUtils.showInfoMessage("Información", "No se han encontrado datos anteriores.");
             nifTxtField.setText("");
-            nifTxtField.setEditable(true);
-            nifTxtField.setFocusable(true);
             nombreTxtField.setText("");
             nombreCompletoTxtField.setText("");
             direccionTxtField.setText("");
@@ -67,22 +68,76 @@ public class ModificarEmisorController implements Controller {
         DBUtils dbUtils = new DBUtils();
 
         Emisor emisorDB = dbUtils.getUnicoEmisor();
-        emisorDB.setNif(nifTxtField.getText());
-        emisorDB.setNombre(nombreTxtField.getText());
-        emisorDB.setNombreCompleto(nombreCompletoTxtField.getText());
-        emisorDB.setDireccion(direccionTxtField.getText());
-        emisorDB.setCodigoPostal(codigoPostalTxtField.getText());
-        emisorDB.setIban(ibanTxtField.getText());
+        if (emisorDB == null) {
+            emisorDB = new Emisor();
+        }
 
-        dbUtils.getEntityManager().getTransaction().begin();
-        dbUtils.mergeIntoDB(emisorDB);
-        dbUtils.getEntityManager().getTransaction().commit();
+        if (!nifTxtField.getText().isBlank()
+                && !nombreTxtField.getText().isBlank()
+                && !nombreCompletoTxtField.getText().isBlank()) {
 
-        FrameUtils.showPlainMessage("Éxito", "Los datos han sido actualizados correctamente.");
-        nifTxtField.setEditable(false);
-        nifTxtField.setFocusable(false);
+            emisorDB.setNif(nifTxtField.getText());
+            emisorDB.setNombre(nombreTxtField.getText());
+            emisorDB.setNombreCompleto(nombreCompletoTxtField.getText());
+
+            nifTxtField.setBackground(DEFAULT_BG_COLOR);
+            nombreTxtField.setBackground(DEFAULT_BG_COLOR);
+            nombreCompletoTxtField.setBackground(DEFAULT_BG_COLOR);
+
+            if (direccionTxtField.getText().isBlank() || codigoPostalTxtField.getText().isBlank() || codigoPostalTxtField.getText().isBlank() || ibanTxtField.getText().isBlank()) {
+                int input = FrameUtils.showQuestionBox("Campos incompletos", "Faltan campos opcionales por completar. ¿Continuar?");
+                if (input == 0) { //0 si ok, 1 si cancel
+                    if (direccionTxtField.getText().isBlank()) {
+                        emisorDB.setDireccion(null);
+                    } else {
+                        emisorDB.setDireccion(direccionTxtField.getText());
+                    }
+
+                    if (codigoPostalTxtField.getText().isBlank()) {
+                        emisorDB.setCodigoPostal(null);
+                    } else {
+                        emisorDB.setCodigoPostal(codigoPostalTxtField.getText());
+                    }
+
+                    if (ibanTxtField.getText().isBlank()) {
+                        emisorDB.setIban(null);
+                    } else {
+                        emisorDB.setIban(ibanTxtField.getText());
+                    }
+                    
+                    dbUtils.getEntityManager().getTransaction().begin();
+                    dbUtils.mergeIntoDB(emisorDB);
+                    dbUtils.getEntityManager().getTransaction().commit();
+                    
+                    FrameUtils.showPlainMessage("Éxito", "Los datos han sido actualizados correctamente.");
+                }
+            }
+         
+        } else {
+            if (nifTxtField.getText().isBlank()) {
+                nifTxtField.setBackground(ERROR_BG_COLOR);
+            } else {
+                emisorDB.setNif(nifTxtField.getText());
+                nifTxtField.setBackground(DEFAULT_BG_COLOR);
+            }
+
+            if (nombreTxtField.getText().isBlank()) {
+                nombreTxtField.setBackground(ERROR_BG_COLOR);
+            } else {
+                emisorDB.setNombre(nombreTxtField.getText());
+                nombreTxtField.setBackground(DEFAULT_BG_COLOR);
+            }
+
+            if (nombreCompletoTxtField.getText().isBlank()) {
+                nombreCompletoTxtField.setBackground(ERROR_BG_COLOR);
+            } else {
+                emisorDB.setNombreCompleto(nombreCompletoTxtField.getText());
+                nombreCompletoTxtField.setBackground(DEFAULT_BG_COLOR);
+            }
+            FrameUtils.showPlainMessage("Error", "Por favor, rellene todos los campos obligatorios.");
+        }
     }
- 
+
     @Override
     public void setVisible(boolean visible) {
         view.setVisible(visible);

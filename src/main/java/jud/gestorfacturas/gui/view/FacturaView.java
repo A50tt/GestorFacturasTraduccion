@@ -264,6 +264,7 @@ public class FacturaView extends javax.swing.JFrame {
         clienteTitulolbl.setPreferredSize(new java.awt.Dimension(50, 16));
         jPanel5.add(clienteTitulolbl, java.awt.BorderLayout.WEST);
 
+        nombreClienteSearchBtn.setToolTipText("Buscar...");
         nombreClienteSearchBtn.setAlignmentX(0.5F);
         nombreClienteSearchBtn.setFocusable(false);
         nombreClienteSearchBtn.setOpaque(true);
@@ -764,9 +765,9 @@ public class FacturaView extends javax.swing.JFrame {
         buttonsPanel.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
         verificarFichaBtn.setText("Verificar");
-        verificarFichaBtn.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                verificarFichaBtnItemStateChanged(evt);
+        verificarFichaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verificarFichaBtnItemClicked(evt);
             }
         });
         buttonsPanel.add(verificarFichaBtn);
@@ -843,18 +844,8 @@ public class FacturaView extends javax.swing.JFrame {
     }//GEN-LAST:event_fechaEmisionTxtFieldKeyReleased
 
     private void previewFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewFacturaBtnActionPerformed
-        if (controller.verificaEntradaDatos()) {
-            Factura factura = controller.extraeDatosYGeneraFactura();
-            File pdfFile = controller.createTempPDF(factura);
-            controller.openFile(pdfFile);
-        }
-        controller.actualizaStatusFicha();
+        controller.previewFacturaBtnPulsado();
     }//GEN-LAST:event_previewFacturaBtnActionPerformed
-
-    private void verificarFichaBtnItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_verificarFichaBtnItemStateChanged
-        controller.gestionaToggleButtonVerificarDatos(evt);
-        controller.actualizaStatusFicha();
-    }//GEN-LAST:event_verificarFichaBtnItemStateChanged
 
     private void registrarFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarFacturaBtnActionPerformed
         controller.registraFactura();
@@ -873,6 +864,10 @@ public class FacturaView extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         controller.returnControlToSource();
     }//GEN-LAST:event_formWindowClosed
+
+    private void verificarFichaBtnItemClicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificarFichaBtnItemClicked
+        controller.gestionaToggleButtonVerificarDatos();
+    }//GEN-LAST:event_verificarFichaBtnItemClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel TipoTituloLabel;

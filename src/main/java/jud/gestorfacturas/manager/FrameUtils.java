@@ -7,13 +7,13 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class FrameUtils {
     
-    private static String[] RESPUESTAS_MSGBOX_FALTAN_OPCIONALES = {"Continuar", "Cancelar"};
-    public static FlatSVGIcon REDO_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "redo_black_icon.svg"));
-    public static FlatSVGIcon STANDBY_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "standby_status_icon.svg"));
-    public static FlatSVGIcon SEARCH_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "busqueda_black_icon.svg"));
-    public static FlatSVGIcon OK_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ok_status_icon.svg"));
-    public static FlatSVGIcon KO_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ko_status_icon.svg"));
-    public static FlatSVGIcon CONFIG_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "config_icon.svg"));
+    private static final String[] RESPUESTAS_MSGBOX_FALTAN_OPCIONALES = {"Continuar", "Cancelar"};
+    public static final FlatSVGIcon REDO_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "redo_black_icon.svg"));
+    public static final FlatSVGIcon STANDBY_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "standby_status_icon.svg"));
+    public static final FlatSVGIcon SEARCH_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "busqueda_black_icon.svg"));
+    public static final FlatSVGIcon OK_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ok_status_icon.svg"));
+    public static final FlatSVGIcon KO_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ko_status_icon.svg"));
+    public static final FlatSVGIcon CONFIG_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "config_icon.svg"));
     
     public static void showPlainMessage(String title, String msg) {
         showMessageDialog(null, msg, title, JOptionPane.PLAIN_MESSAGE);

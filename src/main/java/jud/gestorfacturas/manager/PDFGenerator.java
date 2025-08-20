@@ -289,6 +289,7 @@ public final class PDFGenerator {
 
     private void insertText(String text, Standard14Fonts.FontName font, int fontSize) {
         try {
+            text = text == null ? "" : text;
             contentStream.setFont(new PDType1Font(font), fontSize);
             contentStream.showText(text);
         } catch (IOException ex) {

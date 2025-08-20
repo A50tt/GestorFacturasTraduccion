@@ -56,7 +56,7 @@ public class ConfigurationView extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Nombre del servidor");
+        jLabel1.setText("Nombre base de datos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
