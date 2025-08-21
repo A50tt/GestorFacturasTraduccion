@@ -1,15 +1,14 @@
 package jud.gestorfacturas.gui.controller;
 
+import interfaces.Controller;
 import jud.gestorfacturas.gui.view.NuevoClienteView;
 import java.awt.Color;
 import java.time.LocalDateTime;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.FrameUtils;
-import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Cliente;
 
 public class NuevoClienteController implements Controller {
@@ -84,8 +83,7 @@ public class NuevoClienteController implements Controller {
         }
         if (obligatorios < 2) {
             FrameUtils.showPlainMessage("Error", "Por favor, rellene todos los campos obligatorios.");
-        }
-        if (obligatorios == 2 && opcionales == 2) {
+        } else if (opcionales == 2) {
             return true;
         }
         return false;
@@ -127,14 +125,16 @@ public class NuevoClienteController implements Controller {
     public void setDefaultBackground(JComponent comp) {
         ((JComponent) comp).setBackground(Color.white);
     }
-
+    
     @Override
-    public void recibeClienteLookup(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void closeView() {
+        returnControlToSource(this);
+        nuevoClienteView.dispose();
     }
 
-    public void returnControlToSource() {
-        this.sourceController.setVisible(true);
+    @Override
+    public void returnControlToSource(Controller controller) {
+        sourceController.returnControlToSource(this);
     }
 
     @Override

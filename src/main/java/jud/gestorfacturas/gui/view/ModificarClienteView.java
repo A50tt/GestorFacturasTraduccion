@@ -204,7 +204,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 0);
         jPanel6.add(nombreClienteSearchBtn, gridBagConstraints);
 
-        resetClienteBtn.setToolTipText("Borrar datos");
+        resetClienteBtn.setToolTipText("Reiniciar vista");
         resetClienteBtn.setFocusable(false);
         resetClienteBtn.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         resetClienteBtn.setPreferredSize(new java.awt.Dimension(30, 22));
@@ -359,7 +359,7 @@ public class ModificarClienteView extends javax.swing.JFrame {
     }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        controller.returnControlToSource();
+        controller.closeView();
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -149,7 +149,7 @@ public class ConfigurationView extends javax.swing.JFrame {
     }//GEN-LAST:event_confirmarConfigBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        controller.returnControlToSource();
+        controller.closeView();
     }//GEN-LAST:event_formWindowClosing
 
 

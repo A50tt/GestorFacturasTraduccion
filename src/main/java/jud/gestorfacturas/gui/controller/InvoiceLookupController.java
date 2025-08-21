@@ -1,6 +1,8 @@
 
 package jud.gestorfacturas.gui.controller;
 
+import interfaces.Controller;
+import interfaces.DataListenerController;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -13,7 +15,7 @@ import jud.gestorfacturas.manager.PDFGenerator;
 import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Factura;
 
-public class InvoiceLookupController implements Controller {
+public class InvoiceLookupController implements Controller, DataListenerController {
     
     DBUtils dbUtils = new DBUtils();
     
@@ -127,10 +129,15 @@ public class InvoiceLookupController implements Controller {
     public void setVisible(boolean visible) {
         invoiceLookupView.setVisible(false);
     }
+    
+    @Override
+    public void closeView() {
+        returnControlToSource(this);
+        invoiceLookupView.dispose();
+    }
 
     @Override
-    public void returnControlToSource() {
-        sourceController.setVisible(true);
-        invoiceLookupView.dispose();
+    public void returnControlToSource(Controller controller) {
+        sourceController.returnControlToSource(this);
     }
 }

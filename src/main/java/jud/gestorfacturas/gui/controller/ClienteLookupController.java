@@ -1,5 +1,6 @@
 package jud.gestorfacturas.gui.controller;
 
+import interfaces.DataListenerController;
 import jud.gestorfacturas.gui.view.ClienteLookupView;
 import java.awt.Color;
 import java.awt.Component;
@@ -18,22 +19,19 @@ import jud.gestorfacturas.model.Cliente;
 
 public class ClienteLookupController {
     
-    Utils utils = new Utils();
     DBUtils dbUtils = new DBUtils();
     ClienteLookupView clienteLookupView;
-    Controller sourceController;
+    DataListenerController sourceController;
     boolean checkIfClienteIsActivado;
     
-    JFrame jframe;
     JComboBox campoClienteComboBox;
     JTextField inputTextField;
-    JButton buscarBtn;
     JTable resultadosTable;
     
     final String[] tiposCampo = {"Nombre", "NIF", "Dirección", "Código postal"};
     final String[] columnasTabla = {"ID", "Nombre", "NIF", "Dirección", "Código postal"};
 
-    public ClienteLookupController(Controller _sourceController, boolean _checkIfClienteIsActivado) {
+    public ClienteLookupController(DataListenerController _sourceController, boolean _checkIfClienteIsActivado) {
         clienteLookupView = new ClienteLookupView(this);
         FrameUtils.centerViewOnScreen(clienteLookupView);
         sourceController = _sourceController;

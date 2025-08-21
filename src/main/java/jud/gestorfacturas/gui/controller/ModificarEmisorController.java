@@ -1,6 +1,8 @@
 
 package jud.gestorfacturas.gui.controller;
 
+import interfaces.Controller;
+import interfaces.DataListenerController;
 import java.awt.Color;
 import jud.gestorfacturas.gui.view.ModificarEmisorView;
 import javax.swing.JButton;
@@ -9,7 +11,7 @@ import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.FrameUtils;
 import jud.gestorfacturas.model.Emisor;
 
-public class ModificarEmisorController implements Controller {
+public class ModificarEmisorController implements Controller, DataListenerController {
     
     ModificarEmisorView modificarEmisorView;
     Controller sourceController;
@@ -143,10 +145,16 @@ public class ModificarEmisorController implements Controller {
     public void setVisible(boolean visible) {
         modificarEmisorView.setVisible(visible);
     }
+    
+    @Override
+    public void closeView() {
+        returnControlToSource(this);
+        modificarEmisorView.dispose();
+    }
 
     @Override
-    public void returnControlToSource() {
-        this.sourceController.setVisible(true);
+    public void returnControlToSource(Controller controller) {
+        sourceController.returnControlToSource(this);
     }
 
     @Override

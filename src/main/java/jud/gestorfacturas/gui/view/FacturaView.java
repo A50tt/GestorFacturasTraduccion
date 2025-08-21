@@ -862,7 +862,7 @@ public class FacturaView extends javax.swing.JFrame {
     }//GEN-LAST:event_numeroClienteTxtFieldKeyPressed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        controller.returnControlToSource();
+        controller.closeView();
     }//GEN-LAST:event_formWindowClosed
 
     private void verificarFichaBtnItemClicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificarFichaBtnItemClicked

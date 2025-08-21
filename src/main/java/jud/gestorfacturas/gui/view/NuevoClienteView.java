@@ -213,7 +213,7 @@ public class NuevoClienteView extends javax.swing.JFrame {
     }//GEN-LAST:event_anadirBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        controller.returnControlToSource();
+        controller.closeView();
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

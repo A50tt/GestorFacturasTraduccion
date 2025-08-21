@@ -1,16 +1,17 @@
 
 package jud.gestorfacturas.gui.controller;
 
+import interfaces.Controller;
+import interfaces.DataListenerController;
 import jud.gestorfacturas.gui.view.ModificarClienteView;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.FrameUtils;
-import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Cliente;
 
-public class ModificarClienteController implements Controller {
+public class ModificarClienteController implements Controller, DataListenerController {
     
     DBUtils dbUtils = new DBUtils();
     
@@ -163,6 +164,7 @@ public class ModificarClienteController implements Controller {
         }
     }
     
+    @Override
     public void recibeClienteLookup(String id) {
         numeroClienteTxtField.setText(String.valueOf(id));
         cargaDatosDeNumeroCliente();
@@ -176,10 +178,15 @@ public class ModificarClienteController implements Controller {
     public void setVisible(boolean visible) {
         modificarClienteView.setVisible(visible);
     }
-
+    
     @Override
-    public void returnControlToSource() {
-        this.sourceController.setVisible(true);
+    public void closeView() {
+        returnControlToSource(this);
+        modificarClienteView.dispose();
     }
 
+    @Override
+    public void returnControlToSource(Controller controller) {
+        sourceController.returnControlToSource(this);
+    }
 }

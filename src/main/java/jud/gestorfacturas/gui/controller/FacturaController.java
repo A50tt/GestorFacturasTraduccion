@@ -1,5 +1,7 @@
 package jud.gestorfacturas.gui.controller;
 
+import interfaces.Controller;
+import interfaces.DataListenerController;
 import jud.gestorfacturas.gui.view.FacturaView;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
@@ -30,7 +32,7 @@ import jud.gestorfacturas.model.Servicio;
 import jud.gestorfacturas.manager.FrameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-public class FacturaController implements Controller {
+public class FacturaController implements Controller, DataListenerController {
 
     DBUtils dbUtils = new DBUtils();
     Utils utils = new Utils();
@@ -734,9 +736,16 @@ public class FacturaController implements Controller {
     public void abrirClienteLookupFrame() {
         ClienteLookupController clc = new ClienteLookupController(this, true);
     }
+    
+    @Override
+    public void closeView() {
+        returnControlToSource(this);
+        facturaView.dispose();
+    }
 
-    public void returnControlToSource() {
-        this.sourceController.setVisible(true);
+    @Override
+    public void returnControlToSource(Controller controller) {
+        sourceController.returnControlToSource(this);
     }
 
     @Override

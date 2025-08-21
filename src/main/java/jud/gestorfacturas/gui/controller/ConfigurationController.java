@@ -1,6 +1,7 @@
 
 package jud.gestorfacturas.gui.controller;
 
+import interfaces.Controller;
 import java.awt.Color;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
@@ -18,7 +19,7 @@ public class ConfigurationController implements Controller {
 
     PropertiesLoader properties = new PropertiesLoader();
     
-    ConfigurationView configView;
+    ConfigurationView configurationView;
     Controller sourceController;
     
     JTextField serverNameTxtField;
@@ -29,23 +30,23 @@ public class ConfigurationController implements Controller {
     JButton confirmarConfigBtn;
     
     public ConfigurationController(Controller _sourceController) {
-        configView = new ConfigurationView(this);
-        FrameUtils.centerViewOnScreen(configView);
+        configurationView = new ConfigurationView(this);
+        FrameUtils.centerViewOnScreen(configurationView);
         this.sourceController = _sourceController;
         initialize();
-        configView.setVisible(true);
+        configurationView.setVisible(true);
     }
     
     public void initialize() {
-        serverNameTxtField = configView.serverNameTxtField;
+        serverNameTxtField = configurationView.serverNameTxtField;
         serverNameTxtField.setText(properties.getServerName());
-        userTxtField = configView.userTxtField;
+        userTxtField = configurationView.userTxtField;
         userTxtField.setText(properties.getUser());
-        passwordTxtField = configView.passwordTxtField;
+        passwordTxtField = configurationView.passwordTxtField;
         passwordTxtField.setText(properties.getPassword());
-        consoleMsgTxtField = configView.consoleMsgTxtField;
-        probarConexionBtn = configView.probarConexionBtn;
-        confirmarConfigBtn = configView.confirmarConfigBtn;
+        consoleMsgTxtField = configurationView.consoleMsgTxtField;
+        probarConexionBtn = configurationView.probarConexionBtn;
+        confirmarConfigBtn = configurationView.confirmarConfigBtn;
     }
     
     public boolean checkConnection() {
@@ -77,26 +78,25 @@ public class ConfigurationController implements Controller {
         }
         properties.setPassword(pwd);
         FrameUtils.showInfoMessage("Éxito", "Configuración guardada correctamente.");
-        returnControlToSource();
+        sourceController.returnControlToSource(this);
         } else {
             FrameUtils.showErrorMessage("Conexión incorrecta", "Las credenciales son incorrectas o el servidor no existe.");
         }
     }
-    
-    @Override
-    public void recibeClienteLookup(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     @Override
     public void setVisible(boolean visible) {
-        configView.setVisible(visible);
+        configurationView.setVisible(visible);
+    }
+    
+    @Override
+    public void closeView() {
+        returnControlToSource(this);
+        configurationView.dispose();
     }
 
     @Override
-    public void returnControlToSource() {
-        this.sourceController.setVisible(true);
-        configView.dispose();
+    public void returnControlToSource(Controller controller) {
+        sourceController.returnControlToSource(this);
     }
-    
 }
