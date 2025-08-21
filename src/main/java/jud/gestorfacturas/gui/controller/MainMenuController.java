@@ -1,6 +1,8 @@
 
 package jud.gestorfacturas.gui.controller;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import jud.gestorfacturas.gui.view.MainMenuView;
 import javax.swing.JButton;
 import jud.gestorfacturas.manager.DBUtils;
@@ -8,13 +10,9 @@ import jud.gestorfacturas.manager.FrameUtils;
 
 public class MainMenuController implements Controller {
     
-    MainMenuView view;
+    MainMenuView mainMenuView;
     Controller sourceController;
     
-    JButton crearFacturaBtn;
-    JButton crearClienteBtn;
-    JButton modificarClienteBtn;
-    JButton datosPropiosBtn;
     JButton configBtn;
     
     private final String INFO_NO_EXISTE_EMISOR = "No se han iniciado los datos del EMISOR.";
@@ -22,24 +20,22 @@ public class MainMenuController implements Controller {
     private final String INFO_NO_EXISTEN_EMISOR_NI_DEUDOR = "No se han registrado datos del EMISOR ni de ningún DEUDOR (o no hay ninguno con status 'activado').";
     
     public MainMenuController() {
-        view = new MainMenuView(this);
+        mainMenuView = new MainMenuView(this);
+        FrameUtils.centerViewOnScreen(mainMenuView);
         initialize();
-        view.setVisible(true);
+        mainMenuView.setVisible(true);
     }
-    
+
     public MainMenuController(Controller _sourceController) {
-        view = new MainMenuView(this);
+        mainMenuView = new MainMenuView(this);
+        FrameUtils.centerViewOnScreen(mainMenuView);
         this.sourceController = _sourceController;
         initialize();
-        view.setVisible(true);
+        mainMenuView.setVisible(true);
     }
     
     protected void initialize() {
-        crearFacturaBtn = view.crearFacturaBtn;
-        crearClienteBtn = view.crearClienteBtn;
-        modificarClienteBtn = view.modificarClienteBtn;
-        datosPropiosBtn = view.datosPropiosBtn;
-        configBtn = view.configBtn;
+        configBtn = mainMenuView.configBtn;
         configBtn.setIcon(FrameUtils.CONFIG_FLATSVGICON);
     }
 
@@ -54,7 +50,7 @@ public class MainMenuController implements Controller {
 
     @Override
     public void setVisible(boolean visible) {
-        view.setVisible(visible);
+        mainMenuView.setVisible(visible);
     }
     
     public void openCrearFacturaView() {
@@ -79,7 +75,26 @@ public class MainMenuController implements Controller {
                 break;
         }
         
-        FacturaController fc = new FacturaController(this);
-        view.setVisible(false);
+        new FacturaController(this);
+    }
+    
+    public void openCrearClienteView() {
+        new NuevoClienteController(this);
+    }
+    
+    public void openModificarClienteView() {
+        new ModificarClienteController(this);
+    }
+    
+    public void openModificarEmisorView() {
+        new ModificarEmisorController(this);
+    }
+    
+    public void openListaFacturasView() {
+        new InvoiceLookupController(this);
+    }
+    
+    public void openConfigurationView() {
+        new ConfigurationController(this);
     }
 }

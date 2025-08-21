@@ -1,7 +1,10 @@
 package jud.gestorfacturas.manager;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -14,7 +17,14 @@ public class FrameUtils {
     public static final FlatSVGIcon OK_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ok_status_icon.svg"));
     public static final FlatSVGIcon KO_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ko_status_icon.svg"));
     public static final FlatSVGIcon CONFIG_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "config_icon.svg"));
-    
+
+    public static void centerViewOnScreen(JFrame view) {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - view.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - view.getHeight()) / 2);
+        view.setLocation(x, y);
+    }
+
     public static void showPlainMessage(String title, String msg) {
         showMessageDialog(null, msg, title, JOptionPane.PLAIN_MESSAGE);
     }

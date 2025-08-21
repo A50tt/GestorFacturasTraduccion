@@ -14,7 +14,7 @@ public class ModificarClienteController implements Controller {
     
     DBUtils dbUtils = new DBUtils();
     
-    ModificarClienteView view;
+    ModificarClienteView modificarClienteView;
     Controller sourceController;
     
     private final String ERROR_CLIENT_OBLIGATORY_FIELDS = "Por favor, rellene todos los campos obligatorios.";
@@ -33,24 +33,25 @@ public class ModificarClienteController implements Controller {
     protected JTextField nombreTxtField;
     
     public ModificarClienteController(Controller _sourceController) {
-        view = new ModificarClienteView(this);
+        modificarClienteView = new ModificarClienteView(this);
+        FrameUtils.centerViewOnScreen(modificarClienteView);
         this.sourceController = _sourceController;
         initialize();
-        view.setVisible(true);
+        modificarClienteView.setVisible(true);
     }
     
     private void initialize() {
-    actualizarBtn = view.switchEstadoClienteBtn;
-    anadirBtn = view.actualizarBtn;
-    numeroClienteTxtField = view.numeroClienteTxtField;
-    codigoPostalTxtField = view.codigoPostalTxtField;
-    direccionTxtField = view.direccionTxtField;
-    nifTxtField = view.nifTxtField;
-    nombreClienteSearchBtn = view.nombreClienteSearchBtn;
+    actualizarBtn = modificarClienteView.switchEstadoClienteBtn;
+    anadirBtn = modificarClienteView.actualizarBtn;
+    numeroClienteTxtField = modificarClienteView.numeroClienteTxtField;
+    codigoPostalTxtField = modificarClienteView.codigoPostalTxtField;
+    direccionTxtField = modificarClienteView.direccionTxtField;
+    nifTxtField = modificarClienteView.nifTxtField;
+    nombreClienteSearchBtn = modificarClienteView.nombreClienteSearchBtn;
     nombreClienteSearchBtn.setIcon(FrameUtils.SEARCH_FLATSVGICON);
-    nombreTxtField = view.nombreTxtField;
-    stateTxtField = view.stateTxtField;
-    resetClienteBtn = view.resetClienteBtn;
+    nombreTxtField = modificarClienteView.nombreTxtField;
+    stateTxtField = modificarClienteView.stateTxtField;
+    resetClienteBtn = modificarClienteView.resetClienteBtn;
     resetClienteBtn.setIcon(FrameUtils.REDO_FLATSVGICON);
     }
     
@@ -173,7 +174,7 @@ public class ModificarClienteController implements Controller {
 
     @Override
     public void setVisible(boolean visible) {
-        view.setVisible(visible);
+        modificarClienteView.setVisible(visible);
     }
 
     @Override

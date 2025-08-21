@@ -4,7 +4,6 @@ import javax.persistence.PersistenceException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
-import javax.swing.SwingUtilities;
 import jud.gestorfacturas.gui.controller.ConfigurationController;
 import jud.gestorfacturas.gui.controller.MainMenuController;
 

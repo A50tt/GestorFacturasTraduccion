@@ -5,7 +5,6 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
-import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -45,7 +44,7 @@ public class FacturaController implements Controller {
     private final String ERROR_EMISOR_NO_IBAN = "El EMISOR no tiene un IBAN informado y se ha elegido la forma de pago '" + FORMAS_PAGO[1] + "'. No se puede hacer una factura correcta.";
     
     private Controller sourceController;
-    private FacturaView view;
+    private FacturaView facturaView;
     private JPanel jPanel;
     private JTextField numeroFraTxtField;
     private JTextField fechaEmisionTxtField;
@@ -99,73 +98,74 @@ public class FacturaController implements Controller {
     private JButton registrarFacturaBtn;
 
     public FacturaController(Controller _sourceController) {
-        view = new FacturaView(this);
+        facturaView = new FacturaView(this);
+        FrameUtils.centerViewOnScreen(facturaView);
         sourceController = _sourceController;
         initialize();
-        view.setVisible(true);
+        facturaView.setVisible(true);
     }
 
     private void initialize() {
-        jPanel = view.jPanel;
-        numeroFraTxtField = view.numeroFraTxtField;
+        jPanel = facturaView.jPanel;
+        numeroFraTxtField = facturaView.numeroFraTxtField;
         numeroFraTxtField.setText(getNextDefaultNumFactura());
-        fechaEmisionTxtField = view.fechaEmisionTxtField;
+        fechaEmisionTxtField = facturaView.fechaEmisionTxtField;
         String year = String.format("%04d", LocalDateTime.now().getYear());
         String month = String.format("%02d", LocalDateTime.now().getMonthValue());
         String day = String.format("%02d", LocalDateTime.now().getDayOfMonth());
         fechaEmisionTxtField.setText(day + "-" + month + "-" + year);
-        diasParaPagoTxtField = view.diasParaPagoTxtField;
-        fechaVencimientoTxtField = view.fechaVencimientoTxtField;
-        formaPagoComboBox = view.formaPagoComboBox;
+        diasParaPagoTxtField = facturaView.diasParaPagoTxtField;
+        fechaVencimientoTxtField = facturaView.fechaVencimientoTxtField;
+        formaPagoComboBox = facturaView.formaPagoComboBox;
 
-        nombreClienteSearchBtn = view.nombreClienteSearchBtn;
+        nombreClienteSearchBtn = facturaView.nombreClienteSearchBtn;
         nombreClienteSearchBtn.setIcon(FrameUtils.SEARCH_FLATSVGICON);
-        numeroClienteTxtField = view.numeroClienteTxtField;
-        nombreClienteTxtField = view.nombreClienteTxtField;
-        nifClienteTxtField = view.nifClienteTxtField;
-        direccionClienteTxtField = view.direccionClienteTxtField;
-        codigoPostalClienteTxtField = view.codigoPostalClienteTxtField;
+        numeroClienteTxtField = facturaView.numeroClienteTxtField;
+        nombreClienteTxtField = facturaView.nombreClienteTxtField;
+        nifClienteTxtField = facturaView.nifClienteTxtField;
+        direccionClienteTxtField = facturaView.direccionClienteTxtField;
+        codigoPostalClienteTxtField = facturaView.codigoPostalClienteTxtField;
 
-        msgLbl = view.msgLbl;
+        msgLbl = facturaView.msgLbl;
         setStandbyStatus();
         msgLbl.getIcon();
         //msgLbl.setOpaque(false);
 
-        concepto1TxtField = view.concepto1TxtField;
-        idiomaOrigen1TxtField = view.idiomaOrigen1TxtField;
-        idiomaDestino1TxtField = view.idiomaDestino1TxtField;
-        cantidad1TxtField = view.cantidad1TxtField;
-        precio1TxtField = view.precio1TxtField;
-        item1ComboBox = view.item1ComboBox;
-        totalImporte1TxtField = view.totalImporte1TxtField;
+        concepto1TxtField = facturaView.concepto1TxtField;
+        idiomaOrigen1TxtField = facturaView.idiomaOrigen1TxtField;
+        idiomaDestino1TxtField = facturaView.idiomaDestino1TxtField;
+        cantidad1TxtField = facturaView.cantidad1TxtField;
+        precio1TxtField = facturaView.precio1TxtField;
+        item1ComboBox = facturaView.item1ComboBox;
+        totalImporte1TxtField = facturaView.totalImporte1TxtField;
 
-        concepto2TxtField = view.concepto2TxtField;
-        idiomaOrigen2TxtField = view.idiomaOrigen2TxtField;
-        idiomaDestino2TxtField = view.idiomaDestino2TxtField;
-        cantidad2TxtField = view.cantidad2TxtField;
-        precio2TxtField = view.precio2TxtField;
-        item2ComboBox = view.item2ComboBox;
-        totalImporte2TxtField = view.totalImporte2TxtField;
+        concepto2TxtField = facturaView.concepto2TxtField;
+        idiomaOrigen2TxtField = facturaView.idiomaOrigen2TxtField;
+        idiomaDestino2TxtField = facturaView.idiomaDestino2TxtField;
+        cantidad2TxtField = facturaView.cantidad2TxtField;
+        precio2TxtField = facturaView.precio2TxtField;
+        item2ComboBox = facturaView.item2ComboBox;
+        totalImporte2TxtField = facturaView.totalImporte2TxtField;
 
-        concepto3TxtField = view.concepto3TxtField;
-        idiomaOrigen3TxtField = view.idiomaOrigen3TxtField;
-        idiomaDestino3TxtField = view.idiomaDestino3TxtField;
-        cantidad3TxtField = view.cantidad3TxtField;
-        precio3TxtField = view.precio3TxtField;
-        item3ComboBox = view.item3ComboBox;
-        totalImporte3TxtField = view.totalImporte3TxtField;
+        concepto3TxtField = facturaView.concepto3TxtField;
+        idiomaOrigen3TxtField = facturaView.idiomaOrigen3TxtField;
+        idiomaDestino3TxtField = facturaView.idiomaDestino3TxtField;
+        cantidad3TxtField = facturaView.cantidad3TxtField;
+        precio3TxtField = facturaView.precio3TxtField;
+        item3ComboBox = facturaView.item3ComboBox;
+        totalImporte3TxtField = facturaView.totalImporte3TxtField;
 
-        concepto4TxtField = view.concepto4TxtField;
-        idiomaOrigen4TxtField = view.idiomaOrigen4TxtField;
-        idiomaDestino4TxtField = view.idiomaDestino4TxtField;
-        cantidad4TxtField = view.cantidad4TxtField;
-        precio4TxtField = view.precio4TxtField;
-        item4ComboBox = view.item4ComboBox;
-        totalImporte4TxtField = view.totalImporte4TxtField;
+        concepto4TxtField = facturaView.concepto4TxtField;
+        idiomaOrigen4TxtField = facturaView.idiomaOrigen4TxtField;
+        idiomaDestino4TxtField = facturaView.idiomaDestino4TxtField;
+        cantidad4TxtField = facturaView.cantidad4TxtField;
+        precio4TxtField = facturaView.precio4TxtField;
+        item4ComboBox = facturaView.item4ComboBox;
+        totalImporte4TxtField = facturaView.totalImporte4TxtField;
 
-        verificarFichaBtn = view.verificarFichaBtn;
-        previewFacturaBtn = view.previewFacturaBtn;
-        registrarFacturaBtn = view.registrarFacturaBtn;
+        verificarFichaBtn = facturaView.verificarFichaBtn;
+        previewFacturaBtn = facturaView.previewFacturaBtn;
+        registrarFacturaBtn = facturaView.registrarFacturaBtn;
 
         setBackgroundColorToAllComponents(jPanel, DEFAULT_BG_COLOR);
     }
@@ -741,6 +741,6 @@ public class FacturaController implements Controller {
 
     @Override
     public void setVisible(boolean visible) {
-        view.setVisible(visible);
+        facturaView.setVisible(visible);
     }
 }

@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import jud.gestorfacturas.gui.view.InvoiceLookupView;
 import jud.gestorfacturas.manager.DBUtils;
+import jud.gestorfacturas.manager.FrameUtils;
 import jud.gestorfacturas.manager.PDFGenerator;
 import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Factura;
@@ -17,7 +18,7 @@ public class InvoiceLookupController implements Controller {
     DBUtils dbUtils = new DBUtils();
     
     private Controller sourceController;
-    private InvoiceLookupView view;
+    private InvoiceLookupView invoiceLookupView;
     
     final String[] tiposCampo = {"Num. Factura", "Fecha emisión", "Fecha venc.", "N.º Cliente", "Nombre", "Importe total"};
     
@@ -26,14 +27,15 @@ public class InvoiceLookupController implements Controller {
     JTable resultadosTable;
     
     public InvoiceLookupController(Controller _sourceController) {
-        view = new InvoiceLookupView(this);
+        invoiceLookupView = new InvoiceLookupView(this);
+        FrameUtils.centerViewOnScreen(invoiceLookupView);
         sourceController = _sourceController;
         initialize();
-        view.setVisible(true);
+        invoiceLookupView.setVisible(true);
     }
     
     protected void initialize() {
-        campoBusquedaComboBox = view.campoBusquedaComboBox;
+        campoBusquedaComboBox = invoiceLookupView.campoBusquedaComboBox;
         for (String tipo : tiposCampo) {
              campoBusquedaComboBox.addItem(tipo);
         }
@@ -46,8 +48,8 @@ public class InvoiceLookupController implements Controller {
                 }
             }
         });
-        inputTextField = view.inputTextField;
-        resultadosTable = view.resultadosTable;
+        inputTextField = invoiceLookupView.inputTextField;
+        resultadosTable = invoiceLookupView.resultadosTable;
         lookupAllInvoices();
     }
     
@@ -112,7 +114,7 @@ public class InvoiceLookupController implements Controller {
     }
     
     public void lookupAndOpenInvoice(int row) {
-        Factura factura = dbUtils.getFacturaByNif(view.resultadosTable.getModel().getValueAt(row, 0).toString());
+        Factura factura = dbUtils.getFacturaByNif(invoiceLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
         PDFGenerator.openPDF(factura.getPdfFactura());
     }
 
@@ -123,12 +125,12 @@ public class InvoiceLookupController implements Controller {
 
     @Override
     public void setVisible(boolean visible) {
-        view.setVisible(false);
+        invoiceLookupView.setVisible(false);
     }
 
     @Override
     public void returnControlToSource() {
         sourceController.setVisible(true);
-        view.dispose();
+        invoiceLookupView.dispose();
     }
 }

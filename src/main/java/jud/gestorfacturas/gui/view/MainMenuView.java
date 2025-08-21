@@ -133,28 +133,23 @@ public class MainMenuView extends javax.swing.JFrame {
     }//GEN-LAST:event_crearFacturaBtnActionPerformed
 
     private void crearClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearClienteBtnActionPerformed
-        NuevoClienteController ncc = new NuevoClienteController(controller);
-        this.setVisible(false);
+        controller.openCrearClienteView();
     }//GEN-LAST:event_crearClienteBtnActionPerformed
 
     private void modificarClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarClienteBtnActionPerformed
-        ModificarClienteController mcc = new ModificarClienteController(controller);
-        this.setVisible(false);
+        controller.openModificarClienteView();
     }//GEN-LAST:event_modificarClienteBtnActionPerformed
 
     private void datosPropiosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datosPropiosBtnActionPerformed
-        ModificarEmisorController mec = new ModificarEmisorController(controller);
-        this.setVisible(false);
+        controller.openModificarEmisorView();
     }//GEN-LAST:event_datosPropiosBtnActionPerformed
 
     private void listarFacturasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarFacturasBtnActionPerformed
-        InvoiceLookupController il = new InvoiceLookupController(controller);
-        this.setVisible(false);
+        controller.openListaFacturasView();
     }//GEN-LAST:event_listarFacturasBtnActionPerformed
 
     private void configBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configBtnActionPerformed
-        ConfigurationController cc = new ConfigurationController(controller);
-        this.setVisible(false);
+        controller.openConfigurationView();
     }//GEN-LAST:event_configBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -18,7 +18,7 @@ public class ConfigurationController implements Controller {
 
     PropertiesLoader properties = new PropertiesLoader();
     
-    ConfigurationView view;
+    ConfigurationView configView;
     Controller sourceController;
     
     JTextField serverNameTxtField;
@@ -29,22 +29,23 @@ public class ConfigurationController implements Controller {
     JButton confirmarConfigBtn;
     
     public ConfigurationController(Controller _sourceController) {
-        view = new ConfigurationView(this);
+        configView = new ConfigurationView(this);
+        FrameUtils.centerViewOnScreen(configView);
         this.sourceController = _sourceController;
         initialize();
-        view.setVisible(true);
+        configView.setVisible(true);
     }
     
     public void initialize() {
-        serverNameTxtField = view.serverNameTxtField;
+        serverNameTxtField = configView.serverNameTxtField;
         serverNameTxtField.setText(properties.getServerName());
-        userTxtField = view.userTxtField;
+        userTxtField = configView.userTxtField;
         userTxtField.setText(properties.getUser());
-        passwordTxtField = view.passwordTxtField;
+        passwordTxtField = configView.passwordTxtField;
         passwordTxtField.setText(properties.getPassword());
-        consoleMsgTxtField = view.consoleMsgTxtField;
-        probarConexionBtn = view.probarConexionBtn;
-        confirmarConfigBtn = view.confirmarConfigBtn;
+        consoleMsgTxtField = configView.consoleMsgTxtField;
+        probarConexionBtn = configView.probarConexionBtn;
+        confirmarConfigBtn = configView.confirmarConfigBtn;
     }
     
     public boolean checkConnection() {
@@ -89,13 +90,13 @@ public class ConfigurationController implements Controller {
 
     @Override
     public void setVisible(boolean visible) {
-        view.setVisible(visible);
+        configView.setVisible(visible);
     }
 
     @Override
     public void returnControlToSource() {
         this.sourceController.setVisible(true);
-        view.dispose();
+        configView.dispose();
     }
     
 }

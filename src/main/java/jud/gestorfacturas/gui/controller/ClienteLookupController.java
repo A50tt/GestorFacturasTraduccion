@@ -20,7 +20,7 @@ public class ClienteLookupController {
     
     Utils utils = new Utils();
     DBUtils dbUtils = new DBUtils();
-    ClienteLookupView view;
+    ClienteLookupView clienteLookupView;
     Controller sourceController;
     boolean checkIfClienteIsActivado;
     
@@ -34,20 +34,21 @@ public class ClienteLookupController {
     final String[] columnasTabla = {"ID", "Nombre", "NIF", "Dirección", "Código postal"};
 
     public ClienteLookupController(Controller _sourceController, boolean _checkIfClienteIsActivado) {
-        view = new ClienteLookupView(this);
+        clienteLookupView = new ClienteLookupView(this);
+        FrameUtils.centerViewOnScreen(clienteLookupView);
         sourceController = _sourceController;
         checkIfClienteIsActivado = _checkIfClienteIsActivado;
         initialize();
-        view.setVisible(true);
+        clienteLookupView.setVisible(true);
     }
 
     private void initialize() {
-        campoClienteComboBox = view.campoClienteComboBox;
+        campoClienteComboBox = clienteLookupView.campoClienteComboBox;
         for (String tipo : tiposCampo) {
              campoClienteComboBox.addItem(tipo);
         }
-        inputTextField = view.inputTextField;
-        resultadosTable = view.resultadosTable;
+        inputTextField = clienteLookupView.inputTextField;
+        resultadosTable = clienteLookupView.resultadosTable;
         campoClienteComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 if (inputTextField.getText().equals("")) {
@@ -110,11 +111,11 @@ public class ClienteLookupController {
     }
 
     public void lookupClientes() {
-        String valor = view.inputTextField.getText();
+        String valor = clienteLookupView.inputTextField.getText();
         if (valor.contains("*")) {
             valor = valor.replace("*", "%");
         }
-        String campo = view.campoClienteComboBox.getSelectedItem().toString();
+        String campo = clienteLookupView.campoClienteComboBox.getSelectedItem().toString();
         String propiedad = null;
         if (campo == tiposCampo[0]) {
             propiedad = "nombre";
@@ -132,15 +133,15 @@ public class ClienteLookupController {
   
     public void returnClienteToSource(int row) {
         if (checkIfClienteIsActivado) {
-            if (view.resultadosTable.getModel().getValueAt(row, 5).toString().equals("Activado")) {
-                sourceController.recibeClienteLookup(view.resultadosTable.getModel().getValueAt(row, 0).toString());
-                view.dispose();
+            if (clienteLookupView.resultadosTable.getModel().getValueAt(row, 5).toString().equals("Activado")) {
+                sourceController.recibeClienteLookup(clienteLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
+                clienteLookupView.dispose();
             } else {
                 FrameUtils.showErrorMessage("Cliente desactivado", "El cliente no se puede utilizar porque está desactivado. Para activarlo, se ha de modificar desde 'Modificar clientes'.");
             }
         } else {
-            sourceController.recibeClienteLookup(view.resultadosTable.getModel().getValueAt(row, 0).toString());
-            view.dispose();
+            sourceController.recibeClienteLookup(clienteLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
+            clienteLookupView.dispose();
         }
     }
 }

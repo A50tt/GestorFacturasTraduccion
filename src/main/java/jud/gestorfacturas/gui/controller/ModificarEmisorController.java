@@ -11,7 +11,7 @@ import jud.gestorfacturas.model.Emisor;
 
 public class ModificarEmisorController implements Controller {
     
-    ModificarEmisorView view;
+    ModificarEmisorView modificarEmisorView;
     Controller sourceController;
     
     Color DEFAULT_BG_COLOR = Color.white;
@@ -26,19 +26,20 @@ public class ModificarEmisorController implements Controller {
     protected JTextField ibanTxtField;
     
     public ModificarEmisorController(Controller _sourceController) {
-        view = new ModificarEmisorView(this);
+        modificarEmisorView = new ModificarEmisorView(this);
+        FrameUtils.centerViewOnScreen(modificarEmisorView);
         this.sourceController = _sourceController;
         initialize();
-        view.setVisible(true);
+        modificarEmisorView.setVisible(true);
     }
     
     private void initialize() {
-        nifTxtField = view.nifTxtField;
-        nombreTxtField = view.nombreTxtField;
-        nombreCompletoTxtField = view.nombreCompletoTxtField;
-        direccionTxtField = view.direccionTxtField;
-        codigoPostalTxtField = view.codigoPostalTxtField;
-        ibanTxtField = view.ibanTxtField;
+        nifTxtField = modificarEmisorView.nifTxtField;
+        nombreTxtField = modificarEmisorView.nombreTxtField;
+        nombreCompletoTxtField = modificarEmisorView.nombreCompletoTxtField;
+        direccionTxtField = modificarEmisorView.direccionTxtField;
+        codigoPostalTxtField = modificarEmisorView.codigoPostalTxtField;
+        ibanTxtField = modificarEmisorView.ibanTxtField;
         cargaDatosEmisor();
     }
     
@@ -140,7 +141,7 @@ public class ModificarEmisorController implements Controller {
 
     @Override
     public void setVisible(boolean visible) {
-        view.setVisible(visible);
+        modificarEmisorView.setVisible(visible);
     }
 
     @Override

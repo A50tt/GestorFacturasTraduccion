@@ -1,4 +1,3 @@
-
 package jud.gestorfacturas.gui.controller;
 
 import jud.gestorfacturas.gui.view.NuevoClienteView;
@@ -14,41 +13,41 @@ import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Cliente;
 
 public class NuevoClienteController implements Controller {
-    
+
     Color DEFAULT_BG_COLOR = Color.white;
     Color ERROR_BG_COLOR = Color.red;
-    String[] RESPUESTAS_MSGBOX_FALTAN_OPCIONALES = {"Continuar", "Cancelar"};
 
-    NuevoClienteView view;
+    NuevoClienteView nuevoClienteView;
     Controller sourceController;
-    
+
     protected JButton anadirBtn;
     protected JTextField codigoPostalTxtField;
     protected JTextField direccionTxtField;
     protected JTextField nifTxtField;
     protected JTextField nombreTxtField;
-    
+
     public NuevoClienteController(Controller _sourceController) {
-        view = new NuevoClienteView(this);
+        nuevoClienteView = new NuevoClienteView(this);
+        FrameUtils.centerViewOnScreen(nuevoClienteView);
         this.sourceController = _sourceController;
         initialize();
-        view.setVisible(true);
+        nuevoClienteView.setVisible(true);
     }
-    
+
     private void initialize() {
-    anadirBtn = view.anadirBtn;
-    codigoPostalTxtField = view.codigoPostalTxtField;
-    direccionTxtField = view.direccionTxtField;
-    nifTxtField = view.nifTxtField;
-    nombreTxtField = view.nombreTxtField;
+        anadirBtn = nuevoClienteView.anadirBtn;
+        codigoPostalTxtField = nuevoClienteView.codigoPostalTxtField;
+        direccionTxtField = nuevoClienteView.direccionTxtField;
+        nifTxtField = nuevoClienteView.nifTxtField;
+        nombreTxtField = nuevoClienteView.nombreTxtField;
     }
-    
+
     public void guardarCliente() {
         if (verificarCamposCorrectos()) {
             registraCliente(generaCliente());
         }
     }
-    
+
     public boolean verificarCamposCorrectos() {
         int obligatorios = 0; // Cuenta los campos obligatorios rellenados
         int opcionales = 0; // Cuenta los campos obligatorios rellenados
@@ -73,11 +72,11 @@ public class NuevoClienteController implements Controller {
         if (!codigoPostalTxtField.getText().isEmpty()) {
             opcionales++;
         }
-        
+
         if (obligatorios == 2 && opcionales < 2) {
             setDefaultBackground(direccionTxtField);
             setDefaultBackground(codigoPostalTxtField);
-            
+
             int input = FrameUtils.showQuestionBox("Campos incompletos", "Faltan campos opcionales por completar. ¿Continuar?");
             if (input == 0) { //0 si ok, 1 si cancel
                 opcionales = 2;
@@ -91,7 +90,7 @@ public class NuevoClienteController implements Controller {
         }
         return false;
     }
-    
+
     public Cliente generaCliente() {
         DBUtils dbUtils = new DBUtils();
         String nombreCliente = nombreTxtField.getText();
@@ -102,10 +101,10 @@ public class NuevoClienteController implements Controller {
         cliente.setId(dbUtils.getSiguienteIdCliente());
         return cliente;
     }
-    
+
     public void registraCliente(Cliente cliente) {
         DBUtils dbUtils = new DBUtils();
-        
+
         if (!dbUtils.clienteExists(cliente)) {
             dbUtils.getEntityManager().getTransaction().begin();
             dbUtils.mergeIntoDB(cliente);
@@ -140,6 +139,6 @@ public class NuevoClienteController implements Controller {
 
     @Override
     public void setVisible(boolean visible) {
-        view.setVisible(visible);
+        nuevoClienteView.setVisible(visible);
     }
 }
