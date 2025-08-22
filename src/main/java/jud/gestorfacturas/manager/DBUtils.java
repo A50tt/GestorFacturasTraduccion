@@ -85,8 +85,6 @@ public class DBUtils {
     
     public DBUtils() {
         em = EntityManagerLoader.getEntityManagerConfiguredInstance();
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory(new PropertiesLoader().getEntityManagerName());
-//        em = emf.createEntityManager();
     }
     
     @Override

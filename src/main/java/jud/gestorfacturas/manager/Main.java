@@ -43,7 +43,34 @@ public class Main {
     }
 
     public void inicio() {
-        FrameContainerController mainMenu = new FrameContainerController();
+        //FrameContainerController mainMenu = new FrameContainerController();
+        //COSAS PENDIENTES
+        //Reorganizar la jerarquia de archivos por finalidad en vez de por tipo.
         
+        boolean correctStart = true;
+        try {
+            EntityManagerLoader.getEntityManagerConfiguredInstance().isOpen();
+        } catch (PersistenceException ex) {
+            correctStart = false;
+        }
+
+        if (correctStart) {
+            try {
+                DBUtils dbUtils = new DBUtils();
+                dbUtils.checkIfTablesAreCreatedOnDB();
+                FrameContainerController containerWindow = new FrameContainerController();
+            } catch (PersistenceException ex) {
+                FrameUtils.showErrorMessage("FATAL ERROR", ex.toString());
+            }
+        } else {
+            try {
+                FrameUtils.showErrorMessage("Error", "La base de datos de PostgreSQL o las credenciales que se encuentran en el archivo de propiedades están vacías o son incorrectas.\nRecomendamos configurar la base de datos antes de empezar a usar la aplicación.");
+                FrameContainerController containerWindow = new FrameContainerController();
+                containerWindow.setVisible(true);
+                containerWindow.openConfiguracion();
+            } catch (PersistenceException ex) {
+                FrameUtils.showErrorMessage("FATAL ERROR", ex.toString());
+            }
+        }
     }
 }

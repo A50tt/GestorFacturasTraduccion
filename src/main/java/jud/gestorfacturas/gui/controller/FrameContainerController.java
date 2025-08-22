@@ -3,8 +3,6 @@ package jud.gestorfacturas.gui.controller;
 
 import interfaces.Controller;
 import interfaces.GlobalController;
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -13,19 +11,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import jud.gestorfacturas.gui.view.FrameContainerView;
 import jud.gestorfacturas.manager.FrameUtils;
-
 
 public class FrameContainerController implements GlobalController {
     

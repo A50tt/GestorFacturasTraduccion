@@ -25,7 +25,7 @@ public class ConfigurationController implements Controller {
     JPasswordField passwordTxtField;
     JTextField consoleMsgTxtField;
     
-    private String viewName = "Configuración";
+    private String viewName = "Origen de datos";
     
     public ConfigurationController() {
         configurationView = new ConfigurationView(this);
