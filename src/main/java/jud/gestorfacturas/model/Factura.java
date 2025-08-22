@@ -9,7 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import jud.gestorfacturas.manager.Utils;
+import utils.FormatUtils;
 
 @Entity
 public class Factura implements Serializable {
@@ -88,8 +88,8 @@ public class Factura implements Serializable {
         this.emisor = _emisor;
         this.listaServicios = _listaServicios;
         calculaServicios(); //Calcula baseImponible a partir de listaServicios
-        this.iva = Utils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
-        this.irpf = Utils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
+        this.iva = FormatUtils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
+        this.irpf = FormatUtils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
         this.importeTotal = baseImponible + iva + irpf;
         this.fechaUltActualizacion = new Timestamp(System.currentTimeMillis());
     }

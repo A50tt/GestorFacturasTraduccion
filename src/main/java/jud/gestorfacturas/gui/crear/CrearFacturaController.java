@@ -1,8 +1,9 @@
-package jud.gestorfacturas.gui.controller;
+package jud.gestorfacturas.gui.crear;
 
-import interfaces.Controller;
-import interfaces.DataListenerController;
-import jud.gestorfacturas.gui.view.FacturaView;
+import jud.gestorfacturas.gui.buscar.BuscarClienteController;
+import jud.gestorfacturas.interfaces.Controller;
+import jud.gestorfacturas.interfaces.DataListenerController;
+import jud.gestorfacturas.gui.crear.CrearFacturaView;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Component;
@@ -21,20 +22,20 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import jud.gestorfacturas.manager.DBUtils;
+import utils.DBUtils;
 import jud.gestorfacturas.manager.PDFGenerator;
-import jud.gestorfacturas.manager.Utils;
+import utils.FormatUtils;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Servicio;
-import jud.gestorfacturas.manager.FrameUtils;
+import utils.FrameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-public class FacturaController implements Controller, DataListenerController {
+public class CrearFacturaController implements Controller, DataListenerController {
 
     DBUtils dbUtils = new DBUtils();
-    Utils utils = new Utils();
+    FormatUtils utils = new FormatUtils();
     protected int fichaEsCorrecta = 0; // -1 si es INCORRECTA, 0 si es NEUTRAL, 1 si es CORRECTA
     private String viewName = "Nueva factura";
 
@@ -47,7 +48,7 @@ public class FacturaController implements Controller, DataListenerController {
     private final String ERROR_EMISOR_NO_IBAN = "El EMISOR no tiene un IBAN informado y se ha elegido la forma de pago '" + FORMAS_PAGO[1] + "'. No se puede hacer una factura correcta.";
     
     private Controller sourceController;
-    public FacturaView facturaView;
+    public CrearFacturaView facturaView;
     private JPanel jPanel;
     private JTextField numeroFraTxtField;
     private JTextField fechaEmisionTxtField;
@@ -100,8 +101,8 @@ public class FacturaController implements Controller, DataListenerController {
     private JButton previewFacturaBtn;
     private JButton registrarFacturaBtn;
     
-    public FacturaController() {
-        facturaView = new FacturaView(this);
+    public CrearFacturaController() {
+        facturaView = new CrearFacturaView(this);
         initialize();
     }
     
@@ -378,7 +379,7 @@ public class FacturaController implements Controller, DataListenerController {
             pdDoc.save(file);
             return file;
         } catch (IOException ex) {
-            Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CrearFacturaController.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -391,7 +392,7 @@ public class FacturaController implements Controller, DataListenerController {
             pdDoc.save(file);
             return file;
         } catch (IOException ex) {
-            Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CrearFacturaController.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -403,10 +404,10 @@ public class FacturaController implements Controller, DataListenerController {
             }
             Desktop.getDesktop().open(file);
         } catch (IOException ex1) {
-            Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex1);
+            Logger.getLogger(CrearFacturaController.class.getName()).log(Level.SEVERE, null, ex1);
             FrameUtils.showErrorMessage("ERROR", ex1 + ": La factura " + file.getName() + " no se ha podido encontrar.");
         } catch (NullPointerException ex2) {
-            Logger.getLogger(FacturaController.class.getName()).log(Level.SEVERE, null, ex2);
+            Logger.getLogger(CrearFacturaController.class.getName()).log(Level.SEVERE, null, ex2);
             FrameUtils.showErrorMessage("ERROR", ex2 + ": La factura no se ha podido encontrar.");
         }
     }
@@ -749,6 +750,6 @@ public class FacturaController implements Controller, DataListenerController {
     }
 
     public void abrirClienteLookupFrame() {
-        ClienteLookupController lookupController = new ClienteLookupController(this, true);
+        BuscarClienteController lookupController = new BuscarClienteController(this, true);
     }
 }

@@ -1,23 +1,23 @@
 
-package jud.gestorfacturas.gui.controller;
+package jud.gestorfacturas.gui.buscar;
 
-import interfaces.Controller;
+import jud.gestorfacturas.interfaces.Controller;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import jud.gestorfacturas.gui.view.InvoiceLookupView;
-import jud.gestorfacturas.manager.DBUtils;
+import jud.gestorfacturas.gui.buscar.BuscarFacturaView;
+import utils.DBUtils;
 import jud.gestorfacturas.manager.PDFGenerator;
-import jud.gestorfacturas.manager.Utils;
+import utils.FormatUtils;
 import jud.gestorfacturas.model.Factura;
 
-public class InvoiceLookupController implements Controller {
+public class BuscarFacturaController implements Controller {
     
     DBUtils dbUtils = new DBUtils();
     
-    private InvoiceLookupView invoiceLookupView;
+    private BuscarFacturaView invoiceLookupView;
     
     final String[] tiposCampo = {"Num. Factura", "Fecha emisión", "Fecha venc.", "N.º Cliente", "Nombre", "Importe total"};
     
@@ -27,8 +27,8 @@ public class InvoiceLookupController implements Controller {
     
     private String viewName = "Buscar factura";
     
-    public InvoiceLookupController() {
-        invoiceLookupView = new InvoiceLookupView(this);
+    public BuscarFacturaController() {
+        invoiceLookupView = new BuscarFacturaView(this);
         initialize();
     }
     
@@ -102,8 +102,8 @@ public class InvoiceLookupController implements Controller {
         for (int i = 0; i < listaFacturasFiltradas.length; i++) {
             Factura factura = listaFacturasFiltradas[i];
             String numFactura = factura.getNumFactura();
-            String fechaEmision = Utils.convertDateToString(factura.getFechaEmision(), "yyyy-MM-dd");
-            String fechaVencimiento = Utils.convertDateToString(factura.getFechaVencimiento(), "yyyy-MM-dd");
+            String fechaEmision = FormatUtils.convertDateToString(factura.getFechaEmision(), "yyyy-MM-dd");
+            String fechaVencimiento = FormatUtils.convertDateToString(factura.getFechaVencimiento(), "yyyy-MM-dd");
             int numCliente = Integer.valueOf(factura.getCliente().getId());
             String nombreCliente = factura.getCliente().getNombre();
             String importeTotal = String.format("%.2f", factura.getImporteTotal()).replace(".", ",");

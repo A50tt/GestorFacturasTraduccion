@@ -1,5 +1,5 @@
 
-package interfaces;
+package jud.gestorfacturas.interfaces;
 
 public interface DataListenerController {
     

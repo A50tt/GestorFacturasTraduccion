@@ -1,15 +1,16 @@
 
-package jud.gestorfacturas.gui.controller;
+package jud.gestorfacturas.gui.editar;
 
-import interfaces.Controller;
-import interfaces.DataListenerController;
-import jud.gestorfacturas.gui.view.ModificarClienteView;
+import jud.gestorfacturas.gui.buscar.BuscarClienteController;
+import jud.gestorfacturas.interfaces.Controller;
+import jud.gestorfacturas.interfaces.DataListenerController;
+import jud.gestorfacturas.gui.editar.ModificarClienteView;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import jud.gestorfacturas.manager.DBUtils;
-import jud.gestorfacturas.manager.FrameUtils;
+import utils.DBUtils;
+import utils.FrameUtils;
 import jud.gestorfacturas.model.Cliente;
 
 public class ModificarClienteController implements Controller, DataListenerController {
@@ -169,7 +170,7 @@ public class ModificarClienteController implements Controller, DataListenerContr
     }
  
     public void abrirClienteLookupFrame() {
-        ClienteLookupController clc = new ClienteLookupController(this, false);
+        BuscarClienteController clc = new BuscarClienteController(this, false);
     }
 
     @Override

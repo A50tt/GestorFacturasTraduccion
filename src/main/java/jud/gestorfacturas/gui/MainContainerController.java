@@ -1,8 +1,14 @@
 
-package jud.gestorfacturas.gui.controller;
+package jud.gestorfacturas.gui;
 
-import interfaces.Controller;
-import interfaces.GlobalController;
+import jud.gestorfacturas.gui.editar.ModificarEmisorController;
+import jud.gestorfacturas.gui.editar.ModificarClienteController;
+import jud.gestorfacturas.gui.buscar.BuscarFacturaController;
+import jud.gestorfacturas.gui.crear.CrearFacturaController;
+import jud.gestorfacturas.gui.configuracion.ConfigOrigenDatosController;
+import jud.gestorfacturas.gui.crear.NuevoClienteController;
+import jud.gestorfacturas.interfaces.Controller;
+import jud.gestorfacturas.interfaces.GlobalController;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -18,18 +24,18 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import jud.gestorfacturas.gui.view.FrameContainerView;
-import jud.gestorfacturas.manager.FrameUtils;
+import jud.gestorfacturas.gui.MainContainerView;
+import utils.FrameUtils;
 
-public class FrameContainerController implements GlobalController {
+public class MainContainerController implements GlobalController {
     
-    FrameContainerView frameContainerView;
+    MainContainerView frameContainerView;
     protected JTabbedPane jTabbedPane;
     
     List<Controller> tabs = new ArrayList<Controller>();
 
-    public FrameContainerController() {
-        frameContainerView = new FrameContainerView(this, "Gestión de facturas");
+    public MainContainerController() {
+        frameContainerView = new MainContainerView(this, "Gestión de facturas");
         FrameUtils.centerViewOnScreen(frameContainerView);
         initialize();
         setVisible(true);
@@ -46,7 +52,7 @@ public class FrameContainerController implements GlobalController {
     }
 
     public void openNuevaFactura() {
-        FacturaController facturaController = new FacturaController();
+        CrearFacturaController facturaController = new CrearFacturaController();
         handleNewTab(facturaController);
     }
     
@@ -66,12 +72,12 @@ public class FrameContainerController implements GlobalController {
     }
 
     public void openConfiguracion() {
-        ConfigurationController modificarEmisorController = new ConfigurationController();
+        ConfigOrigenDatosController modificarEmisorController = new ConfigOrigenDatosController();
         handleNewTab(modificarEmisorController);
     }
 
     public void openBuscarFactura() {
-        InvoiceLookupController buscarFacturaController = new InvoiceLookupController();
+        BuscarFacturaController buscarFacturaController = new BuscarFacturaController();
         handleNewTab(buscarFacturaController);
     }
 

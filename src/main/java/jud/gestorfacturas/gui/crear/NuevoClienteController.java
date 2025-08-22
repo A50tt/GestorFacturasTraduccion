@@ -1,15 +1,15 @@
-package jud.gestorfacturas.gui.controller;
+package jud.gestorfacturas.gui.crear;
 
-import interfaces.Controller;
-import jud.gestorfacturas.gui.view.NuevoClienteView;
+import jud.gestorfacturas.interfaces.Controller;
+import jud.gestorfacturas.gui.crear.NuevoClienteView;
 import java.awt.Color;
 import java.time.LocalDateTime;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import jud.gestorfacturas.manager.DBUtils;
-import jud.gestorfacturas.manager.FrameUtils;
+import utils.DBUtils;
+import utils.FrameUtils;
 import jud.gestorfacturas.model.Cliente;
 
 public class NuevoClienteController implements Controller {

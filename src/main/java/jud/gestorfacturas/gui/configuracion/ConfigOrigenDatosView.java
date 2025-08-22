@@ -1,13 +1,13 @@
 
-package jud.gestorfacturas.gui.view;
+package jud.gestorfacturas.gui.configuracion;
 
-import jud.gestorfacturas.gui.controller.ConfigurationController;
+import jud.gestorfacturas.gui.configuracion.ConfigOrigenDatosController;
 
-public class ConfigurationView extends javax.swing.JPanel {
+public class ConfigOrigenDatosView extends javax.swing.JPanel {
 
-    ConfigurationController controller;
+    ConfigOrigenDatosController controller;
     
-    public ConfigurationView(ConfigurationController _controller) {
+    public ConfigOrigenDatosView(ConfigOrigenDatosController _controller) {
         this.controller = _controller;
         initComponents();
     }
@@ -34,7 +34,7 @@ public class ConfigurationView extends javax.swing.JPanel {
         consoleMsgTxtField = new javax.swing.JTextField();
         passwordTxtField = new javax.swing.JPasswordField();
 
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
         jPanel2.setLayout(new java.awt.GridBagLayout());

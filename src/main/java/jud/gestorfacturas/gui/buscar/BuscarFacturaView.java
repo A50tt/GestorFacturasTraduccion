@@ -1,13 +1,13 @@
 
-package jud.gestorfacturas.gui.view;
+package jud.gestorfacturas.gui.buscar;
 
-import jud.gestorfacturas.gui.controller.InvoiceLookupController;
+import jud.gestorfacturas.gui.buscar.BuscarFacturaController;
 
-public class InvoiceLookupView extends javax.swing.JPanel {
+public class BuscarFacturaView extends javax.swing.JPanel {
 
-    InvoiceLookupController controller;
+    BuscarFacturaController controller;
     
-    public InvoiceLookupView(InvoiceLookupController _controller) {
+    public BuscarFacturaView(BuscarFacturaController _controller) {
         this.controller = _controller;
         initComponents();
     }

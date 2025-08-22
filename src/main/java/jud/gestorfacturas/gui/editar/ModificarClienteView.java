@@ -1,8 +1,8 @@
 
-package jud.gestorfacturas.gui.view;
+package jud.gestorfacturas.gui.editar;
 
 import java.awt.event.KeyEvent;
-import jud.gestorfacturas.gui.controller.ModificarClienteController;
+import jud.gestorfacturas.gui.editar.ModificarClienteController;
 
 public class ModificarClienteView extends javax.swing.JPanel {
 

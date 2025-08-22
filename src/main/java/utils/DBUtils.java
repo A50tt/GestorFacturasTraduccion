@@ -1,5 +1,5 @@
 
-package jud.gestorfacturas.manager;
+package utils;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import jud.gestorfacturas.manager.EntityManagerLoader;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;

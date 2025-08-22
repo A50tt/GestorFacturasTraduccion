@@ -3,7 +3,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Random;
 import jud.gestorfacturas.manager.PDFGenerator;
-import jud.gestorfacturas.manager.DBUtils;
+import utils.DBUtils;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;

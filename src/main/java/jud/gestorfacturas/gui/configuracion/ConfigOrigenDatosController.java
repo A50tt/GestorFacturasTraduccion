@@ -1,23 +1,23 @@
 
-package jud.gestorfacturas.gui.controller;
+package jud.gestorfacturas.gui.configuracion;
 
-import interfaces.Controller;
+import jud.gestorfacturas.interfaces.Controller;
 import java.awt.Color;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import jud.gestorfacturas.gui.view.ConfigurationView;
+import jud.gestorfacturas.gui.configuracion.ConfigOrigenDatosView;
 import jud.gestorfacturas.manager.EntityManagerLoader;
-import jud.gestorfacturas.manager.FrameUtils;
+import utils.FrameUtils;
 import jud.gestorfacturas.manager.PropertiesLoader;
 
-public class ConfigurationController implements Controller {
+public class ConfigOrigenDatosController implements Controller {
 
     PropertiesLoader properties = new PropertiesLoader();
     
-    ConfigurationView configurationView;
+    ConfigOrigenDatosView configurationView;
     Controller sourceController;
     
     JTextField serverNameTxtField;
@@ -27,8 +27,8 @@ public class ConfigurationController implements Controller {
     
     private String viewName = "Origen de datos";
     
-    public ConfigurationController() {
-        configurationView = new ConfigurationView(this);
+    public ConfigOrigenDatosController() {
+        configurationView = new ConfigOrigenDatosView(this);
         initialize();
     }
     

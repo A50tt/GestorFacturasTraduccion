@@ -1,5 +1,5 @@
 
-package jud.gestorfacturas.manager;
+package utils;
 
 import java.math.RoundingMode;
 import java.sql.Date;
@@ -12,18 +12,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import jud.gestorfacturas.manager.CustomException;
 
-public class Utils {
+public class FormatUtils {
 
-    public Utils() {
+    public FormatUtils() {
 
     }
 
     public static String formatDecimalNumberToStringIfNecessary(Double dou, int decimalDigits) {
         try {
-            return Utils.formatDecimalNumber(dou, decimalDigits, "#");
+            return FormatUtils.formatDecimalNumber(dou, decimalDigits, "#");
         } catch (CustomException ex) {
-            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormatUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -61,18 +62,18 @@ public class Utils {
     
     public static Double formatDecimalNumberToDoubleIfNecessary(Double dou, int decimalDigits) {
         try {
-            return Double.parseDouble(Utils.formatDecimalNumber(dou, decimalDigits, "#").replace(",","."));
+            return Double.parseDouble(FormatUtils.formatDecimalNumber(dou, decimalDigits, "#").replace(",","."));
         } catch (CustomException ex) {
-            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormatUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
     public static String formatDecimalNumberToStringAlways(Double dou, int decimalDigits) {
         try {
-            return Utils.formatDecimalNumber(dou, decimalDigits, "0");
+            return FormatUtils.formatDecimalNumber(dou, decimalDigits, "0");
         } catch (CustomException ex) {
-            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormatUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

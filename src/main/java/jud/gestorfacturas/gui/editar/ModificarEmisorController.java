@@ -1,14 +1,14 @@
-package jud.gestorfacturas.gui.controller;
+package jud.gestorfacturas.gui.editar;
 
-import interfaces.Controller;
-import interfaces.DataListenerController;
+import jud.gestorfacturas.interfaces.Controller;
+import jud.gestorfacturas.interfaces.DataListenerController;
 import java.awt.Color;
-import jud.gestorfacturas.gui.view.ModificarEmisorView;
+import jud.gestorfacturas.gui.editar.ModificarEmisorView;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import jud.gestorfacturas.manager.DBUtils;
-import jud.gestorfacturas.manager.FrameUtils;
+import utils.DBUtils;
+import utils.FrameUtils;
 import jud.gestorfacturas.model.Emisor;
 
 public class ModificarEmisorController implements Controller, DataListenerController {

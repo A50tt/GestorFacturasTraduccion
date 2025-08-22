@@ -1,7 +1,7 @@
 
-package jud.gestorfacturas.gui.view;
+package jud.gestorfacturas.gui.crear;
 
-import jud.gestorfacturas.gui.controller.NuevoClienteController;
+import jud.gestorfacturas.gui.crear.NuevoClienteController;
 
 public class NuevoClienteView extends javax.swing.JPanel {
 
@@ -20,7 +20,6 @@ public class NuevoClienteView extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jGlobalPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();

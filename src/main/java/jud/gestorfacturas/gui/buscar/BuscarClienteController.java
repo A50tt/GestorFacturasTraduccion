@@ -1,7 +1,7 @@
-package jud.gestorfacturas.gui.controller;
+package jud.gestorfacturas.gui.buscar;
 
-import interfaces.DataListenerController;
-import jud.gestorfacturas.gui.view.ClienteLookupView;
+import jud.gestorfacturas.interfaces.DataListenerController;
+import jud.gestorfacturas.gui.buscar.BuscarClienteView;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.List;
@@ -10,14 +10,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import jud.gestorfacturas.manager.DBUtils;
-import jud.gestorfacturas.manager.FrameUtils;
+import utils.DBUtils;
+import utils.FrameUtils;
 import jud.gestorfacturas.model.Cliente;
 
-public class ClienteLookupController {
+public class BuscarClienteController {
     
     DBUtils dbUtils = new DBUtils();
-    ClienteLookupView clienteLookupView;
+    BuscarClienteView clienteLookupView;
     DataListenerController sourceController;
     boolean checkIfClienteIsActivado;
     
@@ -28,8 +28,8 @@ public class ClienteLookupController {
     final String[] tiposCampo = {"Nombre", "NIF", "Dirección", "Código postal"};
     final String[] columnasTabla = {"ID", "Nombre", "NIF", "Dirección", "Código postal"};
 
-    public ClienteLookupController(DataListenerController _sourceController, boolean _checkIfClienteIsActivado) {
-        clienteLookupView = new ClienteLookupView(this);
+    public BuscarClienteController(DataListenerController _sourceController, boolean _checkIfClienteIsActivado) {
+        clienteLookupView = new BuscarClienteView(this);
         FrameUtils.centerViewOnScreen(clienteLookupView);
         sourceController = _sourceController;
         checkIfClienteIsActivado = _checkIfClienteIsActivado;

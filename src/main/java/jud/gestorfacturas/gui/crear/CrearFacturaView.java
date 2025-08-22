@@ -2,22 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package jud.gestorfacturas.gui.view;
+package jud.gestorfacturas.gui.crear;
 
-import interfaces.Controller;
+import jud.gestorfacturas.interfaces.Controller;
 import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
-import jud.gestorfacturas.gui.controller.FacturaController;
+import jud.gestorfacturas.gui.crear.CrearFacturaController;
 
 /**
  *
  * @author nooko
  */
-public class FacturaView extends javax.swing.JPanel {
+public class CrearFacturaView extends javax.swing.JPanel {
 
-    FacturaController controller;
+    CrearFacturaController controller;
     
-    public FacturaView(FacturaController _controller) {
+    public CrearFacturaView(CrearFacturaController _controller) {
         controller = _controller;
         initComponents();
     }

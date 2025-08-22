@@ -1,4 +1,4 @@
-package jud.gestorfacturas.manager;
+package utils;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Dimension;
@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import jud.gestorfacturas.manager.PDFGenerator;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class FrameUtils {
