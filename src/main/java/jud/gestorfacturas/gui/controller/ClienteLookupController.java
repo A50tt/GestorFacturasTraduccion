@@ -5,16 +5,13 @@ import jud.gestorfacturas.gui.view.ClienteLookupView;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.List;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.FrameUtils;
-import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Cliente;
 
 public class ClienteLookupController {

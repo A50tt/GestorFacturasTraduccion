@@ -3,10 +3,10 @@ package jud.gestorfacturas.gui.view;
 
 import jud.gestorfacturas.gui.controller.InvoiceLookupController;
 
-public class InvoiceLookupView extends javax.swing.JFrame {
-    
-    InvoiceLookupController controller;
+public class InvoiceLookupView extends javax.swing.JPanel {
 
+    InvoiceLookupController controller;
+    
     public InvoiceLookupView(InvoiceLookupController _controller) {
         this.controller = _controller;
         initComponents();
@@ -22,7 +22,6 @@ public class InvoiceLookupView extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jMenu1 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         campoBusquedaComboBox = new javax.swing.JComboBox<>();
@@ -30,19 +29,6 @@ public class InvoiceLookupView extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         resultadosTable = new javax.swing.JTable();
-
-        jMenu1.setText("jMenu1");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Buscador de facturas");
-        setMinimumSize(new java.awt.Dimension(750, 750));
-        setPreferredSize(new java.awt.Dimension(750, 750));
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
-        getContentPane().setLayout(new java.awt.GridLayout(1, 1));
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -80,7 +66,7 @@ public class InvoiceLookupView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 15);
         jPanel1.add(jPanel2, gridBagConstraints);
 
-        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel3.setLayout(new java.awt.GridLayout());
 
         resultadosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -124,14 +110,27 @@ public class InvoiceLookupView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         jPanel1.add(jPanel3, gridBagConstraints);
 
-        getContentPane().add(jPanel1);
-
-        pack();
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 619, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 375, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void resultadosTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultadosTableMouseClicked
-        controller.lookupAndOpenInvoice(resultadosTable.getSelectedRow());
-    }//GEN-LAST:event_resultadosTableMouseClicked
 
     private void inputTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextFieldKeyReleased
         if (inputTextField.getText().equals("")) {
@@ -141,15 +140,14 @@ public class InvoiceLookupView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_inputTextFieldKeyReleased
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        controller.closeView();
-    }//GEN-LAST:event_formWindowClosing
+    private void resultadosTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultadosTableMouseClicked
+        controller.lookupAndOpenInvoice(resultadosTable.getSelectedRow());
+    }//GEN-LAST:event_resultadosTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox<String> campoBusquedaComboBox;
     public javax.swing.JTextField inputTextField;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

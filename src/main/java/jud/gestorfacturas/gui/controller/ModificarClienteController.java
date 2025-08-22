@@ -6,6 +6,7 @@ import interfaces.DataListenerController;
 import jud.gestorfacturas.gui.view.ModificarClienteView;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.FrameUtils;
@@ -16,11 +17,11 @@ public class ModificarClienteController implements Controller, DataListenerContr
     DBUtils dbUtils = new DBUtils();
     
     ModificarClienteView modificarClienteView;
-    Controller sourceController;
     
     private final String ERROR_CLIENT_OBLIGATORY_FIELDS = "Por favor, rellene todos los campos obligatorios.";
     private final Color DEFAULT_BG_COLOR = Color.white;
     private final Color ERROR_BG_COLOR = Color.red;
+    private String viewName = "Modificar cliente";
     
     protected JButton actualizarBtn;
     protected JButton anadirBtn;
@@ -33,12 +34,9 @@ public class ModificarClienteController implements Controller, DataListenerContr
     protected JButton resetClienteBtn;
     protected JTextField nombreTxtField;
     
-    public ModificarClienteController(Controller _sourceController) {
+    public ModificarClienteController() {
         modificarClienteView = new ModificarClienteView(this);
-        FrameUtils.centerViewOnScreen(modificarClienteView);
-        this.sourceController = _sourceController;
         initialize();
-        modificarClienteView.setVisible(true);
     }
     
     private void initialize() {
@@ -175,18 +173,17 @@ public class ModificarClienteController implements Controller, DataListenerContr
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        modificarClienteView.setVisible(visible);
-    }
-    
-    @Override
-    public void closeView() {
-        returnControlToSource(this);
-        modificarClienteView.dispose();
+    public JPanel getView() {
+        return this.modificarClienteView;
     }
 
     @Override
-    public void returnControlToSource(Controller controller) {
-        sourceController.returnControlToSource(this);
+    public String getViewName() {
+        return this.viewName;
+    }
+
+    @Override
+    public void setViewName(String newName) {
+        this.viewName = newName;
     }
 }

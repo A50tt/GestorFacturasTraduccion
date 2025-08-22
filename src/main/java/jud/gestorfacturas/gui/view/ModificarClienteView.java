@@ -4,7 +4,7 @@ package jud.gestorfacturas.gui.view;
 import java.awt.event.KeyEvent;
 import jud.gestorfacturas.gui.controller.ModificarClienteController;
 
-public class ModificarClienteView extends javax.swing.JFrame {
+public class ModificarClienteView extends javax.swing.JPanel {
 
     ModificarClienteController controller;
     
@@ -48,16 +48,6 @@ public class ModificarClienteView extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         actualizarBtn = new javax.swing.JButton();
         switchEstadoClienteBtn = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Crear y actualizar clientes");
-        setMinimumSize(new java.awt.Dimension(620, 250));
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setName(""); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 140));
@@ -330,9 +320,22 @@ public class ModificarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 0, 20);
         jPanel1.add(jPanel5, gridBagConstraints);
 
-        getContentPane().add(jPanel1);
-
-        pack();
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 597, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 597, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 204, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void numeroClienteTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroClienteTxtFieldKeyPressed
@@ -340,6 +343,15 @@ public class ModificarClienteView extends javax.swing.JFrame {
             controller.cargaDatosDeNumeroCliente();
         }
     }//GEN-LAST:event_numeroClienteTxtFieldKeyPressed
+
+    private void nombreClienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreClienteSearchBtnActionPerformed
+        // TODO
+        controller.abrirClienteLookupFrame();
+    }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
+
+    private void resetClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetClienteBtnActionPerformed
+        controller.reiniciarCamposEditables();
+    }//GEN-LAST:event_resetClienteBtnActionPerformed
 
     private void actualizarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarBtnActionPerformed
         controller.actualizaCliente();
@@ -349,18 +361,6 @@ public class ModificarClienteView extends javax.swing.JFrame {
         controller.switchEstadoCliente();
     }//GEN-LAST:event_switchEstadoClienteBtnActionPerformed
 
-    private void resetClienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetClienteBtnActionPerformed
-        controller.reiniciarCamposEditables();
-    }//GEN-LAST:event_resetClienteBtnActionPerformed
-
-    private void nombreClienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreClienteSearchBtnActionPerformed
-        // TODO
-        controller.abrirClienteLookupFrame();
-    }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        controller.closeView();
-    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton actualizarBtn;

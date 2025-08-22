@@ -2,24 +2,21 @@
 package jud.gestorfacturas.gui.controller;
 
 import interfaces.Controller;
-import interfaces.DataListenerController;
-import java.util.List;
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import jud.gestorfacturas.gui.view.InvoiceLookupView;
 import jud.gestorfacturas.manager.DBUtils;
-import jud.gestorfacturas.manager.FrameUtils;
 import jud.gestorfacturas.manager.PDFGenerator;
 import jud.gestorfacturas.manager.Utils;
 import jud.gestorfacturas.model.Factura;
 
-public class InvoiceLookupController implements Controller, DataListenerController {
+public class InvoiceLookupController implements Controller {
     
     DBUtils dbUtils = new DBUtils();
     
-    private Controller sourceController;
     private InvoiceLookupView invoiceLookupView;
     
     final String[] tiposCampo = {"Num. Factura", "Fecha emisión", "Fecha venc.", "N.º Cliente", "Nombre", "Importe total"};
@@ -28,12 +25,11 @@ public class InvoiceLookupController implements Controller, DataListenerControll
     JTextField inputTextField;
     JTable resultadosTable;
     
-    public InvoiceLookupController(Controller _sourceController) {
+    private String viewName = "Buscar factura";
+    
+    public InvoiceLookupController() {
         invoiceLookupView = new InvoiceLookupView(this);
-        FrameUtils.centerViewOnScreen(invoiceLookupView);
-        sourceController = _sourceController;
         initialize();
-        invoiceLookupView.setVisible(true);
     }
     
     protected void initialize() {
@@ -121,23 +117,17 @@ public class InvoiceLookupController implements Controller, DataListenerControll
     }
 
     @Override
-    public void recibeClienteLookup(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public JPanel getView() {
+        return this.invoiceLookupView;
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        invoiceLookupView.setVisible(false);
-    }
-    
-    @Override
-    public void closeView() {
-        returnControlToSource(this);
-        invoiceLookupView.dispose();
+    public String getViewName() {
+        return this.viewName;
     }
 
     @Override
-    public void returnControlToSource(Controller controller) {
-        sourceController.returnControlToSource(this);
+    public void setViewName(String newName) {
+        this.viewName = newName;
     }
 }

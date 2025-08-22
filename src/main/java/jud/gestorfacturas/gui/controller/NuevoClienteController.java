@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.time.LocalDateTime;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.FrameUtils;
@@ -15,9 +16,9 @@ public class NuevoClienteController implements Controller {
 
     Color DEFAULT_BG_COLOR = Color.white;
     Color ERROR_BG_COLOR = Color.red;
+    private String viewName = "Crear cliente";
 
     NuevoClienteView nuevoClienteView;
-    Controller sourceController;
 
     protected JButton anadirBtn;
     protected JTextField codigoPostalTxtField;
@@ -25,12 +26,10 @@ public class NuevoClienteController implements Controller {
     protected JTextField nifTxtField;
     protected JTextField nombreTxtField;
 
-    public NuevoClienteController(Controller _sourceController) {
+    public NuevoClienteController() {
         nuevoClienteView = new NuevoClienteView(this);
-        FrameUtils.centerViewOnScreen(nuevoClienteView);
-        this.sourceController = _sourceController;
         initialize();
-        nuevoClienteView.setVisible(true);
+        nuevoClienteView.jGlobalPanel.setSize(600, 300);
     }
 
     private void initialize() {
@@ -125,20 +124,19 @@ public class NuevoClienteController implements Controller {
     public void setDefaultBackground(JComponent comp) {
         ((JComponent) comp).setBackground(Color.white);
     }
-    
+
     @Override
-    public void closeView() {
-        returnControlToSource(this);
-        nuevoClienteView.dispose();
+    public JPanel getView() {
+        return nuevoClienteView;
     }
 
     @Override
-    public void returnControlToSource(Controller controller) {
-        sourceController.returnControlToSource(this);
+    public String getViewName() {
+        return viewName;
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        nuevoClienteView.setVisible(visible);
+    public void setViewName(String newName) {
+        this.viewName = newName;
     }
 }

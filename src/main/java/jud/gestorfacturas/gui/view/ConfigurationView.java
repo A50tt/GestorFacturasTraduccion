@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package jud.gestorfacturas.gui.view;
 
 import jud.gestorfacturas.gui.controller.ConfigurationController;
-import jud.gestorfacturas.gui.controller.MainMenuController;
 
-/**
- *
- * @author Alex
- */
-public class ConfigurationView extends javax.swing.JFrame {
+public class ConfigurationView extends javax.swing.JPanel {
 
     ConfigurationController controller;
     
@@ -42,16 +34,7 @@ public class ConfigurationView extends javax.swing.JFrame {
         consoleMsgTxtField = new javax.swing.JTextField();
         passwordTxtField = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Configuración");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
-        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
-
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel1.setLayout(new java.awt.GridLayout());
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
         jPanel2.setLayout(new java.awt.GridBagLayout());
@@ -135,9 +118,24 @@ public class ConfigurationView extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2);
 
-        getContentPane().add(jPanel1);
-
-        pack();
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 362, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 259, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void probarConexionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_probarConexionBtnActionPerformed
@@ -147,10 +145,6 @@ public class ConfigurationView extends javax.swing.JFrame {
     private void confirmarConfigBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarConfigBtnActionPerformed
         controller.saveParamsToProperties();
     }//GEN-LAST:event_confirmarConfigBtnActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        controller.closeView();
-    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,4 +1,3 @@
-
 package jud.gestorfacturas.gui.controller;
 
 import interfaces.Controller;
@@ -6,18 +5,22 @@ import interfaces.DataListenerController;
 import java.awt.Color;
 import jud.gestorfacturas.gui.view.ModificarEmisorView;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.FrameUtils;
 import jud.gestorfacturas.model.Emisor;
 
 public class ModificarEmisorController implements Controller, DataListenerController {
-    
+
     ModificarEmisorView modificarEmisorView;
     Controller sourceController;
-    
+    DBUtils dbUtils = new DBUtils();
+
     Color DEFAULT_BG_COLOR = Color.white;
     Color ERROR_BG_COLOR = Color.red;
+
+    private String viewName = "Datos personales";
 
     protected JButton actualizarBtn;
     protected JTextField codigoPostalTxtField;
@@ -26,15 +29,12 @@ public class ModificarEmisorController implements Controller, DataListenerContro
     protected JTextField nombreTxtField;
     protected JTextField nombreCompletoTxtField;
     protected JTextField ibanTxtField;
-    
-    public ModificarEmisorController(Controller _sourceController) {
+
+    public ModificarEmisorController() {
         modificarEmisorView = new ModificarEmisorView(this);
-        FrameUtils.centerViewOnScreen(modificarEmisorView);
-        this.sourceController = _sourceController;
         initialize();
-        modificarEmisorView.setVisible(true);
     }
-    
+
     private void initialize() {
         nifTxtField = modificarEmisorView.nifTxtField;
         nombreTxtField = modificarEmisorView.nombreTxtField;
@@ -44,11 +44,10 @@ public class ModificarEmisorController implements Controller, DataListenerContro
         ibanTxtField = modificarEmisorView.ibanTxtField;
         cargaDatosEmisor();
     }
-    
+
     public void cargaDatosEmisor() {
         DBUtils dbUtils = new DBUtils();
         Emisor emisor = dbUtils.getUnicoEmisor();
-        //if (emisor.getNif() != null && emisor.getNif() != null)
         if (emisor != null) {
             nifTxtField.setText(emisor.getNif());
             nombreTxtField.setText(emisor.getNombre());
@@ -57,7 +56,7 @@ public class ModificarEmisorController implements Controller, DataListenerContro
             codigoPostalTxtField.setText(emisor.getCodigoPostal());
             ibanTxtField.setText(emisor.getIban());
         } else {
-            FrameUtils.showInfoMessage("Información", "No se han encontrado datos anteriores.");
+            FrameUtils.showInfoMessage("Información", "No se han encontrado datos guardados.");
             nifTxtField.setText("");
             nombreTxtField.setText("");
             nombreCompletoTxtField.setText("");
@@ -68,8 +67,6 @@ public class ModificarEmisorController implements Controller, DataListenerContro
     }
 
     public void actualizaEmisor() {
-        DBUtils dbUtils = new DBUtils();
-
         Emisor emisorDB = dbUtils.getUnicoEmisor();
         if (emisorDB == null) {
             emisorDB = new Emisor();
@@ -107,15 +104,11 @@ public class ModificarEmisorController implements Controller, DataListenerContro
                     } else {
                         emisorDB.setIban(ibanTxtField.getText());
                     }
-                    
-                    dbUtils.getEntityManager().getTransaction().begin();
-                    dbUtils.mergeIntoDB(emisorDB);
-                    dbUtils.getEntityManager().getTransaction().commit();
-                    
-                    FrameUtils.showPlainMessage("Éxito", "Los datos han sido actualizados correctamente.");
+                } else {
+                    return;
                 }
             }
-         
+            saveEmisor(emisorDB);
         } else {
             if (nifTxtField.getText().isBlank()) {
                 nifTxtField.setBackground(ERROR_BG_COLOR);
@@ -140,26 +133,36 @@ public class ModificarEmisorController implements Controller, DataListenerContro
             FrameUtils.showPlainMessage("Error", "Por favor, rellene todos los campos obligatorios.");
         }
     }
-
-    @Override
-    public void setVisible(boolean visible) {
-        modificarEmisorView.setVisible(visible);
-    }
-    
-    @Override
-    public void closeView() {
-        returnControlToSource(this);
-        modificarEmisorView.dispose();
-    }
-
-    @Override
-    public void returnControlToSource(Controller controller) {
-        sourceController.returnControlToSource(this);
+   
+    private void saveEmisor(Emisor emisor) {
+        try {
+            dbUtils.getEntityManager().getTransaction().begin();
+            dbUtils.mergeIntoDB(emisor);
+            dbUtils.getEntityManager().getTransaction().commit();
+            FrameUtils.showPlainMessage("Éxito", "Los datos han sido actualizados correctamente.");
+        } catch (Exception e) {
+            FrameUtils.showErrorMessage("Error", "Ha ocurrido un error en el guardado a la base de datos.");
+        }
     }
 
     @Override
     public void recibeClienteLookup(String id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public JPanel getView() {
+        return this.modificarEmisorView;
+    }
+
+    @Override
+    public String getViewName() {
+        return this.viewName;
+    }
+
+    @Override
+    public void setViewName(String newName) {
+        this.viewName = newName;
     }
 
 }

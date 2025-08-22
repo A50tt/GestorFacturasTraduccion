@@ -5,15 +5,13 @@ import interfaces.Controller;
 import java.awt.Color;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
-import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import jud.gestorfacturas.gui.view.ConfigurationView;
-import jud.gestorfacturas.gui.view.ModificarClienteView;
 import jud.gestorfacturas.manager.EntityManagerLoader;
 import jud.gestorfacturas.manager.FrameUtils;
 import jud.gestorfacturas.manager.PropertiesLoader;
-import org.postgresql.util.PSQLException;
 
 public class ConfigurationController implements Controller {
 
@@ -26,15 +24,12 @@ public class ConfigurationController implements Controller {
     JTextField userTxtField;
     JPasswordField passwordTxtField;
     JTextField consoleMsgTxtField;
-    JButton probarConexionBtn;
-    JButton confirmarConfigBtn;
     
-    public ConfigurationController(Controller _sourceController) {
+    private String viewName = "Configuración";
+    
+    public ConfigurationController() {
         configurationView = new ConfigurationView(this);
-        FrameUtils.centerViewOnScreen(configurationView);
-        this.sourceController = _sourceController;
         initialize();
-        configurationView.setVisible(true);
     }
     
     public void initialize() {
@@ -45,8 +40,6 @@ public class ConfigurationController implements Controller {
         passwordTxtField = configurationView.passwordTxtField;
         passwordTxtField.setText(properties.getPassword());
         consoleMsgTxtField = configurationView.consoleMsgTxtField;
-        probarConexionBtn = configurationView.probarConexionBtn;
-        confirmarConfigBtn = configurationView.confirmarConfigBtn;
     }
     
     public boolean checkConnection() {
@@ -78,25 +71,23 @@ public class ConfigurationController implements Controller {
         }
         properties.setPassword(pwd);
         FrameUtils.showInfoMessage("Éxito", "Configuración guardada correctamente.");
-        sourceController.returnControlToSource(this);
         } else {
             FrameUtils.showErrorMessage("Conexión incorrecta", "Las credenciales son incorrectas o el servidor no existe.");
         }
     }
 
     @Override
-    public void setVisible(boolean visible) {
-        configurationView.setVisible(visible);
-    }
-    
-    @Override
-    public void closeView() {
-        returnControlToSource(this);
-        configurationView.dispose();
+    public JPanel getView() {
+        return this.configurationView;
     }
 
     @Override
-    public void returnControlToSource(Controller controller) {
-        sourceController.returnControlToSource(this);
+    public String getViewName() {
+        return this.viewName;
+    }
+
+    @Override
+    public void setViewName(String newName) {
+        this.viewName = newName;
     }
 }

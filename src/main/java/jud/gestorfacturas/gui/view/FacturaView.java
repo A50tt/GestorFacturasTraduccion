@@ -1,22 +1,24 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
 package jud.gestorfacturas.gui.view;
 
+import interfaces.Controller;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import jud.gestorfacturas.gui.controller.FacturaController;
-import jud.gestorfacturas.model.Factura;
 
-public class FacturaView extends javax.swing.JFrame {
+/**
+ *
+ * @author nooko
+ */
+public class FacturaView extends javax.swing.JPanel {
 
     FacturaController controller;
     
-    /**
-     * Creates new form NewApplication
-     */
-    
     public FacturaView(FacturaController _controller) {
-        this.controller = _controller;
+        controller = _controller;
         initComponents();
     }
 
@@ -30,10 +32,10 @@ public class FacturaView extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel = new javax.swing.JPanel();
-        facturaPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        facturaPanel1 = new javax.swing.JPanel();
         datosFacturaTitulolbl = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         datosFacturaCuerpoPanel = new javax.swing.JPanel();
         numeroFralbl = new javax.swing.JLabel();
         numeroFraTxtField = new javax.swing.JTextField();
@@ -45,29 +47,29 @@ public class FacturaView extends javax.swing.JFrame {
         fechaVencimientoTxtField = new javax.swing.JTextField();
         formaPagolbl = new javax.swing.JLabel();
         formaPagoComboBox = new javax.swing.JComboBox<>();
-        clientePanel = new javax.swing.JPanel();
+        clientePanel1 = new javax.swing.JPanel();
         datosClientePanel = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        clienteTitulolbl = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        clienteTitulolbl1 = new javax.swing.JLabel();
         nombreClienteSearchBtn = new javax.swing.JButton();
         numeroClienteTxtField = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        nombreClientelbl = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        nombreClientelbl1 = new javax.swing.JLabel();
         nombreClienteTxtField = new javax.swing.JTextField();
-        nifClientelbl = new javax.swing.JLabel();
+        nifClientelbl1 = new javax.swing.JLabel();
         nifClienteTxtField = new javax.swing.JTextField();
-        direccionClientelbl = new javax.swing.JLabel();
+        direccionClientelbl1 = new javax.swing.JLabel();
         direccionClienteTxtField = new javax.swing.JTextField();
-        codigoPostalClientelbl = new javax.swing.JLabel();
+        codigoPostalClientelbl1 = new javax.swing.JLabel();
         codigoPostalClienteTxtField = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        msgPanel = new javax.swing.JPanel();
-        msgContainerPanel = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        msgPanel1 = new javax.swing.JPanel();
+        msgContainerPanel1 = new javax.swing.JPanel();
         msgLbl = new javax.swing.JLabel();
-        facturacionPanel = new javax.swing.JPanel();
+        facturacionPanel1 = new javax.swing.JPanel();
         facturacionTituloPanel = new javax.swing.JPanel();
-        facturacionTitulolbl = new javax.swing.JLabel();
+        facturacionTitulolbl1 = new javax.swing.JLabel();
         conceptosPanel = new javax.swing.JPanel();
         conceptosTituloLabel = new javax.swing.JLabel();
         cantidadTituloLabel = new javax.swing.JLabel();
@@ -104,37 +106,27 @@ public class FacturaView extends javax.swing.JFrame {
         item2ComboBox = new javax.swing.JComboBox<>();
         item3ComboBox = new javax.swing.JComboBox<>();
         item4ComboBox = new javax.swing.JComboBox<>();
-        buttonsPanel = new javax.swing.JPanel();
-        verificarFichaBtn = new javax.swing.JToggleButton();
+        buttonsPanel1 = new javax.swing.JPanel();
+        verificarFichaBtn = new javax.swing.JButton();
         previewFacturaBtn = new javax.swing.JButton();
         registrarFacturaBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Gestor de facturación");
-        setMinimumSize(new java.awt.Dimension(900, 500));
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
-        getContentPane().setLayout(new java.awt.GridLayout(1, 2));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jPanel.setLayout(new java.awt.GridBagLayout());
-
-        facturaPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        facturaPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        facturaPanel.setLayout(new java.awt.BorderLayout());
+        facturaPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        facturaPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        facturaPanel1.setLayout(new java.awt.BorderLayout());
 
         datosFacturaTitulolbl.setFocusable(false);
         datosFacturaTitulolbl.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel1.setText("FACTURA");
-        jLabel1.setAlignmentX(0.5F);
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        datosFacturaTitulolbl.add(jLabel1);
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel2.setText("FACTURA");
+        jLabel2.setAlignmentX(0.5F);
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        datosFacturaTitulolbl.add(jLabel2);
 
-        facturaPanel.add(datosFacturaTitulolbl, java.awt.BorderLayout.NORTH);
+        facturaPanel1.add(datosFacturaTitulolbl, java.awt.BorderLayout.NORTH);
 
         datosFacturaCuerpoPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
         datosFacturaCuerpoPanel.setLayout(new java.awt.GridBagLayout());
@@ -147,8 +139,6 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.2;
         datosFacturaCuerpoPanel.add(numeroFralbl, gridBagConstraints);
-        numeroFralbl.getAccessibleContext().setAccessibleDescription("");
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -233,7 +223,7 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         datosFacturaCuerpoPanel.add(formaPagoComboBox, gridBagConstraints);
 
-        facturaPanel.add(datosFacturaCuerpoPanel, java.awt.BorderLayout.CENTER);
+        facturaPanel1.add(datosFacturaCuerpoPanel, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -241,28 +231,27 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel.add(facturaPanel, gridBagConstraints);
+        jPanel1.add(facturaPanel1, gridBagConstraints);
 
-        clientePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        clientePanel.setLayout(new java.awt.BorderLayout());
+        clientePanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        clientePanel1.setLayout(new java.awt.BorderLayout());
 
         datosClientePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
         datosClientePanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        jPanel5.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        jPanel5.setMinimumSize(new java.awt.Dimension(44, 16));
-        jPanel5.setPreferredSize(new java.awt.Dimension(44, 20));
-        jPanel5.setLayout(new java.awt.BorderLayout());
+        jPanel7.setMinimumSize(new java.awt.Dimension(44, 16));
+        jPanel7.setPreferredSize(new java.awt.Dimension(44, 20));
+        jPanel7.setLayout(new java.awt.BorderLayout());
 
-        clienteTitulolbl.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        clienteTitulolbl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        clienteTitulolbl.setText("CLIENTE");
-        clienteTitulolbl.setFocusable(false);
-        clienteTitulolbl.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        clienteTitulolbl.setPreferredSize(new java.awt.Dimension(50, 16));
-        jPanel5.add(clienteTitulolbl, java.awt.BorderLayout.WEST);
+        clienteTitulolbl1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        clienteTitulolbl1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        clienteTitulolbl1.setText("CLIENTE");
+        clienteTitulolbl1.setFocusable(false);
+        clienteTitulolbl1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        clienteTitulolbl1.setPreferredSize(new java.awt.Dimension(50, 16));
+        jPanel7.add(clienteTitulolbl1, java.awt.BorderLayout.WEST);
 
         nombreClienteSearchBtn.setToolTipText("Buscar...");
         nombreClienteSearchBtn.setAlignmentX(0.5F);
@@ -274,7 +263,7 @@ public class FacturaView extends javax.swing.JFrame {
                 nombreClienteSearchBtnActionPerformed(evt);
             }
         });
-        jPanel5.add(nombreClienteSearchBtn, java.awt.BorderLayout.EAST);
+        jPanel7.add(nombreClienteSearchBtn, java.awt.BorderLayout.EAST);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -282,7 +271,7 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.4;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel2.add(jPanel5, gridBagConstraints);
+        jPanel6.add(jPanel7, gridBagConstraints);
 
         numeroClienteTxtField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         numeroClienteTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -296,22 +285,22 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel2.add(numeroClienteTxtField, gridBagConstraints);
+        jPanel6.add(numeroClienteTxtField, gridBagConstraints);
 
-        datosClientePanel.add(jPanel2, java.awt.BorderLayout.NORTH);
+        datosClientePanel.add(jPanel6, java.awt.BorderLayout.NORTH);
 
-        jPanel4.setPreferredSize(new java.awt.Dimension(204, 88));
-        jPanel4.setLayout(new java.awt.GridBagLayout());
+        jPanel8.setPreferredSize(new java.awt.Dimension(204, 88));
+        jPanel8.setLayout(new java.awt.GridBagLayout());
 
-        nombreClientelbl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        nombreClientelbl.setText("Nombre");
-        nombreClientelbl.setFocusable(false);
+        nombreClientelbl1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        nombreClientelbl1.setText("Nombre");
+        nombreClientelbl1.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.3;
-        jPanel4.add(nombreClientelbl, gridBagConstraints);
+        jPanel8.add(nombreClientelbl1, gridBagConstraints);
 
         nombreClienteTxtField.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -320,15 +309,15 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel4.add(nombreClienteTxtField, gridBagConstraints);
+        jPanel8.add(nombreClienteTxtField, gridBagConstraints);
 
-        nifClientelbl.setText("NIF");
-        nifClientelbl.setFocusable(false);
+        nifClientelbl1.setText("NIF");
+        nifClientelbl1.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel4.add(nifClientelbl, gridBagConstraints);
+        jPanel8.add(nifClientelbl1, gridBagConstraints);
 
         nifClienteTxtField.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -336,15 +325,15 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel4.add(nifClienteTxtField, gridBagConstraints);
+        jPanel8.add(nifClienteTxtField, gridBagConstraints);
 
-        direccionClientelbl.setText("Dirección");
-        direccionClientelbl.setFocusable(false);
+        direccionClientelbl1.setText("Dirección");
+        direccionClientelbl1.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel4.add(direccionClientelbl, gridBagConstraints);
+        jPanel8.add(direccionClientelbl1, gridBagConstraints);
 
         direccionClienteTxtField.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -352,15 +341,15 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel4.add(direccionClienteTxtField, gridBagConstraints);
+        jPanel8.add(direccionClienteTxtField, gridBagConstraints);
 
-        codigoPostalClientelbl.setText("Código postal");
-        codigoPostalClientelbl.setFocusable(false);
+        codigoPostalClientelbl1.setText("Código postal");
+        codigoPostalClientelbl1.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel4.add(codigoPostalClientelbl, gridBagConstraints);
+        jPanel8.add(codigoPostalClientelbl1, gridBagConstraints);
 
         codigoPostalClienteTxtField.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -368,16 +357,16 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel4.add(codigoPostalClienteTxtField, gridBagConstraints);
+        jPanel8.add(codigoPostalClienteTxtField, gridBagConstraints);
 
-        datosClientePanel.add(jPanel4, java.awt.BorderLayout.CENTER);
+        datosClientePanel.add(jPanel8, java.awt.BorderLayout.CENTER);
 
-        clientePanel.add(datosClientePanel, java.awt.BorderLayout.CENTER);
+        clientePanel1.add(datosClientePanel, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
-        jPanel3.setName(""); // NOI18N
-        jPanel3.setLayout(new java.awt.GridBagLayout());
-        clientePanel.add(jPanel3, java.awt.BorderLayout.NORTH);
+        jPanel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
+        jPanel9.setName(""); // NOI18N
+        jPanel9.setLayout(new java.awt.GridBagLayout());
+        clientePanel1.add(jPanel9, java.awt.BorderLayout.NORTH);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -385,14 +374,14 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel.add(clientePanel, gridBagConstraints);
+        jPanel1.add(clientePanel1, gridBagConstraints);
 
-        msgPanel.setMinimumSize(new java.awt.Dimension(100, 100));
-        msgPanel.setLayout(new java.awt.GridBagLayout());
+        msgPanel1.setMinimumSize(new java.awt.Dimension(100, 100));
+        msgPanel1.setLayout(new java.awt.GridBagLayout());
 
-        msgContainerPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        msgContainerPanel.setFocusable(false);
-        msgContainerPanel.setLayout(new java.awt.GridBagLayout());
+        msgContainerPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        msgContainerPanel1.setFocusable(false);
+        msgContainerPanel1.setLayout(new java.awt.GridBagLayout());
 
         msgLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         msgLbl.setFocusable(false);
@@ -403,13 +392,13 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        msgContainerPanel.add(msgLbl, gridBagConstraints);
+        msgContainerPanel1.add(msgLbl, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        msgPanel.add(msgContainerPanel, gridBagConstraints);
+        msgPanel1.add(msgContainerPanel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -418,19 +407,19 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        jPanel.add(msgPanel, gridBagConstraints);
+        jPanel1.add(msgPanel1, gridBagConstraints);
 
-        facturacionPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        facturacionPanel.setMinimumSize(new java.awt.Dimension(585, 199));
-        facturacionPanel.setLayout(new java.awt.BorderLayout());
+        facturacionPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        facturacionPanel1.setMinimumSize(new java.awt.Dimension(585, 199));
+        facturacionPanel1.setLayout(new java.awt.BorderLayout());
 
         facturacionTituloPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        facturacionTitulolbl.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        facturacionTitulolbl.setText("FACTURACIÓN");
-        facturacionTituloPanel.add(facturacionTitulolbl);
+        facturacionTitulolbl1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        facturacionTitulolbl1.setText("FACTURACIÓN");
+        facturacionTituloPanel.add(facturacionTitulolbl1);
 
-        facturacionPanel.add(facturacionTituloPanel, java.awt.BorderLayout.NORTH);
+        facturacionPanel1.add(facturacionTituloPanel, java.awt.BorderLayout.NORTH);
 
         conceptosPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         conceptosPanel.setLayout(new java.awt.GridBagLayout());
@@ -751,7 +740,7 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(item4ComboBox, gridBagConstraints);
 
-        facturacionPanel.add(conceptosPanel, java.awt.BorderLayout.CENTER);
+        facturacionPanel1.add(conceptosPanel, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -760,17 +749,17 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel.add(facturacionPanel, gridBagConstraints);
+        jPanel1.add(facturacionPanel1, gridBagConstraints);
 
-        buttonsPanel.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
+        buttonsPanel1.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
         verificarFichaBtn.setText("Verificar");
         verificarFichaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                verificarFichaBtnItemClicked(evt);
+                verificarFichaBtnActionPerformed(evt);
             }
         });
-        buttonsPanel.add(verificarFichaBtn);
+        buttonsPanel1.add(verificarFichaBtn);
 
         previewFacturaBtn.setText("Preview Factura");
         previewFacturaBtn.setEnabled(false);
@@ -779,7 +768,7 @@ public class FacturaView extends javax.swing.JFrame {
                 previewFacturaBtnActionPerformed(evt);
             }
         });
-        buttonsPanel.add(previewFacturaBtn);
+        buttonsPanel1.add(previewFacturaBtn);
 
         registrarFacturaBtn.setText("Registrar y Guardar Factura");
         registrarFacturaBtn.setEnabled(false);
@@ -788,7 +777,7 @@ public class FacturaView extends javax.swing.JFrame {
                 registrarFacturaBtnActionPerformed(evt);
             }
         });
-        buttonsPanel.add(registrarFacturaBtn);
+        buttonsPanel1.add(registrarFacturaBtn);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -796,20 +785,49 @@ public class FacturaView extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
-        jPanel.add(buttonsPanel, gridBagConstraints);
+        jPanel1.add(buttonsPanel1, gridBagConstraints);
 
-        getContentPane().add(jPanel);
-
-        pack();
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 758, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 401, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void precio1TxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precio1TxtFieldKeyReleased
-        controller.calculaPrecioServicio(precio1TxtField, cantidad1TxtField, totalImporte1TxtField);
-    }//GEN-LAST:event_precio1TxtFieldKeyReleased
+
+    private void fechaEmisionTxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaEmisionTxtFieldKeyReleased
+        controller.calculaFechaVencimiento(fechaEmisionTxtField, diasParaPagoTxtField, fechaVencimientoTxtField);
+    }//GEN-LAST:event_fechaEmisionTxtFieldKeyReleased
+
+    private void diasParaPagoTxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_diasParaPagoTxtFieldKeyReleased
+        controller.calculaFechaVencimiento(fechaEmisionTxtField, diasParaPagoTxtField, fechaVencimientoTxtField);
+    }//GEN-LAST:event_diasParaPagoTxtFieldKeyReleased
+
+    private void nombreClienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreClienteSearchBtnActionPerformed
+        controller.abrirClienteLookupFrame();
+    }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
+
+    private void numeroClienteTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroClienteTxtFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            controller.cargaDatosDeNumeroCliente();
+        }
+    }//GEN-LAST:event_numeroClienteTxtFieldKeyPressed
 
     private void cantidad1TxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidad1TxtFieldKeyReleased
         controller.calculaPrecioServicio(cantidad1TxtField, precio1TxtField, totalImporte1TxtField);
     }//GEN-LAST:event_cantidad1TxtFieldKeyReleased
+
+    private void precio1TxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precio1TxtFieldKeyReleased
+        controller.calculaPrecioServicio(precio1TxtField, cantidad1TxtField, totalImporte1TxtField);
+    }//GEN-LAST:event_precio1TxtFieldKeyReleased
 
     private void cantidad2TxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidad2TxtFieldKeyReleased
         controller.calculaPrecioServicio(cantidad2TxtField, precio2TxtField, totalImporte2TxtField);
@@ -835,14 +853,6 @@ public class FacturaView extends javax.swing.JFrame {
         controller.calculaPrecioServicio(precio4TxtField, cantidad4TxtField, totalImporte4TxtField);
     }//GEN-LAST:event_precio4TxtFieldKeyReleased
 
-    private void diasParaPagoTxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_diasParaPagoTxtFieldKeyReleased
-        controller.calculaFechaVencimiento(fechaEmisionTxtField, diasParaPagoTxtField, fechaVencimientoTxtField);
-    }//GEN-LAST:event_diasParaPagoTxtFieldKeyReleased
-
-    private void fechaEmisionTxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaEmisionTxtFieldKeyReleased
-        controller.calculaFechaVencimiento(fechaEmisionTxtField, diasParaPagoTxtField, fechaVencimientoTxtField);
-    }//GEN-LAST:event_fechaEmisionTxtFieldKeyReleased
-
     private void previewFacturaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewFacturaBtnActionPerformed
         controller.previewFacturaBtnPulsado();
     }//GEN-LAST:event_previewFacturaBtnActionPerformed
@@ -851,103 +861,89 @@ public class FacturaView extends javax.swing.JFrame {
         controller.registraFactura();
     }//GEN-LAST:event_registrarFacturaBtnActionPerformed
 
-    private void nombreClienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreClienteSearchBtnActionPerformed
-        controller.abrirClienteLookupFrame();
-    }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
-
-    private void numeroClienteTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroClienteTxtFieldKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            controller.cargaDatosDeNumeroCliente();
-        }
-    }//GEN-LAST:event_numeroClienteTxtFieldKeyPressed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        controller.closeView();
-    }//GEN-LAST:event_formWindowClosed
-
-    private void verificarFichaBtnItemClicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificarFichaBtnItemClicked
+    private void verificarFichaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificarFichaBtnActionPerformed
         controller.gestionaToggleButtonVerificarDatos();
-    }//GEN-LAST:event_verificarFichaBtnItemClicked
+    }//GEN-LAST:event_verificarFichaBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JLabel TipoTituloLabel;
-    public javax.swing.JPanel buttonsPanel;
+    private javax.swing.JLabel TipoTituloLabel;
+    private javax.swing.JPanel buttonsPanel1;
     public javax.swing.JTextField cantidad1TxtField;
     public javax.swing.JTextField cantidad2TxtField;
     public javax.swing.JTextField cantidad3TxtField;
     public javax.swing.JTextField cantidad4TxtField;
-    public javax.swing.JLabel cantidadTituloLabel;
-    public javax.swing.JPanel clientePanel;
-    public javax.swing.JLabel clienteTitulolbl;
+    private javax.swing.JLabel cantidadTituloLabel;
+    public javax.swing.JPanel clientePanel1;
+    private javax.swing.JLabel clienteTitulolbl1;
     public javax.swing.JTextField codigoPostalClienteTxtField;
-    public javax.swing.JLabel codigoPostalClientelbl;
+    private javax.swing.JLabel codigoPostalClientelbl1;
     public javax.swing.JTextField concepto1TxtField;
     public javax.swing.JTextField concepto2TxtField;
     public javax.swing.JTextField concepto3TxtField;
     public javax.swing.JTextField concepto4TxtField;
     public javax.swing.JPanel conceptosPanel;
-    public javax.swing.JLabel conceptosTituloLabel;
+    private javax.swing.JLabel conceptosTituloLabel;
     public javax.swing.JPanel datosClientePanel;
     public javax.swing.JPanel datosFacturaCuerpoPanel;
     public javax.swing.JPanel datosFacturaTitulolbl;
     public javax.swing.JTextField diasParaPagoTxtField;
-    public javax.swing.JLabel diasParaPagolbl;
+    private javax.swing.JLabel diasParaPagolbl;
     public javax.swing.JTextField direccionClienteTxtField;
-    public javax.swing.JLabel direccionClientelbl;
-    public javax.swing.JPanel facturaPanel;
-    public javax.swing.JPanel facturacionPanel;
+    private javax.swing.JLabel direccionClientelbl1;
+    public javax.swing.JPanel facturaPanel1;
+    public javax.swing.JPanel facturacionPanel1;
     public javax.swing.JPanel facturacionTituloPanel;
-    public javax.swing.JLabel facturacionTitulolbl;
+    private javax.swing.JLabel facturacionTitulolbl1;
     public javax.swing.JTextField fechaEmisionTxtField;
-    public javax.swing.JLabel fechaEmisionlbl;
+    private javax.swing.JLabel fechaEmisionlbl;
     public javax.swing.JTextField fechaVencimientoTxtField;
-    public javax.swing.JLabel fechaVencimientolbl;
+    private javax.swing.JLabel fechaVencimientolbl;
     public javax.swing.JComboBox<String> formaPagoComboBox;
-    public javax.swing.JLabel formaPagolbl;
+    private javax.swing.JLabel formaPagolbl;
     public javax.swing.JTextField idiomaDestino1TxtField;
     public javax.swing.JTextField idiomaDestino2TxtField;
     public javax.swing.JTextField idiomaDestino3TxtField;
     public javax.swing.JTextField idiomaDestino4TxtField;
-    public javax.swing.JLabel idiomaDestinoTituloLabel;
+    private javax.swing.JLabel idiomaDestinoTituloLabel;
     public javax.swing.JTextField idiomaOrigen1TxtField;
     public javax.swing.JTextField idiomaOrigen2TxtField;
     public javax.swing.JTextField idiomaOrigen3TxtField;
     public javax.swing.JTextField idiomaOrigen4TxtField;
-    public javax.swing.JLabel idiomaOrigenTituloLabel;
+    private javax.swing.JLabel idiomaOrigenTituloLabel;
     public javax.swing.JComboBox<String> item1ComboBox;
     public javax.swing.JComboBox<String> item2ComboBox;
     public javax.swing.JComboBox<String> item3ComboBox;
     public javax.swing.JComboBox<String> item4ComboBox;
-    public javax.swing.JLabel jLabel1;
-    public javax.swing.JPanel jPanel;
-    public javax.swing.JPanel jPanel2;
-    public javax.swing.JPanel jPanel3;
-    public javax.swing.JPanel jPanel4;
-    public javax.swing.JPanel jPanel5;
-    public javax.swing.JPanel msgContainerPanel;
+    private javax.swing.JLabel jLabel2;
+    public javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel6;
+    public javax.swing.JPanel jPanel7;
+    public javax.swing.JPanel jPanel8;
+    public javax.swing.JPanel jPanel9;
+    public javax.swing.JPanel msgContainerPanel1;
     public javax.swing.JLabel msgLbl;
-    public javax.swing.JPanel msgPanel;
+    public javax.swing.JPanel msgPanel1;
     public javax.swing.JTextField nifClienteTxtField;
-    public javax.swing.JLabel nifClientelbl;
+    private javax.swing.JLabel nifClientelbl1;
     public javax.swing.JButton nombreClienteSearchBtn;
     public javax.swing.JTextField nombreClienteTxtField;
-    public javax.swing.JLabel nombreClientelbl;
+    private javax.swing.JLabel nombreClientelbl1;
     public javax.swing.JTextField numeroClienteTxtField;
     public javax.swing.JTextField numeroFraTxtField;
-    public javax.swing.JLabel numeroFralbl;
+    private javax.swing.JLabel numeroFralbl;
     public javax.swing.JTextField precio1TxtField;
     public javax.swing.JTextField precio2TxtField;
     public javax.swing.JTextField precio3TxtField;
     public javax.swing.JTextField precio4TxtField;
-    public javax.swing.JLabel precioTituloLabel;
+    private javax.swing.JLabel precioTituloLabel;
     public javax.swing.JButton previewFacturaBtn;
     public javax.swing.JButton registrarFacturaBtn;
     public javax.swing.JTextField totalImporte1TxtField;
     public javax.swing.JTextField totalImporte2TxtField;
     public javax.swing.JTextField totalImporte3TxtField;
     public javax.swing.JTextField totalImporte4TxtField;
-    public javax.swing.JLabel totalImporteTituloLabel;
-    public javax.swing.JToggleButton verificarFichaBtn;
+    private javax.swing.JLabel totalImporteTituloLabel;
+    public javax.swing.JButton verificarFichaBtn;
     // End of variables declaration//GEN-END:variables
-
 }

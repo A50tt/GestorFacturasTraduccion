@@ -21,7 +21,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 import jud.gestorfacturas.manager.DBUtils;
 import jud.gestorfacturas.manager.PDFGenerator;
 import jud.gestorfacturas.manager.Utils;
@@ -37,16 +36,18 @@ public class FacturaController implements Controller, DataListenerController {
     DBUtils dbUtils = new DBUtils();
     Utils utils = new Utils();
     protected int fichaEsCorrecta = 0; // -1 si es INCORRECTA, 0 si es NEUTRAL, 1 si es CORRECTA
+    private String viewName = "Nueva factura";
 
     public Color DEFAULT_BG_COLOR = Color.white;
     public Color ERROR_BG_COLOR = Color.red;
     public String[] TIPOS_UNIDAD = {"", "Clip", "Hora", "Minuto", "Palabra"};
     public String[] FORMAS_PAGO = {"", "Transferencia bancaria", "Cheque"};
-    private final String ERROR_GENERANDO_FACTURA_NO_EMISOR = "No se puede generar la factura porque no se ha informado de los datos del emisor. Por favor, hágalo en el módulo 'Datos propios' en el menú principal.";
+    private final String ERROR_FUT_GENERANDO_FACTURA_NO_EMISOR = "No se podrá guardar una factura porque no se ha informado de los datos fiscales del emisor. Por favor, hágalo en 'Editar' > 'Editar datos personales...'.";
+    private final String ERROR_AHO_GENERANDO_FACTURA_NO_EMISOR = "No se puede guardar una factura porque no se ha informado de los datos fiscales del emisor. Por favor, hágalo en 'Editar' > 'Editar datos personales...'.";
     private final String ERROR_EMISOR_NO_IBAN = "El EMISOR no tiene un IBAN informado y se ha elegido la forma de pago '" + FORMAS_PAGO[1] + "'. No se puede hacer una factura correcta.";
     
     private Controller sourceController;
-    private FacturaView facturaView;
+    public FacturaView facturaView;
     private JPanel jPanel;
     private JTextField numeroFraTxtField;
     private JTextField fechaEmisionTxtField;
@@ -95,20 +96,29 @@ public class FacturaController implements Controller, DataListenerController {
     private JComboBox item4ComboBox;
     private JTextField totalImporte4TxtField;
 
-    private JToggleButton verificarFichaBtn;
+    private JButton verificarFichaBtn;
     private JButton previewFacturaBtn;
     private JButton registrarFacturaBtn;
-
-    public FacturaController(Controller _sourceController) {
+    
+    public FacturaController() {
         facturaView = new FacturaView(this);
-        FrameUtils.centerViewOnScreen(facturaView);
-        sourceController = _sourceController;
         initialize();
-        facturaView.setVisible(true);
+    }
+    
+    public JPanel getView() {
+        return this.facturaView;
+    }
+    
+    public String getViewName() {
+        return this.viewName;
+    }
+
+    public void setViewName(String newViewName) {
+        this.viewName = newViewName;
     }
 
     private void initialize() {
-        jPanel = facturaView.jPanel;
+        jPanel = facturaView.jPanel1;
         numeroFraTxtField = facturaView.numeroFraTxtField;
         numeroFraTxtField.setText(getNextDefaultNumFactura());
         fechaEmisionTxtField = facturaView.fechaEmisionTxtField;
@@ -407,7 +417,7 @@ public class FacturaController implements Controller, DataListenerController {
             File pdfFile = createTempPDF(factura);
             openFile(pdfFile);
         } else {
-            FrameUtils.showErrorMessage("Error al generar factura", ERROR_GENERANDO_FACTURA_NO_EMISOR);
+            FrameUtils.showErrorMessage("Error al generar factura", ERROR_AHO_GENERANDO_FACTURA_NO_EMISOR);
         }
     }
 
@@ -561,9 +571,14 @@ public class FacturaController implements Controller, DataListenerController {
         }
         // Si va a devolver que es válido, informamos en caso de que se haya seleccionado 'Transf. bancaria' y no esté informado en el emisor.
         if (isCorrect) {
-            if (formaPagoComboBox.getSelectedItem() == FORMAS_PAGO[1] && dbUtils.getUnicoEmisor().getIban() == null) {
-                FrameUtils.showInfoMessage("Aviso", ERROR_EMISOR_NO_IBAN);
+            if (dbUtils.getUnicoEmisor() == null) {
+                FrameUtils.showInfoMessage("Aviso", ERROR_FUT_GENERANDO_FACTURA_NO_EMISOR);
+            } else {
+                if (formaPagoComboBox.getSelectedItem() == FORMAS_PAGO[1] && dbUtils.getUnicoEmisor().getIban() == null) {
+                    FrameUtils.showInfoMessage("Aviso", ERROR_EMISOR_NO_IBAN);
+                }
             }
+
         }
         return isCorrect;
     }
@@ -649,7 +664,7 @@ public class FacturaController implements Controller, DataListenerController {
                 FrameUtils.showErrorMessage("Error al generar factura", ERROR_EMISOR_NO_IBAN);
             }
         } else {
-            FrameUtils.showErrorMessage("Error al generar factura", ERROR_GENERANDO_FACTURA_NO_EMISOR);
+            FrameUtils.showErrorMessage("Error al generar factura", ERROR_AHO_GENERANDO_FACTURA_NO_EMISOR);
         }
     }
 
@@ -671,10 +686,10 @@ public class FacturaController implements Controller, DataListenerController {
             fichaEsCorrecta = verificacion == true ? 1 : -1;
             if (fichaEsCorrecta == 1) {
                 actualizaStatusFicha(1);
+                disableAllEditables();
             } else if (fichaEsCorrecta == -1) {
                 actualizaStatusFicha(-1);
             }
-            disableAllEditables();
         } else { // Está retrocediendo la verificación para modificar datos.
             actualizaStatusFicha(0);
             enableAllEditables();
@@ -734,22 +749,6 @@ public class FacturaController implements Controller, DataListenerController {
     }
 
     public void abrirClienteLookupFrame() {
-        ClienteLookupController clc = new ClienteLookupController(this, true);
-    }
-    
-    @Override
-    public void closeView() {
-        returnControlToSource(this);
-        facturaView.dispose();
-    }
-
-    @Override
-    public void returnControlToSource(Controller controller) {
-        sourceController.returnControlToSource(this);
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        facturaView.setVisible(visible);
+        ClienteLookupController lookupController = new ClienteLookupController(this, true);
     }
 }
