@@ -7,15 +7,13 @@ import jud.gestorfacturas.gui.editar.ModificarEmisorView;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import utils.DBUtils;
 import utils.FrameUtils;
 import jud.gestorfacturas.model.Emisor;
+import utils.JSONUtils;
 
 public class ModificarEmisorController implements Controller, DataListenerController {
 
     ModificarEmisorView modificarEmisorView;
-    Controller sourceController;
-    DBUtils dbUtils = new DBUtils();
 
     Color DEFAULT_BG_COLOR = Color.white;
     Color ERROR_BG_COLOR = Color.red;
@@ -46,8 +44,8 @@ public class ModificarEmisorController implements Controller, DataListenerContro
     }
 
     public void cargaDatosEmisor() {
-        DBUtils dbUtils = new DBUtils();
-        Emisor emisor = dbUtils.getUnicoEmisor();
+        Emisor emisor = JSONUtils.getEmisorGuardado();
+//        Emisor emisor = dbUtils.getUnicoEmisor();
         if (emisor != null) {
             nifTxtField.setText(emisor.getNif());
             nombreTxtField.setText(emisor.getNombre());
@@ -56,7 +54,7 @@ public class ModificarEmisorController implements Controller, DataListenerContro
             codigoPostalTxtField.setText(emisor.getCodigoPostal());
             ibanTxtField.setText(emisor.getIban());
         } else {
-            FrameUtils.showInfoMessage("Información", "No se han encontrado datos guardados.");
+            FrameUtils.showInfoMessage("Aviso", "No se han encontrado datos guardados.");
             nifTxtField.setText("");
             nombreTxtField.setText("");
             nombreCompletoTxtField.setText("");
@@ -67,7 +65,8 @@ public class ModificarEmisorController implements Controller, DataListenerContro
     }
 
     public void actualizaEmisor() {
-        Emisor emisorDB = dbUtils.getUnicoEmisor();
+        Emisor emisorDB = JSONUtils.getEmisorGuardado();
+//        Emisor emisorDB = dbUtils.getUnicoEmisor();
         if (emisorDB == null) {
             emisorDB = new Emisor();
         }
@@ -136,10 +135,10 @@ public class ModificarEmisorController implements Controller, DataListenerContro
    
     private void saveEmisor(Emisor emisor) {
         try {
-            dbUtils.getEntityManager().getTransaction().begin();
-            dbUtils.mergeIntoDB(emisor);
-            dbUtils.getEntityManager().getTransaction().commit();
-            FrameUtils.showPlainMessage("Éxito", "Los datos han sido actualizados correctamente.");
+            JSONUtils.saveEmisor(emisor);
+//            dbUtils.getEntityManager().getTransaction().begin();
+//            dbUtils.mergeIntoDB(emisor);
+//            dbUtils.getEntityManager().getTransaction().commit();
         } catch (Exception e) {
             FrameUtils.showErrorMessage("Error", "Ha ocurrido un error en el guardado a la base de datos.");
         }

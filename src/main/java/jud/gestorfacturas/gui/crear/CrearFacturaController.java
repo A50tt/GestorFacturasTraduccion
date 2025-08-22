@@ -11,6 +11,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -22,7 +23,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import utils.DBUtils;
 import jud.gestorfacturas.manager.PDFGenerator;
 import utils.FormatUtils;
 import jud.gestorfacturas.model.Cliente;
@@ -31,10 +31,10 @@ import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Servicio;
 import utils.FrameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import utils.JSONUtils;
 
 public class CrearFacturaController implements Controller, DataListenerController {
 
-    DBUtils dbUtils = new DBUtils();
     FormatUtils utils = new FormatUtils();
     protected int fichaEsCorrecta = 0; // -1 si es INCORRECTA, 0 si es NEUTRAL, 1 si es CORRECTA
     private String viewName = "Nueva factura";
@@ -142,7 +142,6 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         msgLbl = facturaView.msgLbl;
         setStandbyStatus();
         msgLbl.getIcon();
-        //msgLbl.setOpaque(false);
 
         concepto1TxtField = facturaView.concepto1TxtField;
         idiomaOrigen1TxtField = facturaView.idiomaOrigen1TxtField;
@@ -208,19 +207,6 @@ public class CrearFacturaController implements Controller, DataListenerControlle
             } catch (NumberFormatException e) {
                 fechaVencimiento.setText("");
             }
-        }
-    }
-
-    //Este método no está actualmente en uso.
-    //Sirve para actualizar el campo de texto Concepto en caso de que se quiere verificar el formate dado el evento KeyRelease
-    public void verificaConceptosServicio(javax.swing.JTextField concepto, javax.swing.JTextField cantidad, javax.swing.JTextField precio) {
-        if (concepto.getText().isEmpty() && cantidad.getText().isEmpty() && precio.getText().isEmpty()) {
-            setDefaultBackground(concepto);
-        } else if (concepto.getText().isEmpty() && (cantidad.getText().isEmpty() || precio.getText().isEmpty())) {
-            setErrorBackground(concepto);
-            fichaEsCorrecta = -1;
-        } else {
-            setDefaultBackground(concepto);
         }
     }
 
@@ -329,7 +315,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         registrarFacturaBtn.setEnabled(false);
     }
 
-    public Factura extraeDatosYGeneraFactura() {
+    public Factura extraeFactura() {
         String numFra = numeroFraTxtField.getText();
         Date fechaEmision = utils.convertStringToDate(fechaEmisionTxtField.getText());
         int diasPago = Integer.valueOf(diasParaPagoTxtField.getText());
@@ -339,8 +325,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         String codigoPostalCliente = codigoPostalClienteTxtField.getText();
         String nif = nifClienteTxtField.getText();
         Cliente cliente = new Cliente(nif, nombreCliente, direccionCliente, codigoPostalCliente);
-        DBUtils dbUtils = new DBUtils();
-        Emisor emisor = dbUtils.getUnicoEmisor();
+        Emisor emisor = JSONUtils.getEmisorGuardado();
         Servicio servicio1 = null, servicio2 = null, servicio3 = null, servicio4 = null;
         int servicioCount = 0;
         if (!concepto1TxtField.getText().isEmpty()) {
@@ -371,7 +356,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         return new Factura(numFra, fechaEmision, diasPago, formaPago, cliente, emisor, servicios);
     }
 
-    public File createTempPDF(Factura factura) {
+    public File createTempPdf(Factura factura) {
         try {
             File file = File.createTempFile("invoice_" + factura.getNumFactura(), ".pdf");
             PDFGenerator pdfGen = new PDFGenerator(file.getName());
@@ -384,7 +369,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         }
     }
 
-    public File guardaFactura(Factura factura) {
+    public File guardaFacturaPdf(Factura factura) {
         File file = new File(PDFGenerator.INVOICES_DIRECTORY + factura.getNumFactura() + ".pdf");
         PDFGenerator pdfGen = new PDFGenerator(file);
         PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file);
@@ -413,9 +398,9 @@ public class CrearFacturaController implements Controller, DataListenerControlle
     }
     
     public void previewFacturaBtnPulsado() {
-        if (dbUtils.getUnicoEmisor() != null) {
-            Factura factura = extraeDatosYGeneraFactura();
-            File pdfFile = createTempPDF(factura);
+        if (JSONUtils.getEmisorGuardado() != null) {
+            Factura factura = extraeFactura();
+            File pdfFile = createTempPdf(factura);
             openFile(pdfFile);
         } else {
             FrameUtils.showErrorMessage("Error al generar factura", ERROR_AHO_GENERANDO_FACTURA_NO_EMISOR);
@@ -572,10 +557,10 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         }
         // Si va a devolver que es válido, informamos en caso de que se haya seleccionado 'Transf. bancaria' y no esté informado en el emisor.
         if (isCorrect) {
-            if (dbUtils.getUnicoEmisor() == null) {
+            if (JSONUtils.getEmisorGuardado() == null) {
                 FrameUtils.showInfoMessage("Aviso", ERROR_FUT_GENERANDO_FACTURA_NO_EMISOR);
             } else {
-                if (formaPagoComboBox.getSelectedItem() == FORMAS_PAGO[1] && dbUtils.getUnicoEmisor().getIban() == null) {
+                if (formaPagoComboBox.getSelectedItem() == FORMAS_PAGO[1] && JSONUtils.getEmisorGuardado().getIban() == null) {
                     FrameUtils.showInfoMessage("Aviso", ERROR_EMISOR_NO_IBAN);
                 }
             }
@@ -643,23 +628,25 @@ public class CrearFacturaController implements Controller, DataListenerControlle
 
     public void registraFactura() {
         // Comprobamos que el emisor está informado para poder hacer la factura.
-        Emisor emisor = dbUtils.getUnicoEmisor();
+        Emisor emisor = JSONUtils.getEmisorGuardado();
         if (emisor != null) {
-            Factura factura = extraeDatosYGeneraFactura();
+            Factura factura = extraeFactura();
             // Ahora comprobamos que tenga informado IBAN si la forma de pago es 'Transferencia bancaria'.
             if (factura.getFormaPago() == FORMAS_PAGO[1] && emisor.getIban() != null) {
                 // Si la factura existe en la BD, sigue con el registro. De lo contrario muestra el error.
-                if (!dbUtils.facturaExists(factura)) {
-                    File pdfFile = guardaFactura(factura);
+                if (!JSONUtils.numFacturaYaExiste(factura.getNumFactura())) {
+                    File pdfFile = guardaFacturaPdf(factura);
                     factura.setPdfFactura(pdfFile);
-
-                    dbUtils.getEntityManager().getTransaction().begin();
-                    dbUtils.mergeIntoDB(factura);
-                    dbUtils.getEntityManager().getTransaction().commit();
-                    FrameUtils.showInfoMessage("Éxito", "La factura ha sido registrada correctamente.");
+                    JSONUtils.saveFactura(factura);
                 } else {
-                    LocalDateTime ts = dbUtils.getTimestampOfInvoice(factura).toLocalDateTime();
-                    FrameUtils.showErrorMessage("Error", "La factura " + factura.getNumFactura() + " ya fue registrada el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%2d", ts.getMinute()) + "h.");
+                    LocalDateTime ts = JSONUtils.getFactura(factura.getNumFactura()).getFechaUltActualizacion().toLocalDateTime();
+                    String day = String.format("%02d", ts.getDayOfMonth());
+                    String month = String.format("%02d", ts.getMonthValue());
+                    String year = String.format("%04d", ts.getYear());
+                    String hour = String.format("%02d", ts.getHour());
+                    String minute = String.format("%02d", ts.getMinute());
+                    
+                    FrameUtils.showErrorMessage("Error", "La factura " + factura.getNumFactura() + " ya fue registrada el " + day + "-" + month + "-" + year + " a las " + hour + ":" + minute + "h.");
                 }
             } else {
                 FrameUtils.showErrorMessage("Error al generar factura", ERROR_EMISOR_NO_IBAN);
@@ -670,10 +657,9 @@ public class CrearFacturaController implements Controller, DataListenerControlle
     }
 
     public void descargaPDF(Factura factura) {
-        DBUtils dbUtils = new DBUtils();
         File file = null;
-        if (dbUtils.facturaExists(factura)) {
-            file = dbUtils.getPDFFactura(factura.getNumFactura());
+        if (JSONUtils.numFacturaYaExiste(factura.getNumFactura())) {
+            file = JSONUtils.getFacturaByNumFactura(factura.getNumFactura()).getPdfFactura();
         }
         openFile(file);
 
@@ -695,12 +681,10 @@ public class CrearFacturaController implements Controller, DataListenerControlle
             actualizaStatusFicha(0);
             enableAllEditables();
         }
-        //verificarFichaBtn.setSelected(false);
     }
 
     public void cargaDatosDeNumeroCliente() {
-        DBUtils dbUtils = new DBUtils();
-        Cliente cliente = dbUtils.getClienteById(numeroClienteTxtField.getText());
+        Cliente cliente = JSONUtils.getClienteById(Integer.parseInt(numeroClienteTxtField.getText()));
         if (cliente != null) {
             if (cliente.isActivado()) {
                 if (cliente != null && cliente.getNif() != null) {
@@ -728,7 +712,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         int n = 1;
         while (true) {
             String numFacturaAux = numFactura + String.format("%03d", n);
-            if (!dbUtils.facturaExists(numFacturaAux)) {
+            if (!JSONUtils.numFacturaYaExiste(numFacturaAux)) {
                 return numFacturaAux;
             }
             n++;

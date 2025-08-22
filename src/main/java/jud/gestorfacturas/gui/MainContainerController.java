@@ -24,7 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import jud.gestorfacturas.gui.MainContainerView;
 import utils.FrameUtils;
 
 public class MainContainerController implements GlobalController {

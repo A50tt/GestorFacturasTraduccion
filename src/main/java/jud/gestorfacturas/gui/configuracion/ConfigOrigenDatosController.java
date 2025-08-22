@@ -70,7 +70,7 @@ public class ConfigOrigenDatosController implements Controller {
             pwd += ch;
         }
         properties.setPassword(pwd);
-        FrameUtils.showInfoMessage("Éxito", "Configuración guardada correctamente.");
+        FrameUtils.showPlainMessage("Éxito", "Configuración guardada correctamente.");
         } else {
             FrameUtils.showErrorMessage("Conexión incorrecta", "Las credenciales son incorrectas o el servidor no existe.");
         }

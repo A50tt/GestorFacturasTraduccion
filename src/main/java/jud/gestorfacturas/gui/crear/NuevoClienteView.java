@@ -140,7 +140,6 @@ public class NuevoClienteView extends javax.swing.JPanel {
         jPanel5.setRequestFocusEnabled(false);
 
         anadirBtn.setText("Guardar");
-        anadirBtn.setToolTipText("");
         anadirBtn.setPreferredSize(new java.awt.Dimension(90, 25));
         anadirBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

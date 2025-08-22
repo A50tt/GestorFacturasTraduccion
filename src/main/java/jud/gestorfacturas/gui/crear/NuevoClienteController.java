@@ -3,14 +3,13 @@ package jud.gestorfacturas.gui.crear;
 import jud.gestorfacturas.interfaces.Controller;
 import jud.gestorfacturas.gui.crear.NuevoClienteView;
 import java.awt.Color;
-import java.time.LocalDateTime;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import utils.DBUtils;
 import utils.FrameUtils;
 import jud.gestorfacturas.model.Cliente;
+import utils.JSONUtils;
 
 public class NuevoClienteController implements Controller {
 
@@ -89,28 +88,29 @@ public class NuevoClienteController implements Controller {
     }
 
     public Cliente generaCliente() {
-        DBUtils dbUtils = new DBUtils();
         String nombreCliente = nombreTxtField.getText();
         String direccionCliente = direccionTxtField.getText();
         String codigoPostalCliente = codigoPostalTxtField.getText();
         String nifCliente = nifTxtField.getText();
         Cliente cliente = new Cliente(nifCliente, nombreCliente, direccionCliente, codigoPostalCliente);
-        cliente.setId(dbUtils.getSiguienteIdCliente());
+        cliente.setId(JSONUtils.getSiguienteIdClienteDisponible());
+//        cliente.setId(dbUtils.getSiguienteIdCliente());
         return cliente;
     }
 
     public void registraCliente(Cliente cliente) {
-        DBUtils dbUtils = new DBUtils();
-
-        if (!dbUtils.clienteExists(cliente)) {
-            dbUtils.getEntityManager().getTransaction().begin();
-            dbUtils.mergeIntoDB(cliente);
-            dbUtils.getEntityManager().getTransaction().commit();
-            FrameUtils.showInfoMessage("Éxito", "El cliente ha sido registrado correctamente con el ID n.º " + cliente.getId() + ".");
-        } else {
-            LocalDateTime ts = dbUtils.getTimestampCliente(cliente).toLocalDateTime();
-            FrameUtils.showErrorMessage("ERROR", "El NIF '" + cliente.getNif() + "' ya fue registrado el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%02d", ts.getMinute()) + "h. Pertenece al cliente con ID n.º '" + cliente.getId() + "'.");
-        }
+//        DBUtils dbUtils = new DBUtils();
+//
+//        if (!dbUtils.clienteExists(cliente)) {
+//            dbUtils.getEntityManager().getTransaction().begin();
+//            dbUtils.mergeIntoDB(cliente);
+//            dbUtils.getEntityManager().getTransaction().commit();
+//            FrameUtils.showInfoMessage("Éxito", "El cliente ha sido registrado correctamente con el ID n.º " + cliente.getId() + ".");
+//        } else {
+//            LocalDateTime ts = dbUtils.getTimestampCliente(cliente).toLocalDateTime();
+//            FrameUtils.showErrorMessage("ERROR", "El NIF '" + cliente.getNif() + "' ya fue registrado el " + ts.getDayOfMonth() + "-" + ts.getMonthValue() + "-" + ts.getYear() + " a las " + ts.getHour() + ":" + String.format("%02d", ts.getMinute()) + "h. Pertenece al cliente con ID n.º '" + cliente.getId() + "'.");
+//        }
+        JSONUtils.saveCliente(cliente);
     }
 
     public void setDisabledBackground(JComponent comp) {

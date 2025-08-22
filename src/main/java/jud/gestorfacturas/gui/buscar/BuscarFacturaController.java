@@ -1,6 +1,7 @@
 
 package jud.gestorfacturas.gui.buscar;
 
+import java.util.List;
 import jud.gestorfacturas.interfaces.Controller;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -8,14 +9,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import jud.gestorfacturas.gui.buscar.BuscarFacturaView;
-import utils.DBUtils;
 import jud.gestorfacturas.manager.PDFGenerator;
 import utils.FormatUtils;
 import jud.gestorfacturas.model.Factura;
+import utils.JSONUtils;
 
 public class BuscarFacturaController implements Controller {
-    
-    DBUtils dbUtils = new DBUtils();
     
     private BuscarFacturaView invoiceLookupView;
     
@@ -52,7 +51,8 @@ public class BuscarFacturaController implements Controller {
     }
     
     public void lookupAllInvoices() {
-        Factura[] listaClientesFiltrados = dbUtils.getTodasFacturas();
+        List<Factura> listaClientesFiltrados = JSONUtils.getAllFacturas();
+//        Factura[] listaClientesFiltrados = dbUtils.getTodasFacturas();
         deleteAllClientesRows();
         addFacturasRows(listaClientesFiltrados);
     }
@@ -61,26 +61,27 @@ public class BuscarFacturaController implements Controller {
         String campoFiltro = null;
         String campoActual = campoBusquedaComboBox.getSelectedItem().toString();
         if (campoActual.equals(tiposCampo[0])) {
-            campoFiltro = "f.numFactura";
+            campoFiltro = "num_factura";
 //            campoFiltro = "f.numFactura";
         } else if (campoActual.equals(tiposCampo[1])) {
-            campoFiltro = "to_char(f.fechaemision, 'YYYY-MM-DD')";
+            campoFiltro = "fecha_emision";
 //            campoFiltro = "f.fechaEmision";
         } else if (campoActual.equals(tiposCampo[2])) {
-            campoFiltro = "to_char(f.fechavencimiento, 'YYYY-MM-DD')";
+            campoFiltro = "fecha_vencimiento";
 //            campoFiltro = "f.fechaVencimiento";
         } else if (campoActual.equals(tiposCampo[3])) {
-            campoFiltro = "c.id";
+            campoFiltro = "id";
 //            campoFiltro = "c.id";
         } else if (campoActual.equals(tiposCampo[4])) {
-            campoFiltro = "c.nombre";
+            campoFiltro = "nombre";
 //            campoFiltro = "c.nombre";
         } else if (campoActual.equals(tiposCampo[5])) {
-            campoFiltro = "f.importeTotal";
-//            campoFiltro = "f.importeTotal";
+            campoFiltro = "importe_total";
+//            campoFiltro = "f.importeTotal";//TODO HAY LIADA CON LOS TIPOS AQUI
         }
-        String valor = inputTextField.getText().replace("*", "%");
-        Factura[] listaFacturasFiltradas = dbUtils.getFacturasFiltradas(campoFiltro, valor);
+        String valor = inputTextField.getText();
+        List<Factura> listaFacturasFiltradas = JSONUtils.getFacturasByFilter(valor, campoFiltro);
+//        Factura[] listaFacturasFiltradas = dbUtils.getFacturasFiltradas(campoFiltro, valor);
 //        Factura[] facturasFiltradasArray = new Factura[listaFacturasFiltradas.size()];
 //        for (int i = 0; i < facturasFiltradasArray.length; i++) {
 //            facturasFiltradasArray[i] = listaFacturasFiltradas.get(i);
@@ -98,9 +99,9 @@ public class BuscarFacturaController implements Controller {
         }
     }
     
-    public void addFacturasRows(Factura[] listaFacturasFiltradas) {
-        for (int i = 0; i < listaFacturasFiltradas.length; i++) {
-            Factura factura = listaFacturasFiltradas[i];
+    public void addFacturasRows(List<Factura> listaFacturasFiltradas) {
+        for (int i = 0; i < listaFacturasFiltradas.size(); i++) {
+            Factura factura = listaFacturasFiltradas.get(i);
             String numFactura = factura.getNumFactura();
             String fechaEmision = FormatUtils.convertDateToString(factura.getFechaEmision(), "yyyy-MM-dd");
             String fechaVencimiento = FormatUtils.convertDateToString(factura.getFechaVencimiento(), "yyyy-MM-dd");
@@ -112,7 +113,8 @@ public class BuscarFacturaController implements Controller {
     }
     
     public void lookupAndOpenInvoice(int row) {
-        Factura factura = dbUtils.getFacturaByNif(invoiceLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
+        Factura factura = JSONUtils.getFacturaByNumFactura(invoiceLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
+//        Factura factura = dbUtils.getFacturaByNif(invoiceLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
         PDFGenerator.openPDF(factura.getPdfFactura());
     }
 

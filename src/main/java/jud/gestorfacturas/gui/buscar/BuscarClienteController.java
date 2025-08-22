@@ -10,13 +10,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import utils.DBUtils;
 import utils.FrameUtils;
 import jud.gestorfacturas.model.Cliente;
+import utils.JSONUtils;
 
 public class BuscarClienteController {
     
-    DBUtils dbUtils = new DBUtils();
     BuscarClienteView clienteLookupView;
     DataListenerController sourceController;
     boolean checkIfClienteIsActivado;
@@ -78,7 +77,7 @@ public class BuscarClienteController {
     }
     
     public void lookupAllClientes() {
-        List listaClientesFiltrados = dbUtils.getTodosClientes();
+        List listaClientesFiltrados = JSONUtils.getAllClientes();
         deleteAllClientesRows();
         addClientesRows(listaClientesFiltrados);
     }
@@ -92,15 +91,15 @@ public class BuscarClienteController {
         }
     }
 
-    public void addClientesRows(List listaClientesFiltrados) {
+    public void addClientesRows(List<Cliente> listaClientesFiltrados) {
         for (int i = 0; i < listaClientesFiltrados.size(); i++) {
-            Object[] cliente = ((Object[])listaClientesFiltrados.get(i));
-            int id = (Integer) cliente[0];
-            String nombre = cliente[1].toString();
-            String nif = cliente[2].toString();
-            String direccion = cliente[3].toString();
-            String codigoPostal = cliente[4].toString();
-            String estado = ((boolean)cliente[5] == true) ? "Activado" : "Desactivado";
+            Cliente cliente = listaClientesFiltrados.get(i);
+            int id = cliente.getId();
+            String nombre = cliente.getNombre();
+            String nif = cliente.getNif();
+            String direccion = cliente.getDireccion();
+            String codigoPostal = cliente.getCodigoPostal();
+            String estado = (cliente.isActivado() == true) ? "Activado" : "Desactivado";
             ((DefaultTableModel) resultadosTable.getModel()).addRow(new Object[]{id, nif, nombre, direccion, codigoPostal, estado});
         }
     }
@@ -119,9 +118,9 @@ public class BuscarClienteController {
         } else if (campo == tiposCampo[2]) {
             propiedad = "direccion";
         } else if (campo == tiposCampo[3]) {
-            propiedad = "codigopostal";
+            propiedad = "codigo_postal";
         }
-        List listaClientesFiltrados = dbUtils.getTodosClientesPorCampo(propiedad, valor);
+        List<Cliente> listaClientesFiltrados = JSONUtils.getClientesByFilter(propiedad, valor);
         deleteAllClientesRows();
         addClientesRows(listaClientesFiltrados);
     }

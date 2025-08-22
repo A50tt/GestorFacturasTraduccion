@@ -4,8 +4,18 @@ package jud.gestorfacturas.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "Emisor")
+/* JSON:
+{
+    "nombre_completo": "Mi nombre completo",
+    "codigo_postal": "00000",
+    "ult_actualizacion": "2025-08-22 23:39:02.619",
+    "iban": "ES42",
+    "direccion": "Mi dirección",
+    "nif": "A123",
+    "nombre": "Mi nombre"
+}
+*/
+
 public class Emisor extends Interviniente {
     
     private String nombreCompleto;

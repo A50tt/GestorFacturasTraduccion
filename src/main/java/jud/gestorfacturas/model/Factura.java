@@ -5,25 +5,19 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import utils.FormatUtils;
 
-@Entity
+
 public class Factura implements Serializable {
 
-    @Id
     private String numFactura;
     private Date fechaEmision;
     private int diasPago;
     private Date fechaVencimiento;
     private String formaPago;
-    @OneToOne(cascade = CascadeType.PERSIST)
     private Cliente cliente;
     private Emisor emisor;
-    private Servicio[] listaServicios;
+    private Servicio[] servicios;
     private double baseImponible = 0;
     private final double TASA_IVA = 21.0d;
     private double iva;
@@ -38,7 +32,7 @@ public class Factura implements Serializable {
         final String CONST_COMMA = ", ";
         return "[" + numFactura + CONST_COMMA + fechaEmision + CONST_COMMA + diasPago
                 + CONST_COMMA + fechaVencimiento + CONST_COMMA + formaPago + CONST_COMMA
-                + cliente + CONST_COMMA + emisor + CONST_COMMA + listaServicios + CONST_COMMA
+                + cliente + CONST_COMMA + emisor + CONST_COMMA + servicios + CONST_COMMA
                 + baseImponible + CONST_COMMA + iva + CONST_COMMA + irpf + CONST_COMMA
                 + importeTotal + CONST_COMMA + fechaUltActualizacion + "]";
     }
@@ -59,7 +53,7 @@ public class Factura implements Serializable {
         str.append("\nDirección: " + this.emisor.getDireccion());
         str.append("\nCódigo Postal: " + this.emisor.getCodigoPostal());
         str.append("\n\nSERVICIOS:");
-        for (Servicio servicio: this.listaServicios) {
+        for (Servicio servicio: this.servicios) {
             str.append("\n" + new DecimalFormat("0").format(servicio.getCantidad()) + "x " + servicio.getDescripcion() + " a " + dc.format(servicio.getPrecioUnitario()) + " € = " + dc.format(servicio.getPrecioFinal()) + " €");
         }
         
@@ -73,12 +67,8 @@ public class Factura implements Serializable {
     public Factura() {
         
     }
-    
-    public static Factura getDummyInstance() {
-        return new Factura("dummy", new Date(System.currentTimeMillis()), 0, null, null, null, null);
-    }
 
-    public Factura(String _numFactura, Date _fechaEmision, int _diasPago, String _formaPago, Cliente _cliente, Emisor _emisor, Servicio[] _listaServicios) {
+    public Factura(String _numFactura, Date _fechaEmision, int _diasPago, String _formaPago, Cliente _cliente, Emisor _emisor, Servicio[] _servicios) {
         this.numFactura = _numFactura;
         this.fechaEmision = _fechaEmision;
         this.diasPago = _diasPago;
@@ -86,12 +76,28 @@ public class Factura implements Serializable {
         this.formaPago = _formaPago;
         this.cliente = _cliente;
         this.emisor = _emisor;
-        this.listaServicios = _listaServicios;
-        calculaServicios(); //Calcula baseImponible a partir de listaServicios
+        this.servicios = _servicios;
+        calculaServicios(); //Calcula baseImponible a partir de servicios
         this.iva = FormatUtils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
         this.irpf = FormatUtils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
         this.importeTotal = baseImponible + iva + irpf;
         this.fechaUltActualizacion = new Timestamp(System.currentTimeMillis());
+    }
+    
+      public Factura(String _numFactura, Date _fechaEmision, int _diasPago, String _formaPago, Cliente _cliente, Emisor _emisor, Servicio[] _servicios, Timestamp _fechaUltActualizacion) {
+        this.numFactura = _numFactura;
+        this.fechaEmision = _fechaEmision;
+        this.diasPago = _diasPago;
+        this.fechaVencimiento = Date.valueOf(this.fechaEmision.toLocalDate().plusDays(this.diasPago));
+        this.formaPago = _formaPago;
+        this.cliente = _cliente;
+        this.emisor = _emisor;
+        this.servicios = _servicios;
+        calculaServicios(); //Calcula baseImponible a partir de servicios
+        this.iva = FormatUtils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
+        this.irpf = FormatUtils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
+        this.importeTotal = baseImponible + iva + irpf;
+        this.fechaUltActualizacion = _fechaUltActualizacion;
     }
 
     public Date getFechaEmision() {
@@ -118,15 +124,15 @@ public class Factura implements Serializable {
         return emisor;
     }
 
-    public Servicio[] getListaServicios() {
-        return listaServicios;
+    public Servicio[] getServicios() {
+        return servicios;
     }
 
     public double getBaseImponible() {
         return baseImponible;
     }
 
-    public double getTASA_IVA() {
+    public double getTasaIva() {
         return TASA_IVA;
     }
 
@@ -134,7 +140,7 @@ public class Factura implements Serializable {
         return iva;
     }
 
-    public double getTASA_IRPF() {
+    public double getTasaIrpf() {
         return TASA_IRPF;
     }
 
@@ -155,8 +161,8 @@ public class Factura implements Serializable {
     }
     
     private void calculaServicios() {
-        if (this.listaServicios != null) {
-            for (Servicio servicio : this.listaServicios) {
+        if (this.servicios != null) {
+            for (Servicio servicio : this.servicios) {
                 baseImponible += servicio.getPrecioFinal();
             }
         }

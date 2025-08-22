@@ -1,7 +1,6 @@
 package jud.gestorfacturas.manager;
 
 import utils.FrameUtils;
-import utils.DBUtils;
 import javax.persistence.PersistenceException;
 import jud.gestorfacturas.gui.MainContainerController;
 
@@ -11,7 +10,7 @@ public class Main {
         new Main().inicio();
     }
 
-    public void inicio() {        
+    public void inicio() {
         boolean correctStart = true;
         try {
             EntityManagerLoader.getEntityManagerConfiguredInstance().isOpen();
@@ -21,8 +20,6 @@ public class Main {
 
         if (correctStart) {
             try {
-                DBUtils dbUtils = new DBUtils();
-                dbUtils.checkIfTablesAreCreatedOnDB();
                 new MainContainerController();
             } catch (PersistenceException ex) {
                 FrameUtils.showErrorMessage("FATAL ERROR", ex.toString());
