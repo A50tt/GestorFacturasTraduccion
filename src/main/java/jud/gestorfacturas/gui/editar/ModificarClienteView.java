@@ -363,7 +363,6 @@ public class ModificarClienteView extends javax.swing.JPanel {
     }//GEN-LAST:event_resetClienteBtnActionPerformed
 
     private void nombreClienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreClienteSearchBtnActionPerformed
-        // TODO
         controller.abrirClienteLookupFrame();
     }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
 

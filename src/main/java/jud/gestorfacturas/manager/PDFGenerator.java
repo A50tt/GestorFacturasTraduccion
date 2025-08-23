@@ -1,6 +1,5 @@
 package jud.gestorfacturas.manager;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +20,7 @@ public final class PDFGenerator {
 
     public static String RESOURCES_DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\resources\\";
     public static String IMAGES_DIRECTORY = RESOURCES_DIRECTORY + "img\\";
-    public static String INVOICES_DIRECTORY = RESOURCES_DIRECTORY + "invoices\\";
+    public static String INVOICES_DIRECTORY = RESOURCES_DIRECTORY + "facturas\\";
     public static String JUDITH_LOGO = IMAGES_DIRECTORY + "logo_judith.png";
     
     private String fileName;

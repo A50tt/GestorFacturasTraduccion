@@ -1,5 +1,8 @@
 
 /src/main/resources/invoices/
+/src/main/resources/META-INF/clientes.json
+/src/main/resources/META-INF/emisor.json
+/src/main/resources/META-INF/facturas.json
 
 # NetBeans project files
 nbproject/

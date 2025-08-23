@@ -22,6 +22,14 @@ public abstract class Interviniente {
         this.nif = _nif;
         this.fechaUltActualizacion = new Timestamp(System.currentTimeMillis());
     }
+   
+    public Interviniente(String _nif, String _nombre, String _direccion, String _codigoPostal, Timestamp _fechaUltActualizacion) {
+        this.nombre = _nombre;
+        this.direccion = _direccion;
+        this.codigoPostal = _codigoPostal;
+        this.nif = _nif;
+        this.fechaUltActualizacion = _fechaUltActualizacion;
+    }
     
     public String getNombre() {
         return nombre;

@@ -44,7 +44,7 @@ public class ModificarEmisorController implements Controller, DataListenerContro
     }
 
     public void cargaDatosEmisor() {
-        Emisor emisor = JSONUtils.getEmisorGuardado();
+        Emisor emisor = JSONUtils.findEmisorGuardado();
 //        Emisor emisor = dbUtils.getUnicoEmisor();
         if (emisor != null) {
             nifTxtField.setText(emisor.getNif());
@@ -65,7 +65,7 @@ public class ModificarEmisorController implements Controller, DataListenerContro
     }
 
     public void actualizaEmisor() {
-        Emisor emisorDB = JSONUtils.getEmisorGuardado();
+        Emisor emisorDB = JSONUtils.findEmisorGuardado();
 //        Emisor emisorDB = dbUtils.getUnicoEmisor();
         if (emisorDB == null) {
             emisorDB = new Emisor();

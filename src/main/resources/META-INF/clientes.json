@@ -1,2 +1,9 @@
-{"clientes": [
-]}
+{"clientes": [{
+    "codigo_postal": "00001",
+    "ult_actualizacion": "2025-08-23 14:06:24.511",
+    "activado": true,
+    "direccion": "Dirección 1",
+    "nif": "B12345678",
+    "id": 1,
+    "nombre": "Nombre 16"
+}]}

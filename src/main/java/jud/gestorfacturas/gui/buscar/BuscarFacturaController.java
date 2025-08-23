@@ -51,7 +51,7 @@ public class BuscarFacturaController implements Controller {
     }
     
     public void lookupAllInvoices() {
-        List<Factura> listaClientesFiltrados = JSONUtils.getAllFacturas();
+        List<Factura> listaClientesFiltrados = JSONUtils.findAllFacturas();
 //        Factura[] listaClientesFiltrados = dbUtils.getTodasFacturas();
         deleteAllClientesRows();
         addFacturasRows(listaClientesFiltrados);
@@ -60,34 +60,31 @@ public class BuscarFacturaController implements Controller {
     public void lookupInvoice() {
         String campoFiltro = null;
         String campoActual = campoBusquedaComboBox.getSelectedItem().toString();
+        List<Factura> listaFacturasFiltradas = null;
+        String valor = inputTextField.getText();
         if (campoActual.equals(tiposCampo[0])) {
             campoFiltro = "num_factura";
-//            campoFiltro = "f.numFactura";
+            listaFacturasFiltradas = JSONUtils.getFacturasByFilter(valor, campoFiltro);
         } else if (campoActual.equals(tiposCampo[1])) {
             campoFiltro = "fecha_emision";
-//            campoFiltro = "f.fechaEmision";
+            listaFacturasFiltradas = JSONUtils.getFacturasByFilter(valor, campoFiltro);
         } else if (campoActual.equals(tiposCampo[2])) {
             campoFiltro = "fecha_vencimiento";
-//            campoFiltro = "f.fechaVencimiento";
+            listaFacturasFiltradas = JSONUtils.getFacturasByFilter(valor, campoFiltro);
         } else if (campoActual.equals(tiposCampo[3])) {
             campoFiltro = "id";
-//            campoFiltro = "c.id";
+            listaFacturasFiltradas = JSONUtils.getFacturasByClienteFilter(valor, campoFiltro);
         } else if (campoActual.equals(tiposCampo[4])) {
             campoFiltro = "nombre";
-//            campoFiltro = "c.nombre";
+            listaFacturasFiltradas = JSONUtils.getFacturasByClienteFilter(valor, campoFiltro);
         } else if (campoActual.equals(tiposCampo[5])) {
             campoFiltro = "importe_total";
-//            campoFiltro = "f.importeTotal";//TODO HAY LIADA CON LOS TIPOS AQUI
+            listaFacturasFiltradas = JSONUtils.getFacturasByFilter(valor, campoFiltro);
         }
-        String valor = inputTextField.getText();
-        List<Factura> listaFacturasFiltradas = JSONUtils.getFacturasByFilter(valor, campoFiltro);
-//        Factura[] listaFacturasFiltradas = dbUtils.getFacturasFiltradas(campoFiltro, valor);
-//        Factura[] facturasFiltradasArray = new Factura[listaFacturasFiltradas.size()];
-//        for (int i = 0; i < facturasFiltradasArray.length; i++) {
-//            facturasFiltradasArray[i] = listaFacturasFiltradas.get(i);
-//        }
         deleteAllClientesRows();
-        addFacturasRows(listaFacturasFiltradas);
+        if (listaFacturasFiltradas != null) {
+            addFacturasRows(listaFacturasFiltradas);
+        }
     }
     
     public void deleteAllClientesRows() {
@@ -113,9 +110,9 @@ public class BuscarFacturaController implements Controller {
     }
     
     public void lookupAndOpenInvoice(int row) {
-        Factura factura = JSONUtils.getFacturaByNumFactura(invoiceLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
+        Factura factura = JSONUtils.findFacturaByNumFactura(invoiceLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
 //        Factura factura = dbUtils.getFacturaByNif(invoiceLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
-        PDFGenerator.openPDF(factura.getPdfFactura());
+        PDFGenerator.openPDF(factura.getRelativePathFactura());
     }
 
     @Override

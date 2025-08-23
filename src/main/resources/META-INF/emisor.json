@@ -1,9 +1,7 @@
 {
-    "nombre_completo": null,
-    "codigo_postal": null,
-    "ult_actualizacion": null,
-    "iban": null,
-    "direccion": null,
-    "nif": null,
-    "nombre": null
+    "nombre_completo": "Nombre completo propio",
+    "ult_actualizacion": "2025-08-23 15:00:20.409",
+    "iban": "ES40",
+    "nif": "X55555555",
+    "nombre": "Nombre propio"
 }

@@ -2,9 +2,13 @@ package jud.gestorfacturas.model;
 
 import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Path;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import jud.gestorfacturas.manager.PDFGenerator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import utils.FormatUtils;
 
 
@@ -25,7 +29,7 @@ public class Factura implements Serializable {
     private double irpf;
     private double importeTotal;
     private Timestamp fechaUltActualizacion;
-    private File pdfFactura;
+    private File pathFactura;
     
     @Override
     public String toString() {
@@ -168,11 +172,66 @@ public class Factura implements Serializable {
         }
     }
 
-    public File getPdfFactura() {
-        return pdfFactura;
+    public File getPathFactura() {
+        return pathFactura;
     }
 
-    public void setPdfFactura(File pdfFactura) {
-        this.pdfFactura = pdfFactura;
+    public void setPathFactura(File pdfFactura) {
+        this.pathFactura = pdfFactura;
+    }
+ 
+    public File getRelativePathFactura() {
+        File facturasDir = new File(PDFGenerator.INVOICES_DIRECTORY);
+        return Path.of(facturasDir.toString(), this.pathFactura.toString()).toFile();
+    }
+    
+    public void setRelativePathFactura(File pdfFactura) {
+        Path facturasDir = Path.of(PDFGenerator.INVOICES_DIRECTORY);
+        Path relativePath = facturasDir.relativize(pdfFactura.toPath());
+        this.pathFactura = relativePath.toFile();
+    }
+    
+    public static JSONObject buildFacturaJsonObject(Factura factura) {
+        // Factura
+        JSONObject facturaObj = new JSONObject();
+        facturaObj.put("num_factura", factura.getNumFactura());
+        facturaObj.put("fecha_emision", factura.getFechaEmision());
+        facturaObj.put("dias_pago", factura.getDiasPago());
+        facturaObj.put("fecha_vencimiento", factura.getFechaVencimiento());
+        facturaObj.put("forma_pago", factura.getFormaPago());
+        facturaObj.put("base_imponible", factura.getBaseImponible());
+        facturaObj.put("tasa_irpf", factura.getTasaIrpf());
+        facturaObj.put("irpf", factura.getIrpf());
+        facturaObj.put("tasa_iva", factura.getTasaIva());
+        facturaObj.put("iva", factura.getIva());
+        facturaObj.put("importe_total", factura.getImporteTotal());
+        facturaObj.put("ruta_pdf", factura.getPathFactura());
+        facturaObj.put("ult_actualizacion", factura.getFechaUltActualizacion());
+        
+        JSONArray serviciosObj = Servicio.buildServiciosJsonArrayFromServiciosArray(factura.getServicios());
+        facturaObj.put("servicios", serviciosObj);
+        // Cliente
+        JSONObject clienteObj = Cliente.buildClienteJsonObject(factura.getCliente());
+        facturaObj.put("cliente", clienteObj);
+        // Emisor
+        JSONObject emisorObj = Emisor.buildEmisorJsonObject(factura.getEmisor());
+        facturaObj.put("emisor", emisorObj);
+        
+        return facturaObj;
+    }
+    
+        public static Factura buildFacturaFromJson(JSONObject facturaObj) {
+        Factura factura = new Factura(
+                facturaObj.getString("num_factura"),
+                Date.valueOf(facturaObj.getString("fecha_emision")),
+                facturaObj.getInt("dias_pago"),
+                facturaObj.getString("forma_pago"),
+                Cliente.buildClienteFromJson(facturaObj.getJSONObject("cliente")),
+                Emisor.buildEmisorFromJson(facturaObj.getJSONObject("emisor")),
+                Servicio.buildServiciosFromJson(facturaObj.getJSONArray("servicios")),
+                Timestamp.valueOf(facturaObj.getString("ult_actualizacion"))
+        );
+        factura.setPathFactura(new File(facturaObj.getString("ruta_pdf")));
+        return factura;
     }
 }

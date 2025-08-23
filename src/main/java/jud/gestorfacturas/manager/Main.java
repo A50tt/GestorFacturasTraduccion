@@ -5,33 +5,21 @@ import javax.persistence.PersistenceException;
 import jud.gestorfacturas.gui.MainContainerController;
 
 public class Main {
-
+    
+    //TODO Testear entrada en vacío
+    //TODO Configuración VIEW
+    //TODO Puntos de miles en factura
+    //TODO Puntos de miles en factura
+    
     public static void main(String[] args) {
         new Main().inicio();
     }
 
     public void inicio() {
-        boolean correctStart = true;
         try {
-            EntityManagerLoader.getEntityManagerConfiguredInstance().isOpen();
+            new MainContainerController();
         } catch (PersistenceException ex) {
-            correctStart = false;
-        }
-
-        if (correctStart) {
-            try {
-                new MainContainerController();
-            } catch (PersistenceException ex) {
-                FrameUtils.showErrorMessage("FATAL ERROR", ex.toString());
-            }
-        } else {
-            try {
-                FrameUtils.showErrorMessage("Error", "La base de datos de PostgreSQL o las credenciales que se encuentran en el archivo de propiedades están vacías o son incorrectas.\nRecomendamos configurar la base de datos antes de empezar a usar la aplicación.");
-                MainContainerController containerWindow = new MainContainerController();
-                containerWindow.openConfiguracion();
-            } catch (PersistenceException ex) {
-                FrameUtils.showErrorMessage("FATAL ERROR", ex.toString());
-            }
+            FrameUtils.showErrorMessage("FATAL ERROR", ex.toString());
         }
     }
 }
