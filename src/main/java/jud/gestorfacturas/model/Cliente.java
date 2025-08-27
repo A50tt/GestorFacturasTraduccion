@@ -2,9 +2,12 @@
 package jud.gestorfacturas.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import org.json.JSONObject;
+import jud.gestorfacturas.interfaces.JsonDataType;
 
 /* JSON
 {
@@ -22,7 +25,7 @@ import org.json.JSONObject;
 }
 */
 
-public class Cliente extends Interviniente {
+public class Cliente extends Interviniente implements JsonDataType {
     
     private int id;
     private boolean activado = true;
@@ -64,13 +67,13 @@ public class Cliente extends Interviniente {
         return this.id;
     }
 
-    public static JSONObject buildClienteJsonObject(Cliente cliente) {
-        JSONObject clienteObj = buildClienteJsonObjectWithoutTimestamp(cliente);
+    public static JSONObject buildJson(Cliente cliente) {
+        JSONObject clienteObj = buildJsonWithoutTimestamp(cliente);
         clienteObj.put("ult_actualizacion", cliente.getFechaUltActualizacion());
         return clienteObj;
     }
 
-    public static JSONObject buildClienteJsonObjectWithoutTimestamp(Cliente cliente) {
+    public static JSONObject buildJsonWithoutTimestamp(Cliente cliente) {
         JSONObject clienteObj = new JSONObject();
         clienteObj.put("id", cliente.getId());
         clienteObj.put("nif", cliente.getNif());
@@ -81,7 +84,7 @@ public class Cliente extends Interviniente {
         return clienteObj;
     }
 
-    public static Cliente buildClienteFromJson(JSONObject clienteObj) {
+    public static Cliente getInstanceFromJson(JSONObject clienteObj) {
         Cliente cliente = new Cliente(
                 clienteObj.getString("nif"),
                 clienteObj.getString("nombre"),
@@ -91,5 +94,22 @@ public class Cliente extends Interviniente {
         cliente.setId(clienteObj.getInt("id"));
         cliente.setActivado(clienteObj.getBoolean("activado"));
         return cliente;
+    }
+    
+    public static List<Cliente> cleanDuplicates(List<Cliente> clientes) {
+        List<Integer> idsFound = new ArrayList<>();
+        List<Cliente> clientesToRemove = new ArrayList<>();
+        for (Cliente cliente : clientes) {
+            if (idsFound.contains(cliente.getId())) {
+                clientesToRemove.add(cliente);
+            } else {
+                idsFound.add(cliente.getId());
+            }
+        }
+        
+        for (Cliente clienteToRemove : clientesToRemove) {
+            clientes.remove(clienteToRemove);
+        }
+        return clientes;
     }
 }

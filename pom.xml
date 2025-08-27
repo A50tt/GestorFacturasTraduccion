@@ -52,8 +52,6 @@
             <artifactId>json</artifactId>
             <version>20250517</version>
         </dependency>
-
-        
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -77,7 +75,6 @@
             <version>5.10.3</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
@@ -93,6 +90,11 @@
             <artifactId>flatlaf-extras</artifactId>
             <version>3.5.4</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>3.6</version>
         </dependency>
     </dependencies>
     <properties>

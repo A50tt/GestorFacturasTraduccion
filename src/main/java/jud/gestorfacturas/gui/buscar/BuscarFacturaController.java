@@ -52,8 +52,7 @@ public class BuscarFacturaController implements Controller {
     
     public void lookupAllInvoices() {
         List<Factura> listaClientesFiltrados = JSONUtils.findAllFacturas();
-//        Factura[] listaClientesFiltrados = dbUtils.getTodasFacturas();
-        deleteAllClientesRows();
+        deleteAllFacturasRows();
         addFacturasRows(listaClientesFiltrados);
     }
     
@@ -81,13 +80,13 @@ public class BuscarFacturaController implements Controller {
             campoFiltro = "importe_total";
             listaFacturasFiltradas = JSONUtils.getFacturasByFilter(valor, campoFiltro);
         }
-        deleteAllClientesRows();
+        deleteAllFacturasRows();
         if (listaFacturasFiltradas != null) {
             addFacturasRows(listaFacturasFiltradas);
         }
     }
     
-    public void deleteAllClientesRows() {
+    public void deleteAllFacturasRows() {
         if (resultadosTable != null) {
             int rowsAlready = ((DefaultTableModel) resultadosTable.getModel()).getRowCount();
             for (int i = 0; i < rowsAlready; i++) {

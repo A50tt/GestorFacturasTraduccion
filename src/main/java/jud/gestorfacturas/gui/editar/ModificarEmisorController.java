@@ -3,8 +3,8 @@ package jud.gestorfacturas.gui.editar;
 import jud.gestorfacturas.interfaces.Controller;
 import jud.gestorfacturas.interfaces.DataListenerController;
 import java.awt.Color;
-import jud.gestorfacturas.gui.editar.ModificarEmisorView;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import utils.FrameUtils;
@@ -45,7 +45,6 @@ public class ModificarEmisorController implements Controller, DataListenerContro
 
     public void cargaDatosEmisor() {
         Emisor emisor = JSONUtils.findEmisorGuardado();
-//        Emisor emisor = dbUtils.getUnicoEmisor();
         if (emisor != null) {
             nifTxtField.setText(emisor.getNif());
             nombreTxtField.setText(emisor.getNombre());
@@ -84,8 +83,8 @@ public class ModificarEmisorController implements Controller, DataListenerContro
             nombreCompletoTxtField.setBackground(DEFAULT_BG_COLOR);
 
             if (direccionTxtField.getText().isBlank() || codigoPostalTxtField.getText().isBlank() || codigoPostalTxtField.getText().isBlank() || ibanTxtField.getText().isBlank()) {
-                int input = FrameUtils.showQuestionBox("Campos incompletos", "Faltan campos opcionales por completar. ¿Continuar?");
-                if (input == 0) { //0 si ok, 1 si cancel
+                int input = FrameUtils.showQuestionBoxContinuarCancelar("Campos incompletos", "Faltan campos opcionales por informar. ¿Guardar?");
+                if (input == JOptionPane.YES_OPTION) {
                     if (direccionTxtField.getText().isBlank()) {
                         emisorDB.setDireccion(null);
                     } else {
@@ -135,10 +134,7 @@ public class ModificarEmisorController implements Controller, DataListenerContro
    
     private void saveEmisor(Emisor emisor) {
         try {
-            JSONUtils.saveEmisor(emisor);
-//            dbUtils.getEntityManager().getTransaction().begin();
-//            dbUtils.mergeIntoDB(emisor);
-//            dbUtils.getEntityManager().getTransaction().commit();
+            JSONUtils.saveEmisor(emisor, true);
         } catch (Exception e) {
             FrameUtils.showErrorMessage("Error", "Ha ocurrido un error en el guardado a la base de datos.");
         }

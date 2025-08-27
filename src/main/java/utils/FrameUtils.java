@@ -11,7 +11,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class FrameUtils {
     
-    private static final String[] RESPUESTAS_MSGBOX_FALTAN_OPCIONALES = {"Continuar", "Cancelar"};
+    private static final String[] RESPUESTAS_MSGBOX_CONTINUAR_CANCELAR = {"Continuar", "Cancelar"};
+    private static final String[] RESPUESTAS_MSGBOX_SI_NO = {"Sí", "No"};
     public static final FlatSVGIcon REDO_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "redo_black_icon.svg"));
     public static final FlatSVGIcon STANDBY_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "standby_status_icon.svg"));
     public static final FlatSVGIcon SEARCH_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "busqueda_black_icon.svg"));
@@ -38,8 +39,17 @@ public class FrameUtils {
         showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public static int showQuestionBox(String title, String msg) {
-        return JOptionPane.showOptionDialog(null, msg, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, RESPUESTAS_MSGBOX_FALTAN_OPCIONALES, null);
+    // 0 -> SÍ, 1 -> NO
+    public static int showQuestionBoxContinuarCancelar(String title, String msg) {
+        return JOptionPane.showOptionDialog(null, msg, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, RESPUESTAS_MSGBOX_CONTINUAR_CANCELAR, null);
+    }
+    
+    public static int showQuestionBoxSiNo(String title, String msg) {
+        return JOptionPane.showOptionDialog(null, msg, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, RESPUESTAS_MSGBOX_SI_NO, null);
+    }
+    
+    public static int showErrorQuestionBoxSiNo(String title, String msg) {
+        return JOptionPane.showOptionDialog(null, msg, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE, null, RESPUESTAS_MSGBOX_SI_NO, null);
     }
     
     public static String showTextInputBox(String title, String msg) {

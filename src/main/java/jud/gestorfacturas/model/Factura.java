@@ -1,18 +1,19 @@
 package jud.gestorfacturas.model;
 
 import java.io.File;
-import java.io.Serializable;
 import java.nio.file.Path;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import jud.gestorfacturas.manager.PDFGenerator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.FormatUtils;
 
 
-public class Factura implements Serializable {
+public class Factura {
 
     private String numFactura;
     private Date fechaEmision;
@@ -191,7 +192,7 @@ public class Factura implements Serializable {
         this.pathFactura = relativePath.toFile();
     }
     
-    public static JSONObject buildFacturaJsonObject(Factura factura) {
+    public static JSONObject buildJson(Factura factura) {
         // Factura
         JSONObject facturaObj = new JSONObject();
         facturaObj.put("num_factura", factura.getNumFactura());
@@ -211,27 +212,44 @@ public class Factura implements Serializable {
         JSONArray serviciosObj = Servicio.buildServiciosJsonArrayFromServiciosArray(factura.getServicios());
         facturaObj.put("servicios", serviciosObj);
         // Cliente
-        JSONObject clienteObj = Cliente.buildClienteJsonObject(factura.getCliente());
+        JSONObject clienteObj = Cliente.buildJson(factura.getCliente());
         facturaObj.put("cliente", clienteObj);
         // Emisor
-        JSONObject emisorObj = Emisor.buildEmisorJsonObject(factura.getEmisor());
+        JSONObject emisorObj = Emisor.buildJson(factura.getEmisor());
         facturaObj.put("emisor", emisorObj);
         
         return facturaObj;
     }
     
-        public static Factura buildFacturaFromJson(JSONObject facturaObj) {
+        public static Factura getInstanceFromJson(JSONObject facturaObj) {
         Factura factura = new Factura(
                 facturaObj.getString("num_factura"),
                 Date.valueOf(facturaObj.getString("fecha_emision")),
                 facturaObj.getInt("dias_pago"),
                 facturaObj.getString("forma_pago"),
-                Cliente.buildClienteFromJson(facturaObj.getJSONObject("cliente")),
-                Emisor.buildEmisorFromJson(facturaObj.getJSONObject("emisor")),
+                Cliente.getInstanceFromJson(facturaObj.getJSONObject("cliente")),
+                Emisor.getInstanceFromJson(facturaObj.getJSONObject("emisor")),
                 Servicio.buildServiciosFromJson(facturaObj.getJSONArray("servicios")),
                 Timestamp.valueOf(facturaObj.getString("ult_actualizacion"))
         );
         factura.setPathFactura(new File(facturaObj.getString("ruta_pdf")));
         return factura;
+    }
+        
+        public static List<Factura> cleanDuplicates(List<Factura> facturas) {
+        List<String> numsFraFound = new ArrayList<>();
+        List<Factura> frasToRemove = new ArrayList<>();
+        for (Factura factura : facturas) {
+            if (numsFraFound.contains(factura.getNumFactura())) {
+                frasToRemove.add(factura);
+            } else {
+                numsFraFound.add(factura.getNumFactura());
+            }
+        }
+        
+        for (Factura facturaToRemove : frasToRemove) {
+            facturas.remove(facturaToRemove);
+        }
+        return facturas;
     }
 }

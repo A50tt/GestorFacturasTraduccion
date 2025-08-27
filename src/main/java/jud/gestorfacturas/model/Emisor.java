@@ -2,9 +2,8 @@
 package jud.gestorfacturas.model;
 
 import java.sql.Timestamp;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import org.json.JSONObject;
+import jud.gestorfacturas.interfaces.JsonDataType;
 
 /* JSON:
 {
@@ -18,17 +17,13 @@ import org.json.JSONObject;
 }
 */
 
-public class Emisor extends Interviniente {
+public class Emisor extends Interviniente implements JsonDataType {
     
     private String nombreCompleto;
     private String iban;
     
     public Emisor() {
         super();
-    }
-    
-    public static Emisor getDummyInstance() {
-        return new Emisor("dummy", null, null, null, null, null);
     }
     
     public Emisor (String _nif, String _nombre, String _nombreCompleto, String _direccion, String _codigoPostal, String _iban) {
@@ -59,13 +54,13 @@ public class Emisor extends Interviniente {
         this.iban = iban;
     }
     
-    public static JSONObject buildEmisorJsonObject(Emisor emisor) {
-        JSONObject emisorObj = buildEmisorJsonObjectWithoutTimestamp(emisor);
+    public static JSONObject buildJson(Emisor emisor) {
+        JSONObject emisorObj = buildJsonWithoutTimestamp(emisor);
         emisorObj.put("ult_actualizacion", emisor.getFechaUltActualizacion());
         return emisorObj;
     }
     
-    public static JSONObject buildEmisorJsonObjectWithoutTimestamp(Emisor emisor) {
+    public static JSONObject buildJsonWithoutTimestamp(Emisor emisor) {
         JSONObject emisorObj = new JSONObject();
         emisorObj.put("nif", emisor.getNif());
         emisorObj.put("nombre", emisor.getNombre());
@@ -76,7 +71,7 @@ public class Emisor extends Interviniente {
         return emisorObj;
     }
     
-    public static Emisor buildEmisorFromJson(JSONObject emisorObj) {
+    public static Emisor getInstanceFromJson(JSONObject emisorObj) {
         return new Emisor(
                 emisorObj.getString("nif"),
                 emisorObj.getString("nombre"),

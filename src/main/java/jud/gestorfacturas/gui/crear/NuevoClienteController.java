@@ -5,6 +5,7 @@ import jud.gestorfacturas.gui.crear.NuevoClienteView;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import utils.FrameUtils;
@@ -74,8 +75,8 @@ public class NuevoClienteController implements Controller {
             setDefaultBackground(direccionTxtField);
             setDefaultBackground(codigoPostalTxtField);
 
-            int input = FrameUtils.showQuestionBox("Campos incompletos", "Faltan campos opcionales por completar. ¿Continuar?");
-            if (input == 0) { //0 si ok, 1 si cancel
+            int input = FrameUtils.showQuestionBoxContinuarCancelar("Campos incompletos", "Faltan campos opcionales por completar. ¿Continuar?");
+            if (input == JOptionPane.YES_OPTION) { //0 si ok, 1 si cancel
                 opcionales = 2;
             }
         }

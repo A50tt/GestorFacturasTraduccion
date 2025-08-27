@@ -1,5 +1,6 @@
 package jud.gestorfacturas.manager;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import utils.FrameUtils;
 import javax.persistence.PersistenceException;
 import jud.gestorfacturas.gui.MainContainerController;
@@ -12,14 +13,14 @@ public class Main {
     //TODO Puntos de miles en factura
     
     public static void main(String[] args) {
-        new Main().inicio();
-    }
-
-    public void inicio() {
-        try {
-            new MainContainerController();
-        } catch (PersistenceException ex) {
-            FrameUtils.showErrorMessage("FATAL ERROR", ex.toString());
-        }
+        // Optionally set default theme here
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            try {
+                FlatLightLaf.setup();
+                new MainContainerController();
+            } catch (PersistenceException ex) {
+                FrameUtils.showErrorMessage("Error iniciando la aplicación", ex.toString());
+            }
+        });
     }
 }

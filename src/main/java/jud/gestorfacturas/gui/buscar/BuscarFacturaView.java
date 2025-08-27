@@ -27,6 +27,15 @@ public class BuscarFacturaView extends javax.swing.JPanel {
         campoBusquedaComboBox = new javax.swing.JComboBox<>();
         inputTextField = new javax.swing.JTextField();
 
+        setMinimumSize(new java.awt.Dimension(800, 0));
+        setPreferredSize(new java.awt.Dimension(800, 661));
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(800, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 661));
+
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(800, 16));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(800, 402));
+
         resultadosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -50,6 +59,9 @@ public class BuscarFacturaView extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        resultadosTable.setMinimumSize(new java.awt.Dimension(800, 0));
+        resultadosTable.setName(""); // NOI18N
+        resultadosTable.setPreferredSize(new java.awt.Dimension(800, 0));
         resultadosTable.setRowSelectionAllowed(false);
         resultadosTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -70,13 +82,13 @@ public class BuscarFacturaView extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(campoBusquedaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(inputTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
@@ -95,7 +107,9 @@ public class BuscarFacturaView extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

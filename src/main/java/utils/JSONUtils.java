@@ -1,23 +1,22 @@
 package utils;
 
+import java.io.File;
 import org.json.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.Format;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import jud.gestorfacturas.manager.CustomException;
+import javax.swing.JOptionPane;
 import jud.gestorfacturas.model.Cliente;
 import jud.gestorfacturas.model.Emisor;
 import jud.gestorfacturas.model.Factura;
 import org.json.JSONArray;
 import org.json.JSONException;
-import utils.FrameUtils;
 
 public class JSONUtils {
 
@@ -27,18 +26,76 @@ public class JSONUtils {
     public static final String tagClienteEnJsonFacturas = "cliente";
     public static final String[] dbFileNames = {jsonObjNames[0] + ".json", jsonObjNames[1] + ".json", jsonObjNames[2] + ".json"};
 
+    public static int checkJsonFilesIntegrityOrResetThem(List<String> jsonsToCheck) {
+        if (jsonsToCheck.contains(dbFileNames[0]) && findEmisorGuardado() == null) {
+            int respuesta = FrameUtils.showErrorQuestionBoxSiNo("Base de datos dañada", "La base de datos está dañada y no se puede leer. ¿Repararla? (Esto eliminará todos los datos de 'Emisor').");
+            if (respuesta == JOptionPane.OK_OPTION) {
+                try (FileWriter file = new FileWriter(Paths.get(JSON_FILEPATH, dbFileNames[0]).toFile())) {
+                    String jsonText = "{}";
+                    file.write(jsonText);
+                } catch (IOException ex) {
+                    ex.getStackTrace();
+                }
+            } else {
+                return -1;
+            }
+            
+        }
+        if (jsonsToCheck.contains(dbFileNames[1]) && readJsonClientes() == null) {
+            int respuesta = FrameUtils.showErrorQuestionBoxSiNo("Base de datos dañada", "La base de datos está dañada y no se puede leer. ¿Repararla? (Esto eliminará todos los datos de 'Clientes').");
+            if (respuesta == JOptionPane.OK_OPTION) {
+                try (FileWriter file = new FileWriter(Paths.get(JSON_FILEPATH, dbFileNames[1]).toFile())) {
+                    String jsonText = "{\"" + jsonObjNames[1] + "\":[]}";
+                    file.write(jsonText);
+                } catch (IOException ex) {
+                    ex.getStackTrace();
+                }
+            } else {
+                return -1;
+            }
+        }
+        if (jsonsToCheck.contains(dbFileNames[2]) && readJsonFacturas() == null) {
+            int respuesta = FrameUtils.showErrorQuestionBoxSiNo("Base de datos dañada", "La base de datos está dañada y no se puede leer. ¿Repararla? (Esto eliminará todos los datos de 'Facturas')");
+            if (respuesta == JOptionPane.OK_OPTION) {
+                try (FileWriter file = new FileWriter(Paths.get(JSON_FILEPATH, dbFileNames[2]).toFile())) {
+                    String jsonText = "{\"" + jsonObjNames[2] + "\":[]}";
+                    file.write(jsonText);
+                } catch (IOException ex) {
+                    ex.getStackTrace();
+                }
+            } else {
+                return -1;
+            }
+        }
+        return 1;
+    }
+    
+    public static JSONObject readJsonFile(File file) {
+        Path jsonFile = file.toPath();
+        try {
+            // 1. Leer el archivo existente
+            String content = new String(Files.readAllBytes(jsonFile));
+            return new JSONObject(content);
+        } catch (IOException ex) {
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            return null;
+        }
+    }
+
     // EMISOR
-    public static void saveEmisor(Emisor emisor) {
+    public static void saveEmisor(Emisor emisor, boolean showResultado) {
         // 1. Leer el root
         Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[0]);
         try {
             // 2. Crear el nuevo emisor
-            JSONObject emisorObj = Emisor.buildEmisorJsonObject(emisor);
+            JSONObject emisorObj = Emisor.buildJson(emisor);
 
             // 3. Guardar el archivo (sobreescribe, pero con el array ampliado)
             try (FileWriter file = new FileWriter(jsonFile.toFile())) {
                 file.write(emisorObj.toString(4));
-                FrameUtils.showPlainMessage("Éxito", "El emisor se ha guardado correctamente.");
+                if (showResultado) {
+                    FrameUtils.showPlainMessage("Éxito", "El emisor se ha guardado correctamente.");
+                }
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
@@ -49,32 +106,44 @@ public class JSONUtils {
         try {
             String content = new String(Files.readAllBytes(Path.of(JSON_FILEPATH, dbFileNames[0])));
             JSONObject emisorObj = new JSONObject(content);
-            return Emisor.buildEmisorFromJson(emisorObj);
+            return Emisor.getInstanceFromJson(emisorObj);
         } catch (IOException | JSONException ex) {
             return null;
         }
     }
 
     // CLIENTES
-    public static JSONObject readJsonClientes() throws IOException {
+    public static JSONObject readJsonClientes() {
         Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[1]);
-        // 1. Leer el archivo existente
-        String content = new String(Files.readAllBytes(jsonFile));
-        return new JSONObject(content);
+        try {
+            // 1. Leer el archivo existente
+            String content = new String(Files.readAllBytes(jsonFile));
+            if (content.contains(jsonObjNames[1])) {
+                return new JSONObject(content);
+            } else {
+                return null;
+            }
+        } catch (IOException ex) {
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            return null;
+        } catch (JSONException ex) {
+            ex.getStackTrace();
+            return null;
+        }
     }
 
-    public static void saveAllClientes(List<Cliente> clientes) {
+    public static void saveAllClientes(List<Cliente> clientes, boolean showResultado) {
         try {
             // 1. Leer el root
             Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[1]);
 
             JSONObject root = readJsonClientes();
             // 2. Obtener el array de facturas
-            JSONArray clientesObj = new JSONArray();
+            JSONArray clientesObj = root.getJSONArray(jsonObjNames[1]);
 
             for (Cliente cliente : clientes) {
                 // 3. Crear el nuevo cliente y sus objetos
-                JSONObject clienteObj = Cliente.buildClienteJsonObject(cliente);
+                JSONObject clienteObj = Cliente.buildJson(cliente);
 
                 // 4. Agregar el nuevo cliente al array
                 clientesObj.put(clienteObj);
@@ -82,7 +151,37 @@ public class JSONUtils {
             // 5. Guardar el archivo (sobreescribe, pero con el array ampliado)
             try (FileWriter file = new FileWriter(jsonFile.toFile())) {
                 file.write(root.toString(4));
-                FrameUtils.showPlainMessage("Éxito", "El cliente se ha actualizado correctamente.");
+                if (showResultado) {
+                    FrameUtils.showPlainMessage("Éxito", "Clientes guardadas correctamente.");
+                }
+            }
+        } catch (IOException | JSONException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public static void replaceAllClientes(List<Cliente> clientes, boolean showResultado) {
+        try {
+            // 1. Leer el root
+            Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[1]);
+
+            JSONObject root = new JSONObject();
+            // 2. Obtener el array de facturas
+            JSONArray clientesArray = new JSONArray();
+            for (Cliente cliente : clientes) {
+                // 3. Crear cada cliente y sus objetos
+                JSONObject clienteObj = Cliente.buildJson(cliente);
+
+                // 4. Agregar el nuevo cliente al array
+                clientesArray.put(clienteObj);
+            }
+            root.put(jsonObjNames[1], clientesArray);
+            // 5. Guardar el archivo (sobreescribe, pero con el array ampliado)
+            try (FileWriter file = new FileWriter(jsonFile.toFile())) {
+                file.write(root.toString(4));
+                if (showResultado) {
+                    FrameUtils.showPlainMessage("Éxito", "Clientes guardadas correctamente.");
+                }
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
@@ -98,7 +197,7 @@ public class JSONUtils {
             // 2. Obtener el array de facturas
             JSONArray clientesObj = root.getJSONArray(jsonObjNames[1]);
             // 3. Crear el nuevo cliente y sus objetos
-            JSONObject clienteObj = Cliente.buildClienteJsonObject(cliente);
+            JSONObject clienteObj = Cliente.buildJson(cliente);
 
             // 4. Agregar el nuevo cliente al array
             clientesObj.put(index, clienteObj);
@@ -122,7 +221,7 @@ public class JSONUtils {
             JSONArray clientes = root.getJSONArray(jsonObjNames[1]);
 
             // 3. Crear el nuevo cliente y sus objetos
-            JSONObject clienteObj = Cliente.buildClienteJsonObject(cliente);
+            JSONObject clienteObj = Cliente.buildJson(cliente);
 
             // 4. Agregar el nuevo cliente al array
             clientes.put(clienteObj);
@@ -152,19 +251,14 @@ public class JSONUtils {
     }
 
     public static List<Cliente> getAllClientes() {
-        try {
-            JSONObject root = readJsonClientes();
-            JSONArray clientesObj = root.getJSONArray(jsonObjNames[1]);
-            List<Cliente> listaClientes = new ArrayList<>();
-            for (int i = 0; i < clientesObj.length(); i++) {
-                JSONObject loadedItem = clientesObj.getJSONObject(i);
-                listaClientes.add(Cliente.buildClienteFromJson(loadedItem));
-            }
-            return listaClientes;
-        } catch (IOException ex) {
-            ex.getStackTrace();
-            return null;
+        JSONObject root = readJsonClientes();
+        JSONArray clientesObj = root.getJSONArray(jsonObjNames[1]);
+        List<Cliente> listaClientes = new ArrayList<>();
+        for (int i = 0; i < clientesObj.length(); i++) {
+            JSONObject loadedItem = clientesObj.getJSONObject(i);
+            listaClientes.add(Cliente.getInstanceFromJson(loadedItem));
         }
+        return listaClientes;
     }
 
     public static Cliente getClienteById(int id) {
@@ -179,66 +273,53 @@ public class JSONUtils {
 
     public static List<Cliente> getClientesByFilter(String value, String jsonProperty) {
         List<Cliente> listaClientesFiltrados = new ArrayList();
-        try {
-            JSONObject root = readJsonClientes();
-            JSONArray clientesObj = root.getJSONArray(jsonObjNames[1]);
-            for (int i = 0; i < clientesObj.length(); i++) {
-                JSONObject loadedItem = clientesObj.getJSONObject(i);
-                String jsonValue = loadedItem.getString(jsonProperty);
-                if (value.contains("*")) {
-                    String[] splitStr = value.split("[*]");
-                    int coincidences = 0;
-                    for (String str : splitStr) {
-                        if (value.contains(str)) {
-                            coincidences++;
-                        };
-                    }
-                    if (coincidences == splitStr.length) {
-                        listaClientesFiltrados.add(Cliente.buildClienteFromJson(loadedItem));
-                    }
-                } else {
-                    if (value == jsonValue) {
-                        listaClientesFiltrados.add(Cliente.buildClienteFromJson(loadedItem));
-                    }
+        JSONObject root = readJsonClientes();
+        JSONArray clientesObj = root.getJSONArray(jsonObjNames[1]);
+        for (int i = 0; i < clientesObj.length(); i++) {
+            JSONObject loadedItem = clientesObj.getJSONObject(i);
+            String jsonValue = loadedItem.getString(jsonProperty);
+            if (value.contains("*")) {
+                String[] splitStr = value.split("[*]");
+                int coincidences = 0;
+                for (String str : splitStr) {
+                    if (value.contains(str)) {
+                        coincidences++;
+                    };
+                }
+                if (coincidences == splitStr.length) {
+                    listaClientesFiltrados.add(Cliente.getInstanceFromJson(loadedItem));
+                }
+            } else {
+                if (value == jsonValue) {
+                    listaClientesFiltrados.add(Cliente.getInstanceFromJson(loadedItem));
                 }
             }
-            return listaClientesFiltrados.isEmpty() ? null : listaClientesFiltrados;
-        } catch (IOException ex) {
-            ex.getStackTrace();
-            return null;
         }
+        return listaClientesFiltrados.isEmpty() ? null : listaClientesFiltrados;
     }
 
     public static boolean nifClienteYaExiste(String nif) {
-        try {
-            JSONObject root = readJsonClientes();
-            JSONArray JSONArray = root.getJSONArray(jsonObjNames[1]);
-            for (int i = 0; i < JSONArray.length(); i++) {
-                JSONObject loadedItem = JSONArray.getJSONObject(i);
-                String objNif = loadedItem.getString("nif");
-                if (nif.equals(objNif)) {
-                    return true;
-                }
+        JSONObject root = readJsonClientes();
+        JSONArray JSONArray = root.getJSONArray(jsonObjNames[1]);
+        for (int i = 0; i < JSONArray.length(); i++) {
+            JSONObject loadedItem = JSONArray.getJSONObject(i);
+            String objNif = loadedItem.getString("nif");
+            if (nif.equals(objNif)) {
+                return true;
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
         return false;
     }
 
     public static boolean idClienteYaExiste(int id) {
-        try {
-            JSONObject root = readJsonClientes();
-            JSONArray JSONArray = root.getJSONArray(jsonObjNames[1]);
-            for (int i = 0; i < JSONArray.length(); i++) {
-                JSONObject loadedItem = JSONArray.getJSONObject(i);
-                int objId = loadedItem.getInt("id");
-                if (id == objId) {
-                    return true;
-                }
+        JSONObject root = readJsonClientes();
+        JSONArray JSONArray = root.getJSONArray(jsonObjNames[1]);
+        for (int i = 0; i < JSONArray.length(); i++) {
+            JSONObject loadedItem = JSONArray.getJSONObject(i);
+            int objId = loadedItem.getInt("id");
+            if (id == objId) {
+                return true;
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
         return false;
     }
@@ -255,49 +336,53 @@ public class JSONUtils {
     
     public static List<Factura> getFacturasByClienteFilter(String value, String jsonProperty) {
         List<Factura> listaFacturasFiltradas = new ArrayList();
-        try {
-            JSONObject root = readJsonFacturas();
-            JSONArray facturasObj = root.getJSONArray(jsonObjNames[2]);
+        JSONObject root = readJsonFacturas();
+        JSONArray facturasObj = root.getJSONArray(jsonObjNames[2]);
 
-            for (int i = 0; i < facturasObj.length(); i++) {
-                JSONObject factura = facturasObj.getJSONObject(i);
-                JSONObject clientesObj = factura.getJSONObject(tagClienteEnJsonFacturas);
-                String jsonValue;
-                switch (jsonProperty) {
-                    case "id":
-                        jsonValue = Integer.toString(clientesObj.getInt(jsonProperty));
-                        break;
-                    case "nombre":
-                        jsonValue = clientesObj.getString(jsonProperty);
-                        break;
-                    default:
-                        jsonValue = null;
-                        break;
+        for (int i = 0; i < facturasObj.length(); i++) {
+            JSONObject factura = facturasObj.getJSONObject(i);
+            JSONObject clientesObj = factura.getJSONObject(tagClienteEnJsonFacturas);
+            String jsonValue;
+            switch (jsonProperty) {
+                case "id":
+                    jsonValue = Integer.toString(clientesObj.getInt(jsonProperty));
+                    break;
+                case "nombre":
+                    jsonValue = clientesObj.getString(jsonProperty);
+                    break;
+                default:
+                    jsonValue = null;
+                    break;
+            }
+            if (value.contains("*")) {
+                String regex = value.replace(".", "\\.").replace("*", ".*");
+                if (Pattern.matches(regex, jsonValue)) {
+                    listaFacturasFiltradas.add(Factura.getInstanceFromJson(factura));
                 }
-                if (value.contains("*")) {
-                    String regex = value.replace(".", "\\.").replace("*", ".*");
-                    if (Pattern.matches(regex, jsonValue)) {
-                        listaFacturasFiltradas.add(Factura.buildFacturaFromJson(factura));
-                    }
-                } else {
-                    if (value.equals(jsonValue)) {
-                        listaFacturasFiltradas.add(Factura.buildFacturaFromJson(factura));
-                    }
+            } else {
+                if (value.equals(jsonValue)) {
+                    listaFacturasFiltradas.add(Factura.getInstanceFromJson(factura));
                 }
             }
-            return listaFacturasFiltradas.isEmpty() ? null : listaFacturasFiltradas;
+        }
+        return listaFacturasFiltradas.isEmpty() ? null : listaFacturasFiltradas;
+    }
+
+    // FACTURAS
+    public static JSONObject readJsonFacturas() {
+        try {
+            Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[2]);
+            // 1. Leer el archivo existente
+            String content = new String(Files.readAllBytes(jsonFile));
+            if (content.contains(jsonObjNames[2])) {
+                return new JSONObject(content);
+            } else {
+                return null;
+            }
         } catch (IOException ex) {
             ex.getStackTrace();
             return null;
         }
-    }
-
-    // FACTURAS
-    public static JSONObject readJsonFacturas() throws IOException {
-        Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[2]);
-        // 1. Leer el archivo existente
-        String content = new String(Files.readAllBytes(jsonFile));
-        return new JSONObject(content);
     }
 
     public static void saveFactura(Factura factura) {
@@ -313,7 +398,7 @@ public class JSONUtils {
             JSONArray facturas = root.getJSONArray(jsonObjNames[2]);
 
             // 3. Crear la nueva factura y sus objetos
-            JSONObject facturaObj = Factura.buildFacturaJsonObject(factura);
+            JSONObject facturaObj = Factura.buildJson(factura);
 
             // 4. Agregar la nueva factura al array
             facturas.put(facturaObj);
@@ -328,17 +413,17 @@ public class JSONUtils {
         }
     }
 
-    public static void saveAllFacturas(List<Factura> facturas) {
+    public static void saveAllFacturas(List<Factura> facturas, boolean showResultado) {
         // 1. Leer el root
         Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[2]);
         try {
-            JSONObject root = readJsonClientes();
+            JSONObject root = readJsonFacturas();
             // 2. Obtener el array de facturas
             JSONArray facturasObj = root.getJSONArray(jsonObjNames[2]);
 
             for (Factura factura : facturas) {
                 // 3. Crear la nueva factura y sus objetos
-                JSONObject facturaObj = Factura.buildFacturaJsonObject(factura);
+                JSONObject facturaObj = Factura.buildJson(factura);
 
                 // 4. Agregar la nueva factura al array
                 facturasObj.put(facturaObj);
@@ -347,7 +432,38 @@ public class JSONUtils {
             // 5. Guardar el archivo (sobreescribe, pero con el array ampliado)
             try (FileWriter file = new FileWriter(jsonFile.toFile())) {
                 file.write(root.toString(4));
-                FrameUtils.showPlainMessage("Éxito", "La factura se ha guardado correctamente.");
+                if (showResultado) {
+                    FrameUtils.showPlainMessage("Éxito", "Facturas guardadas correctamente.");
+                }
+            }
+        } catch (IOException | JSONException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public static void replaceAllFacturas(List<Factura> facturas, boolean showResultado) {
+        // 1. Leer el root
+        Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[2]);
+        try {
+            JSONObject root = new JSONObject();
+            // 2. Obtener el array de facturas
+            JSONArray facturasArray = new JSONArray();
+
+            for (Factura factura : facturas) {
+                // 3. Crear la nueva factura y sus objetos
+                JSONObject facturaObj = Factura.buildJson(factura);
+
+                // 4. Agregar la nueva factura al array
+                facturasArray.put(facturaObj);
+            }
+
+            root.put(jsonObjNames[2], facturasArray);
+            // 5. Guardar el archivo (sobreescribe, pero con el array ampliado)
+            try (FileWriter file = new FileWriter(jsonFile.toFile())) {
+                file.write(root.toString(4));
+                if (showResultado) {
+                    FrameUtils.showPlainMessage("Éxito", "Facturas guardadas correctamente.");
+                }
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
@@ -355,19 +471,14 @@ public class JSONUtils {
     }
 
     public static Factura findFactura(String numFactura) {
-        try {
-            JSONObject root = readJsonFacturas();
-            JSONArray JSONArray = root.getJSONArray(jsonObjNames[2]);
-            for (int i = 0; i < JSONArray.length(); i++) {
-                JSONObject readFactura = JSONArray.getJSONObject(i);
-                String objNumFra = readFactura.getString("num_factura");
-                if (numFactura.equals(objNumFra)) {
-                    return Factura.buildFacturaFromJson(readFactura);
-                }
+        JSONObject root = readJsonFacturas();
+        JSONArray JSONArray = root.getJSONArray(jsonObjNames[2]);
+        for (int i = 0; i < JSONArray.length(); i++) {
+            JSONObject readFactura = JSONArray.getJSONObject(i);
+            String objNumFra = readFactura.getString("num_factura");
+            if (numFactura.equals(objNumFra)) {
+                return Factura.getInstanceFromJson(readFactura);
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
         }
         return null;
     }
@@ -396,7 +507,7 @@ public class JSONUtils {
                 if (searchValue.contains("*")) {
                     String regex = searchValue.replace(".", "\\.").replace("*", ".*");
                     if (Pattern.matches(regex, jsonValue)) {
-                        listaFacturasFiltradas.add(Factura.buildFacturaFromJson(loadedItem));
+                        listaFacturasFiltradas.add(Factura.getInstanceFromJson(loadedItem));
                     }
                 } else if ( (searchValue.startsWith("<") || searchValue.startsWith(">")) && jsonProperty.equals("importe_total") && searchValue.length() > 1) {
                     jsonValue = jsonValue.replace(",", ".");
@@ -404,29 +515,29 @@ public class JSONUtils {
                         case '<':
                             if (searchValue.charAt(1) == '=') {
                                 if (searchValue.length() > 2 && Double.valueOf(jsonValue) <= Double.valueOf(searchValue.substring(2).replace(",", "."))) {
-                                    listaFacturasFiltradas.add(Factura.buildFacturaFromJson(loadedItem));
+                                    listaFacturasFiltradas.add(Factura.getInstanceFromJson(loadedItem));
                                 }
                             } else {
                                 if (Double.valueOf(jsonValue) < Double.valueOf(searchValue.replace(",", ".").substring(1))) {
-                                    listaFacturasFiltradas.add(Factura.buildFacturaFromJson(loadedItem));
+                                    listaFacturasFiltradas.add(Factura.getInstanceFromJson(loadedItem));
                                 }
                             }
                             break;
                         case '>':
                             if (searchValue.charAt(1) == '=') {
                                 if (searchValue.length() > 2 && Double.valueOf(jsonValue) >= Double.valueOf(searchValue.substring(2).replace(",", "."))) {
-                                    listaFacturasFiltradas.add(Factura.buildFacturaFromJson(loadedItem));
+                                    listaFacturasFiltradas.add(Factura.getInstanceFromJson(loadedItem));
                                 }
                             } else {
                                 if (Double.valueOf(jsonValue) > Double.valueOf(searchValue.replace(",", ".").substring(1))) {
-                                    listaFacturasFiltradas.add(Factura.buildFacturaFromJson(loadedItem));
+                                    listaFacturasFiltradas.add(Factura.getInstanceFromJson(loadedItem));
                                 }
                             }
                             break;
                     }
                 } else {
                     if (searchValue.equals(jsonValue)) {
-                        listaFacturasFiltradas.add(Factura.buildFacturaFromJson(loadedItem));
+                        listaFacturasFiltradas.add(Factura.getInstanceFromJson(loadedItem));
                     }
                 }
             }
@@ -442,19 +553,14 @@ public class JSONUtils {
     }
 
     public static List<Factura> findAllFacturas() {
-        try {
-            JSONObject root = readJsonFacturas();
-            JSONArray JSONArray = root.getJSONArray(jsonObjNames[2]);
-            List<Factura> listaFacturas = new ArrayList<Factura>();
-            for (int i = 0; i < JSONArray.length(); i++) {
-                JSONObject readFactura = JSONArray.getJSONObject(i);
-                listaFacturas.add(Factura.buildFacturaFromJson(readFactura));
-            }
-            return listaFacturas;
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
+        JSONObject root = readJsonFacturas();
+        JSONArray JSONArray = root.getJSONArray(jsonObjNames[2]);
+        List<Factura> listaFacturas = new ArrayList<Factura>();
+        for (int i = 0; i < JSONArray.length(); i++) {
+            JSONObject readFactura = JSONArray.getJSONObject(i);
+            listaFacturas.add(Factura.getInstanceFromJson(readFactura));
         }
+        return listaFacturas;
     }
 
     public static Factura findFacturaByNumFactura(String numFactura) {
@@ -462,37 +568,27 @@ public class JSONUtils {
     }
 
     public static boolean isNumFacturaExistente(String numFra) {
-        try {
-            JSONObject root = readJsonFacturas();
-            JSONArray JSONArray = root.getJSONArray(jsonObjNames[2]);
-            for (int i = 0; i < JSONArray.length(); i++) {
-                JSONObject loadedItem = JSONArray.getJSONObject(i);
-                String objNumFra = loadedItem.getString("num_factura");
-                if (numFra.equals(objNumFra)) {
-                    return true;
-                }
+        JSONObject root = readJsonFacturas();
+        JSONArray JSONArray = root.getJSONArray(jsonObjNames[2]);
+        for (int i = 0; i < JSONArray.length(); i++) {
+            JSONObject loadedItem = JSONArray.getJSONObject(i);
+            String objNumFra = loadedItem.getString("num_factura");
+            if (numFra.equals(objNumFra)) {
+                return true;
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
         return false;
     }
 
     public static String findNextNumFactura() {
         int propNumero = 1;
-        try {
-            JSONObject root = readJsonClientes();
-            while (true) {
-                String propNumFra = String.valueOf(Year.now().getValue()) + String.format("-%03d", propNumero);
-                if (!isNumFacturaExistente(propNumFra)) {
-                    return propNumFra;
-                } else if (propNumero == 999) {
-                    throw new CustomException("Se han agotado las combinaciones para números de factura de este año (+999 factura en " + String.valueOf(Year.now().getValue()) + ")");
-                }
+        while (true) {
+            String propNumFra = String.valueOf(Year.now().getValue()) + String.format("-%03d", propNumero);
+            if (!isNumFacturaExistente(propNumFra)) {
+                return propNumFra;
+            } else if (propNumero == 999) {
+                FrameUtils.showErrorMessage("Error", "Se han agotado las combinaciones para números de factura de este año (+999 factura en " + String.valueOf(Year.now().getValue()) + ")");
             }
-        } catch (IOException | CustomException ex) {
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
-            return null;
         }
     }
 }

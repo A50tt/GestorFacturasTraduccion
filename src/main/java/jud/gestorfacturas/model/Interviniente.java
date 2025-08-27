@@ -66,6 +66,4 @@ public abstract class Interviniente {
     public Timestamp getFechaUltActualizacion() {
         return fechaUltActualizacion;
     }
-    
-
 }

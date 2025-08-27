@@ -1,12 +1,13 @@
 package jud.gestorfacturas.manager;
 
 import java.awt.Desktop;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jud.gestorfacturas.gui.crear.CrearFacturaView;
+import javax.imageio.ImageIO;
 import jud.gestorfacturas.model.*;
 import utils.FormatUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -14,17 +15,19 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import utils.ConfigUtils;
+import utils.FrameUtils;
 
 public final class PDFGenerator {
-
+    // Solo soporta jpg, jpeg, tif, tiff, gif, bmp y png.
+    public static String[] VALID_LOGO_EXTENSIONS = {"jpg", "jpeg", "tif", "tiff", "gif", "bmp", "png"};
     public static String RESOURCES_DIRECTORY = System.getProperty("user.dir") + "\\src\\main\\resources\\";
     public static String IMAGES_DIRECTORY = RESOURCES_DIRECTORY + "img\\";
     public static String INVOICES_DIRECTORY = RESOURCES_DIRECTORY + "facturas\\";
-    public static String JUDITH_LOGO = IMAGES_DIRECTORY + "logo_judith.png";
     
     private String fileName;
-    //private String filePath;
     PDPage page;
     PDDocument document;
     PDPageContentStream contentStream;
@@ -66,8 +69,18 @@ public final class PDFGenerator {
             contentStream.setLeading(14.5f);
 
             //Logo
-            PDImageXObject logoImage = PDImageXObject.createFromFile(JUDITH_LOGO, document);
-            contentStream.drawImage(logoImage, 55f, (float) height - 30f - logoImage.getHeight());
+            String logoPath = ConfigUtils.loadProperty("factura.logo.path");
+            if (!new File(logoPath).exists()) {
+                throw new IOException("El archivo designado como logo '" + logoPath + "' no existe.");
+            }
+            BufferedImage bufferedImage = ImageIO.read(new File(logoPath));
+            PDImageXObject pdImage = LosslessFactory.createFromImage(document, bufferedImage);
+            float logoX = Float.valueOf(ConfigUtils.loadProperty("factura.logo.x"));
+            float logoY = Float.valueOf(ConfigUtils.loadProperty("factura.logo.y"));
+            float logoWidth = Float.valueOf(ConfigUtils.loadProperty("factura.logo.width"));
+            float logoHeight = Float.valueOf(ConfigUtils.loadProperty("factura.logo.height"));
+            contentStream.drawImage(pdImage, logoX, logoY, logoWidth, logoHeight);
+//            contentStream.drawImage(pdImage, 55f, (float) height - 30f - pdImage.getHeight(), 175, 158);
 
             //Encabezado datos factura
             contentStream.beginText();
@@ -249,7 +262,7 @@ public final class PDFGenerator {
             
             return document;
         } catch (IOException ex) {
-            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         }
     }
@@ -257,8 +270,8 @@ public final class PDFGenerator {
     public static void openPDF(File tempFile) {
         try {
             Desktop.getDesktop().open(tempFile);
-        } catch (IOException ex) {
-            Logger.getLogger(CrearFacturaView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | IllegalArgumentException ex) {
+            FrameUtils.showErrorMessage("Error", "No se ha podido abrir o no se ha encontrado la factura ubicada en " + tempFile.getAbsolutePath());
         }
     }
     

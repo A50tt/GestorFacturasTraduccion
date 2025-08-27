@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package jud.gestorfacturas.gui;
 
-/**
- *
- * @author nooko
- */
+import utils.FrameUtils;
+
 public class MainContainerView extends javax.swing.JFrame {
 
     MainContainerController controller;
@@ -38,9 +33,15 @@ public class MainContainerView extends javax.swing.JFrame {
         buscarMenu = new javax.swing.JMenu();
         buscarFacturaItemMenu = new javax.swing.JMenuItem();
         herramientasMenu = new javax.swing.JMenu();
-        origenDatosItemMenu = new javax.swing.JMenuItem();
+        importarItemMenu = new javax.swing.JMenuItem();
+        configuracionItemMenu = new javax.swing.JMenuItem();
+        ayudaItemMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTabbedPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jTabbedPane1.setMinimumSize(new java.awt.Dimension(900, 11));
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(900, 11));
 
         nuevoMenu.setMnemonic('n');
         nuevoMenu.setText("Nuevo");
@@ -105,14 +106,30 @@ public class MainContainerView extends javax.swing.JFrame {
         herramientasMenu.setMnemonic('h');
         herramientasMenu.setText("Herramientas");
 
-        origenDatosItemMenu.setMnemonic('d');
-        origenDatosItemMenu.setText("Origen de datos...");
-        origenDatosItemMenu.addActionListener(new java.awt.event.ActionListener() {
+        importarItemMenu.setText("Importar...");
+        importarItemMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                origenDatosItemMenuActionPerformed(evt);
+                importarItemMenuActionPerformed(evt);
             }
         });
-        herramientasMenu.add(origenDatosItemMenu);
+        herramientasMenu.add(importarItemMenu);
+
+        configuracionItemMenu.setMnemonic('c');
+        configuracionItemMenu.setText("Configuración...");
+        configuracionItemMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                configuracionItemMenuActionPerformed(evt);
+            }
+        });
+        herramientasMenu.add(configuracionItemMenu);
+
+        ayudaItemMenu.setText("Ayuda");
+        ayudaItemMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ayudaItemMenuActionPerformed(evt);
+            }
+        });
+        herramientasMenu.add(ayudaItemMenu);
 
         jMenuBar1.add(herramientasMenu);
 
@@ -124,7 +141,7 @@ public class MainContainerView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -154,57 +171,36 @@ public class MainContainerView extends javax.swing.JFrame {
         controller.openDatosPersonales();
     }//GEN-LAST:event_editarDatosPersonalesItemMenuActionPerformed
 
-    private void origenDatosItemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_origenDatosItemMenuActionPerformed
+    private void configuracionItemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configuracionItemMenuActionPerformed
         controller.openConfiguracion();
-    }//GEN-LAST:event_origenDatosItemMenuActionPerformed
+    }//GEN-LAST:event_configuracionItemMenuActionPerformed
 
     private void buscarFacturaItemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarFacturaItemMenuActionPerformed
         controller.openBuscarFactura();
     }//GEN-LAST:event_buscarFacturaItemMenuActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainContainerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainContainerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainContainerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainContainerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-    }
+    private void importarItemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importarItemMenuActionPerformed
+        controller.openImportar();
+    }//GEN-LAST:event_importarItemMenuActionPerformed
+
+    private void ayudaItemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ayudaItemMenuActionPerformed
+        FrameUtils.showInfoMessage("Lo siento", "Esta sección está aún por hacer   :(");
+    }//GEN-LAST:event_ayudaItemMenuActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ayudaItemMenu;
     private javax.swing.JMenuItem buscarFacturaItemMenu;
     private javax.swing.JMenu buscarMenu;
+    private javax.swing.JMenuItem configuracionItemMenu;
     private javax.swing.JMenuItem crearClienteItemMenu;
     private javax.swing.JMenuItem editarClienteItemMenu;
     private javax.swing.JMenuItem editarDatosPersonalesItemMenu;
     private javax.swing.JMenu editarMenu;
     private javax.swing.JMenu herramientasMenu;
+    private javax.swing.JMenuItem importarItemMenu;
     private javax.swing.JMenuBar jMenuBar1;
     public javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem nuevaFacturaItemMenu;
     private javax.swing.JMenu nuevoMenu;
-    private javax.swing.JMenuItem origenDatosItemMenu;
     // End of variables declaration//GEN-END:variables
 }
