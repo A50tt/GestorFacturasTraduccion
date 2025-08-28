@@ -17,7 +17,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -26,12 +25,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import jud.gestorfacturas.gui.configuracion.ImportarController;
 import utils.ConfigUtils;
 import utils.FrameUtils;
+import utils.JSONUtils;
 
 public class MainContainerController implements GlobalController {
     
@@ -47,10 +48,12 @@ public class MainContainerController implements GlobalController {
         initialize();
         setVisible(true);
         frameContainerView.setVisible(true);
+        checkDataBaseIntegrity();
     }
 
     private void initialize() {
         jTabbedPane = frameContainerView.jTabbedPane1;
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Aumenta el tiempo que los Tooltips se mantienen mostrándose al usuario.
     }
     
     public static void setUITheme(String theme) {
@@ -65,6 +68,14 @@ public class MainContainerController implements GlobalController {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(MainContainerController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void checkDataBaseIntegrity() {
+        List<String> databasesNames = new ArrayList<String>();
+        databasesNames.add(JSONUtils.dbFileNames[0]);
+        databasesNames.add(JSONUtils.dbFileNames[1]);
+        databasesNames.add(JSONUtils.dbFileNames[2]);
+        JSONUtils.checkJsonFilesIntegrityOrResetThem(databasesNames);
     }
 
     @Override

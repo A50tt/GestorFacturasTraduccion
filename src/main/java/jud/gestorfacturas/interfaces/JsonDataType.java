@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 public interface JsonDataType {
     
+    public boolean importado = false;
+    
     public static JSONObject buildJsonWithoutTimestamp(JsonDataType rawObject) {
         return null;
     };

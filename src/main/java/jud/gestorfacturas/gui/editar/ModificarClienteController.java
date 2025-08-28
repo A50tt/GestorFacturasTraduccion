@@ -4,7 +4,6 @@ package jud.gestorfacturas.gui.editar;
 import jud.gestorfacturas.gui.buscar.BuscarClienteController;
 import jud.gestorfacturas.interfaces.Controller;
 import jud.gestorfacturas.interfaces.DataListenerController;
-import jud.gestorfacturas.gui.editar.ModificarClienteView;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -17,10 +16,13 @@ public class ModificarClienteController implements Controller, DataListenerContr
     
     ModificarClienteView modificarClienteView;
     
+    public static final String VIEW_NAME = "Editar cliente";
+    public String finalViewName;
+    
     private final String ERROR_CLIENT_OBLIGATORY_FIELDS = "Por favor, rellene todos los campos obligatorios.";
-    private final Color DEFAULT_BG_COLOR = Color.white;
+    private Color defaultTxtFieldBgColor = Color.WHITE;
+    private Color defaultTxtFieldTextColor = Color.BLACK;
     private final Color ERROR_BG_COLOR = Color.red;
-    private String viewName = "Modificar cliente";
     
     protected JButton actualizarBtn;
     protected JButton anadirBtn;
@@ -42,6 +44,8 @@ public class ModificarClienteController implements Controller, DataListenerContr
     actualizarBtn = modificarClienteView.switchEstadoClienteBtn;
     anadirBtn = modificarClienteView.actualizarBtn;
     numeroClienteTxtField = modificarClienteView.numeroClienteTxtField;
+    defaultTxtFieldBgColor = numeroClienteTxtField.getBackground();
+    defaultTxtFieldTextColor = numeroClienteTxtField.getForeground();
     codigoPostalTxtField = modificarClienteView.codigoPostalTxtField;
     direccionTxtField = modificarClienteView.direccionTxtField;
     nifTxtField = modificarClienteView.nifTxtField;
@@ -53,9 +57,12 @@ public class ModificarClienteController implements Controller, DataListenerContr
     resetClienteBtn.setIcon(FrameUtils.REDO_FLATSVGICON);
     }
     
+    public void setDefaultBackground(JTextField component) {
+        component.setBackground(defaultTxtFieldBgColor);
+    }
+    
     public void cargaDatosDeNumeroCliente() {
         Cliente cliente = JSONUtils.getClienteById(Integer.parseInt(numeroClienteTxtField.getText()));
-//        Cliente cliente = dbUtils.getClienteById(numeroClienteTxtField.getText());
         if (cliente != null && cliente.getNif() != null) {
             nifTxtField.setText(cliente.getNif());
             nombreTxtField.setText(cliente.getNombre());
@@ -68,7 +75,7 @@ public class ModificarClienteController implements Controller, DataListenerContr
             if (!cliente.isActivado()) {
                 stateTxtField.setForeground(Color.red);
             } else {
-                stateTxtField.setForeground(Color.black);
+                stateTxtField.setForeground(defaultTxtFieldTextColor);
             }
             numeroClienteTxtField.setEditable(false);
         } else {
@@ -86,19 +93,15 @@ public class ModificarClienteController implements Controller, DataListenerContr
         
         if (nombreCliente != null) {
             Cliente clienteDB = JSONUtils.getClienteById(Integer.parseInt(numeroClienteTxtField.getText()));
-//            Cliente clienteDB = dbUtils.getClienteByNif(nifTxtField.getText());
             clienteDB.setNombre(nombreTxtField.getText());
             clienteDB.setDireccion(direccionTxtField.getText());
             clienteDB.setCodigoPostal(codigoPostalTxtField.getText());
+            clienteDB.stampFechaUltActualizacion();
+            nombreTxtField.setBackground(defaultTxtFieldBgColor);
             
-            nombreTxtField.setBackground(DEFAULT_BG_COLOR);
-            
-            JSONUtils.actualizaCliente(clienteDB);
-            
-//            dbUtils.getEntityManager().getTransaction().begin();
-//            dbUtils.mergeIntoDB(clienteDB);
-//            dbUtils.getEntityManager().getTransaction().commit();
-
+            if (JSONUtils.actualizaCliente(clienteDB) == 0) {
+                FrameUtils.showPlainMessage("Éxito", "El cliente se ha actualizado correctamente.");
+            }
         } else if (nifTxtField.getText().isBlank()) {
             FrameUtils.showErrorMessage("Cliente no seleccionado", "No se ha seleccionado ningún cliente al que aplicar la modificación.\n"
                     + "Introduce el número de cliente y pulsa 'Enter' o utiliza la búsqueda manual.");
@@ -135,7 +138,6 @@ public class ModificarClienteController implements Controller, DataListenerContr
         
         if (!nifOldCliente.equals("")) {
             Cliente clienteDB = JSONUtils.getClienteById(Integer.parseInt(numeroClienteTxtField.getText()));
-//            Cliente clienteDB = dbUtils.getClienteByNif(nifOldCliente);
             if (clienteDB.isActivado()) {
                 orden = false; //Cliente está activado, hay que desactivarlo.
             } else {
@@ -146,15 +148,12 @@ public class ModificarClienteController implements Controller, DataListenerContr
                 FrameUtils.showInfoMessage("Acción no es necesaria", "El cliente ya se estaba " + estadoString.toLowerCase() + ".");
             } else {
                 clienteDB.setActivado(orden);
-                JSONUtils.saveCliente(clienteDB);
-//                dbUtils.getEntityManager().getTransaction().begin();
-//                dbUtils.mergeIntoDB(clienteDB);
-//                dbUtils.getEntityManager().getTransaction().commit();
+                JSONUtils.actualizaCliente(clienteDB);
                 stateTxtField.setText(estadoString);
                 if (!orden) {
                     stateTxtField.setForeground(Color.red);
                 } else {
-                    stateTxtField.setForeground(Color.black);
+                    stateTxtField.setForeground(defaultTxtFieldTextColor);
                 }
                 FrameUtils.showPlainMessage("Éxito", "El cliente ha sido " + estadoString.toLowerCase() + " correctamente.");
 
@@ -182,11 +181,15 @@ public class ModificarClienteController implements Controller, DataListenerContr
 
     @Override
     public String getViewName() {
-        return this.viewName;
+        if (this.finalViewName != null) {
+            return finalViewName;
+        } else {
+            return this.VIEW_NAME;
+        }
     }
 
     @Override
-    public void setViewName(String newName) {
-        this.viewName = newName;
+    public void setViewName(String str) {
+        finalViewName = str;
     }
 }

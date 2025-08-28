@@ -9,25 +9,28 @@ public abstract class Interviniente {
     private String direccion;
     private String codigoPostal;
     private String nif;
+    private boolean importado;
     private Timestamp fechaUltActualizacion;
     
     public Interviniente() {
         
     }
 
-    public Interviniente(String _nif, String _nombre, String _direccion, String _codigoPostal) {
+    public Interviniente(String _nif, String _nombre, String _direccion, String _codigoPostal, boolean _importado) {
         this.nombre = _nombre;
         this.direccion = _direccion;
         this.codigoPostal = _codigoPostal;
         this.nif = _nif;
+        this.importado = _importado;
         this.fechaUltActualizacion = new Timestamp(System.currentTimeMillis());
     }
    
-    public Interviniente(String _nif, String _nombre, String _direccion, String _codigoPostal, Timestamp _fechaUltActualizacion) {
+    public Interviniente(String _nif, String _nombre, String _direccion, String _codigoPostal, boolean _importado, Timestamp _fechaUltActualizacion) {
         this.nombre = _nombre;
         this.direccion = _direccion;
         this.codigoPostal = _codigoPostal;
         this.nif = _nif;
+        this.importado = _importado;
         this.fechaUltActualizacion = _fechaUltActualizacion;
     }
     
@@ -65,5 +68,17 @@ public abstract class Interviniente {
 
     public Timestamp getFechaUltActualizacion() {
         return fechaUltActualizacion;
+    }
+    
+    public void stampFechaUltActualizacion() {
+        this.fechaUltActualizacion = new Timestamp(System.currentTimeMillis());
+    }
+    
+    public boolean isImportado() {
+        return importado;
+    }
+
+    public void setImportado(boolean importado) {
+        this.importado = importado;
     }
 }

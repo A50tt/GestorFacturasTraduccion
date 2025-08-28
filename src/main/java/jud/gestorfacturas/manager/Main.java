@@ -7,6 +7,9 @@ import jud.gestorfacturas.gui.MainContainerController;
 
 public class Main {
     
+    // automatiza pulsa enter y que traiga el cliente con el id
+    // testea theme dark en nueva factura
+    
     //TODO Testear entrada en vacío
     //TODO Configuración VIEW
     //TODO Puntos de miles en factura

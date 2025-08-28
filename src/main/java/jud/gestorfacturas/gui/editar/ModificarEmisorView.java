@@ -1,6 +1,7 @@
 
 package jud.gestorfacturas.gui.editar;
 
+import javax.swing.JTextField;
 import jud.gestorfacturas.gui.editar.ModificarEmisorController;
 
 public class ModificarEmisorView extends javax.swing.JPanel {
@@ -110,10 +111,25 @@ public class ModificarEmisorView extends javax.swing.JPanel {
         );
 
         nifTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
+        nifTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nifTxtFieldKeyPressed(evt);
+            }
+        });
 
         nombreTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
+        nombreTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nombreTxtFieldKeyPressed(evt);
+            }
+        });
 
         nombreCompletoTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
+        nombreCompletoTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nombreCompletoTxtFieldKeyPressed(evt);
+            }
+        });
 
         direccionTxtField.setPreferredSize(new java.awt.Dimension(200, 22));
 
@@ -238,6 +254,18 @@ public class ModificarEmisorView extends javax.swing.JPanel {
     private void actualizarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarBtnActionPerformed
         controller.actualizaEmisor();
     }//GEN-LAST:event_actualizarBtnActionPerformed
+
+    private void nifTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nifTxtFieldKeyPressed
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_nifTxtFieldKeyPressed
+
+    private void nombreTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreTxtFieldKeyPressed
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_nombreTxtFieldKeyPressed
+
+    private void nombreCompletoTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreCompletoTxtFieldKeyPressed
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_nombreCompletoTxtFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

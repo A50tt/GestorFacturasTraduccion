@@ -7,13 +7,14 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import jud.gestorfacturas.interfaces.JsonDataType;
 import jud.gestorfacturas.manager.PDFGenerator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.FormatUtils;
 
 
-public class Factura {
+public class Factura implements JsonDataType {
 
     private String numFactura;
     private Date fechaEmision;
@@ -31,6 +32,7 @@ public class Factura {
     private double importeTotal;
     private Timestamp fechaUltActualizacion;
     private File pathFactura;
+    private boolean importado;
     
     @Override
     public String toString() {
@@ -39,7 +41,8 @@ public class Factura {
                 + CONST_COMMA + fechaVencimiento + CONST_COMMA + formaPago + CONST_COMMA
                 + cliente + CONST_COMMA + emisor + CONST_COMMA + servicios + CONST_COMMA
                 + baseImponible + CONST_COMMA + iva + CONST_COMMA + irpf + CONST_COMMA
-                + importeTotal + CONST_COMMA + fechaUltActualizacion + "]";
+                + importeTotal + CONST_COMMA + fechaUltActualizacion + CONST_COMMA
+                + importado + "]";
     }
     
     public String toBeautifulString() {
@@ -73,7 +76,7 @@ public class Factura {
         
     }
 
-    public Factura(String _numFactura, Date _fechaEmision, int _diasPago, String _formaPago, Cliente _cliente, Emisor _emisor, Servicio[] _servicios) {
+    public Factura(String _numFactura, Date _fechaEmision, int _diasPago, String _formaPago, Cliente _cliente, Emisor _emisor, Servicio[] _servicios, boolean _importado) {
         this.numFactura = _numFactura;
         this.fechaEmision = _fechaEmision;
         this.diasPago = _diasPago;
@@ -86,10 +89,11 @@ public class Factura {
         this.iva = FormatUtils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
         this.irpf = FormatUtils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
         this.importeTotal = baseImponible + iva + irpf;
+        this.importado = _importado;
         this.fechaUltActualizacion = new Timestamp(System.currentTimeMillis());
     }
     
-      public Factura(String _numFactura, Date _fechaEmision, int _diasPago, String _formaPago, Cliente _cliente, Emisor _emisor, Servicio[] _servicios, Timestamp _fechaUltActualizacion) {
+      public Factura(String _numFactura, Date _fechaEmision, int _diasPago, String _formaPago, Cliente _cliente, Emisor _emisor, Servicio[] _servicios, boolean _importado, Timestamp _fechaUltActualizacion) {
         this.numFactura = _numFactura;
         this.fechaEmision = _fechaEmision;
         this.diasPago = _diasPago;
@@ -102,6 +106,7 @@ public class Factura {
         this.iva = FormatUtils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
         this.irpf = FormatUtils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
         this.importeTotal = baseImponible + iva + irpf;
+        this.importado = _importado;
         this.fechaUltActualizacion = _fechaUltActualizacion;
     }
 
@@ -186,6 +191,14 @@ public class Factura {
         return Path.of(facturasDir.toString(), this.pathFactura.toString()).toFile();
     }
     
+    public boolean isImportado() {
+        return importado;
+    }
+
+    public void setImportado(boolean importado) {
+        this.importado = importado;
+    }
+    
     public void setRelativePathFactura(File pdfFactura) {
         Path facturasDir = Path.of(PDFGenerator.INVOICES_DIRECTORY);
         Path relativePath = facturasDir.relativize(pdfFactura.toPath());
@@ -193,6 +206,13 @@ public class Factura {
     }
     
     public static JSONObject buildJson(Factura factura) {
+        // Factura
+        JSONObject facturaObj = buildJsonWithoutTimestamp(factura);
+        facturaObj.put("ult_actualizacion", factura.getFechaUltActualizacion());        
+        return facturaObj;
+    }
+    
+    public static JSONObject buildJsonWithoutTimestamp(Factura factura) {
         // Factura
         JSONObject facturaObj = new JSONObject();
         facturaObj.put("num_factura", factura.getNumFactura());
@@ -207,7 +227,7 @@ public class Factura {
         facturaObj.put("iva", factura.getIva());
         facturaObj.put("importe_total", factura.getImporteTotal());
         facturaObj.put("ruta_pdf", factura.getPathFactura());
-        facturaObj.put("ult_actualizacion", factura.getFechaUltActualizacion());
+        facturaObj.put("importado", factura.isImportado());
         
         JSONArray serviciosObj = Servicio.buildServiciosJsonArrayFromServiciosArray(factura.getServicios());
         facturaObj.put("servicios", serviciosObj);
@@ -230,13 +250,14 @@ public class Factura {
                 Cliente.getInstanceFromJson(facturaObj.getJSONObject("cliente")),
                 Emisor.getInstanceFromJson(facturaObj.getJSONObject("emisor")),
                 Servicio.buildServiciosFromJson(facturaObj.getJSONArray("servicios")),
+                facturaObj.getBoolean("importado"),
                 Timestamp.valueOf(facturaObj.getString("ult_actualizacion"))
         );
         factura.setPathFactura(new File(facturaObj.getString("ruta_pdf")));
         return factura;
     }
-        
-        public static List<Factura> cleanDuplicates(List<Factura> facturas) {
+
+    public static List<Factura> cleanDuplicates(List<Factura> facturas) {
         List<String> numsFraFound = new ArrayList<>();
         List<Factura> frasToRemove = new ArrayList<>();
         for (Factura factura : facturas) {
@@ -246,7 +267,7 @@ public class Factura {
                 numsFraFound.add(factura.getNumFactura());
             }
         }
-        
+
         for (Factura facturaToRemove : frasToRemove) {
             facturas.remove(facturaToRemove);
         }

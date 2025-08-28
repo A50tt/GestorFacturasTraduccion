@@ -1,9 +1,22 @@
-{"clientes": [{
-    "codigo_postal": "00001",
-    "ult_actualizacion": "2025-08-23 14:06:24.511",
-    "activado": true,
-    "direccion": "Dirección 1",
-    "nif": "B12345678",
-    "id": 1,
-    "nombre": "Nombre 16"
-}]}
+{"clientes": [
+    {
+        "codigo_postal": "60529",
+        "importado": false,
+        "ult_actualizacion": "2025-08-28 20:10:19.446",
+        "activado": true,
+        "direccion": "Dirección Cliente 1",
+        "nif": "B12346578",
+        "id": 1,
+        "nombre": "Nombre Cliente 1"
+    },
+    {
+        "codigo_postal": "q",
+        "importado": false,
+        "ult_actualizacion": "2025-08-28 20:17:07.936",
+        "activado": true,
+        "direccion": "qs",
+        "nif": "B12345678",
+        "id": 2,
+        "nombre": "sq"
+    }
+]}

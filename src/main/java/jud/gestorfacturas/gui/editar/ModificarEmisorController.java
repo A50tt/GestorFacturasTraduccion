@@ -1,7 +1,6 @@
 package jud.gestorfacturas.gui.editar;
 
 import jud.gestorfacturas.interfaces.Controller;
-import jud.gestorfacturas.interfaces.DataListenerController;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -11,14 +10,15 @@ import utils.FrameUtils;
 import jud.gestorfacturas.model.Emisor;
 import utils.JSONUtils;
 
-public class ModificarEmisorController implements Controller, DataListenerController {
+public class ModificarEmisorController implements Controller {
 
     ModificarEmisorView modificarEmisorView;
 
-    Color DEFAULT_BG_COLOR = Color.white;
+    Color defaultTxtFieldBgColor = Color.white;
     Color ERROR_BG_COLOR = Color.red;
 
-    private String viewName = "Datos personales";
+    public static final String VIEW_NAME = "Datos personales";
+    public String finalViewName;
 
     protected JButton actualizarBtn;
     protected JTextField codigoPostalTxtField;
@@ -35,12 +35,17 @@ public class ModificarEmisorController implements Controller, DataListenerContro
 
     private void initialize() {
         nifTxtField = modificarEmisorView.nifTxtField;
+        defaultTxtFieldBgColor = nifTxtField.getBackground();
         nombreTxtField = modificarEmisorView.nombreTxtField;
         nombreCompletoTxtField = modificarEmisorView.nombreCompletoTxtField;
         direccionTxtField = modificarEmisorView.direccionTxtField;
         codigoPostalTxtField = modificarEmisorView.codigoPostalTxtField;
         ibanTxtField = modificarEmisorView.ibanTxtField;
         cargaDatosEmisor();
+    }
+    
+    public void setDefaultBackground(JTextField component) {
+        component.setBackground(defaultTxtFieldBgColor);
     }
 
     public void cargaDatosEmisor() {
@@ -65,7 +70,6 @@ public class ModificarEmisorController implements Controller, DataListenerContro
 
     public void actualizaEmisor() {
         Emisor emisorDB = JSONUtils.findEmisorGuardado();
-//        Emisor emisorDB = dbUtils.getUnicoEmisor();
         if (emisorDB == null) {
             emisorDB = new Emisor();
         }
@@ -78,9 +82,9 @@ public class ModificarEmisorController implements Controller, DataListenerContro
             emisorDB.setNombre(nombreTxtField.getText());
             emisorDB.setNombreCompleto(nombreCompletoTxtField.getText());
 
-            nifTxtField.setBackground(DEFAULT_BG_COLOR);
-            nombreTxtField.setBackground(DEFAULT_BG_COLOR);
-            nombreCompletoTxtField.setBackground(DEFAULT_BG_COLOR);
+            nifTxtField.setBackground(defaultTxtFieldBgColor);
+            nombreTxtField.setBackground(defaultTxtFieldBgColor);
+            nombreCompletoTxtField.setBackground(defaultTxtFieldBgColor);
 
             if (direccionTxtField.getText().isBlank() || codigoPostalTxtField.getText().isBlank() || codigoPostalTxtField.getText().isBlank() || ibanTxtField.getText().isBlank()) {
                 int input = FrameUtils.showQuestionBoxContinuarCancelar("Campos incompletos", "Faltan campos opcionales por informar. ¿Guardar?");
@@ -106,27 +110,28 @@ public class ModificarEmisorController implements Controller, DataListenerContro
                     return;
                 }
             }
+            emisorDB.stampFechaUltActualizacion();
             saveEmisor(emisorDB);
         } else {
             if (nifTxtField.getText().isBlank()) {
                 nifTxtField.setBackground(ERROR_BG_COLOR);
             } else {
                 emisorDB.setNif(nifTxtField.getText());
-                nifTxtField.setBackground(DEFAULT_BG_COLOR);
+                nifTxtField.setBackground(defaultTxtFieldBgColor);
             }
 
             if (nombreTxtField.getText().isBlank()) {
                 nombreTxtField.setBackground(ERROR_BG_COLOR);
             } else {
                 emisorDB.setNombre(nombreTxtField.getText());
-                nombreTxtField.setBackground(DEFAULT_BG_COLOR);
+                nombreTxtField.setBackground(defaultTxtFieldBgColor);
             }
 
             if (nombreCompletoTxtField.getText().isBlank()) {
                 nombreCompletoTxtField.setBackground(ERROR_BG_COLOR);
             } else {
                 emisorDB.setNombreCompleto(nombreCompletoTxtField.getText());
-                nombreCompletoTxtField.setBackground(DEFAULT_BG_COLOR);
+                nombreCompletoTxtField.setBackground(defaultTxtFieldBgColor);
             }
             FrameUtils.showPlainMessage("Error", "Por favor, rellene todos los campos obligatorios.");
         }
@@ -141,23 +146,21 @@ public class ModificarEmisorController implements Controller, DataListenerContro
     }
 
     @Override
-    public void recibeClienteLookup(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public JPanel getView() {
         return this.modificarEmisorView;
     }
 
     @Override
     public String getViewName() {
-        return this.viewName;
+        if (this.finalViewName != null) {
+            return finalViewName;
+        } else {
+            return this.VIEW_NAME;
+        }
     }
 
     @Override
-    public void setViewName(String newName) {
-        this.viewName = newName;
+    public void setViewName(String str) {
+        finalViewName = str;
     }
-
 }

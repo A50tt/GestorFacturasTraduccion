@@ -2,12 +2,10 @@
 package jud.gestorfacturas.gui.configuracion;
 
 import java.awt.CardLayout;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 import jud.gestorfacturas.interfaces.Controller;
 import javax.swing.JPanel;
-import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 import utils.ConfigUtils;
 import utils.FrameUtils;
@@ -19,7 +17,8 @@ public class ConfiguracionController implements Controller {
     JPanel rightPanel;
     public static Map<String, String> configsPendingToApply;
     
-    private String viewName = "Configuración";
+    public static final String VIEW_NAME = "Configuración";
+    public String finalViewName;
     
     public ConfiguracionController() {
         configurationView = new ConfiguracionView(this);
@@ -48,7 +47,7 @@ public class ConfiguracionController implements Controller {
     public void saveConfigurations() {
         ConfigUtils.storeProperties(configsPendingToApply);
         configsPendingToApply = new HashMap<>(); // Vacía de nuevo
-        FrameUtils.showPlainMessage("Éxito", "La configuración se ha guardado correctamente.");
+        FrameUtils.showPlainMessage("Éxito", "La configuración se ha guardado correctamente.\nPara evitar problemas visuales, se recomienda reiniciar todas las pestañas abiertas.");
     }
 
     @Override
@@ -58,11 +57,15 @@ public class ConfiguracionController implements Controller {
 
     @Override
     public String getViewName() {
-        return this.viewName;
+        if (this.finalViewName != null) {
+            return finalViewName;
+        } else {
+            return this.VIEW_NAME;
+        }
     }
 
     @Override
-    public void setViewName(String newName) {
-        this.viewName = newName;
+    public void setViewName(String str) {
+        finalViewName = str;
     }
 }

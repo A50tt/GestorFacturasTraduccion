@@ -37,6 +37,7 @@ public class BuscarClienteView extends javax.swing.JFrame {
         setTitle("Búsqueda de clientes");
         getContentPane().setLayout(new java.awt.GridLayout(1, 1));
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(830, 367));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
@@ -73,7 +74,11 @@ public class BuscarClienteView extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 15);
         jPanel1.add(jPanel2, gridBagConstraints);
 
-        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane2.setAutoscrolls(true);
+        jScrollPane2.setMinimumSize(null);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(600, 300));
 
         resultadosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,6 +103,12 @@ public class BuscarClienteView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        resultadosTable.setAutoscrolls(false);
+        resultadosTable.setFillsViewportHeight(true);
+        resultadosTable.setMinimumSize(null);
+        resultadosTable.setPreferredSize(null);
+        resultadosTable.setShowGrid(true);
+        resultadosTable.setShowHorizontalLines(true);
         resultadosTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 resultadosTableMouseClicked(evt);
@@ -105,7 +116,7 @@ public class BuscarClienteView extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(resultadosTable);
 
-        jPanel3.add(jScrollPane2);
+        jPanel3.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

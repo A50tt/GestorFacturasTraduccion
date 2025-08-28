@@ -1,7 +1,6 @@
 package jud.gestorfacturas.gui.buscar;
 
 import jud.gestorfacturas.interfaces.DataListenerController;
-import jud.gestorfacturas.gui.buscar.BuscarClienteView;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.List;
@@ -18,7 +17,7 @@ public class BuscarClienteController {
     
     BuscarClienteView clienteLookupView;
     DataListenerController sourceController;
-    boolean checkIfClienteIsActivado;
+    boolean checkIfClienteIsActivado; // En algunas ventanas interesa saber si está activado (Crear factura), en otras nos da igual (Modificar cliente).
     
     JComboBox campoClienteComboBox;
     JTextField inputTextField;
@@ -43,21 +42,22 @@ public class BuscarClienteController {
         }
         inputTextField = clienteLookupView.inputTextField;
         resultadosTable = clienteLookupView.resultadosTable;
-        campoClienteComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if (inputTextField.getText().equals("")) {
-                    lookupAllClientes();
-                } else {
-                    lookupClientes();
-                }
-            }
-        });
+//        campoClienteComboBox.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                if (inputTextField.getText().equals("")) {
+//                    lookupAllClientes();
+//                } else {
+//                    lookupClientes();
+//                }
+//            }
+//        });
         lookupAllClientes();
         resultadosTable.getColumn("ID").setCellRenderer(
                 new DefaultTableCellRenderer() {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 setText(value.toString());
                 setBackground(Color.LIGHT_GRAY);
+                setForeground(Color.BLACK);
                 return this;
             }
         });
@@ -67,6 +67,7 @@ public class BuscarClienteController {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 setText(value.toString());
                 setBackground(Color.LIGHT_GRAY);
+                setForeground(Color.BLACK);
                 return this;
             }
         });
@@ -124,18 +125,22 @@ public class BuscarClienteController {
         deleteAllClientesRows();
         addClientesRows(listaClientesFiltrados);
     }
-  
+
     public void returnClienteToSource(int row) {
-        if (checkIfClienteIsActivado) {
-            if (clienteLookupView.resultadosTable.getModel().getValueAt(row, 5).toString().equals("Activado")) {
+        try {
+            if (checkIfClienteIsActivado) {
+                if (clienteLookupView.resultadosTable.getModel().getValueAt(row, 5).toString().equals("Activado")) {
+                    sourceController.recibeClienteLookup(clienteLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
+                    clienteLookupView.dispose();
+                } else {
+                    FrameUtils.showErrorMessage("Cliente desactivado", "El cliente no se puede utilizar porque está desactivado. Para activarlo, se ha de modificar desde 'Modificar clientes'.");
+                }
+            } else {
                 sourceController.recibeClienteLookup(clienteLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
                 clienteLookupView.dispose();
-            } else {
-                FrameUtils.showErrorMessage("Cliente desactivado", "El cliente no se puede utilizar porque está desactivado. Para activarlo, se ha de modificar desde 'Modificar clientes'.");
             }
-        } else {
-            sourceController.recibeClienteLookup(clienteLookupView.resultadosTable.getModel().getValueAt(row, 0).toString());
-            clienteLookupView.dispose();
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            // No hagas nada, eso es que ha clicado dentro del JList pero en un espacio vacío donde no hay lista.
         }
     }
 }

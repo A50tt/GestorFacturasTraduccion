@@ -2,6 +2,7 @@
 package jud.gestorfacturas.gui.editar;
 
 import java.awt.event.KeyEvent;
+import javax.swing.JTextField;
 import jud.gestorfacturas.gui.editar.ModificarClienteController;
 
 public class ModificarClienteView extends javax.swing.JPanel {
@@ -70,12 +71,22 @@ public class ModificarClienteView extends javax.swing.JPanel {
 
         nifTxtField.setEditable(false);
         nifTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
+        nifTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nifTxtFieldKeyPressed(evt);
+            }
+        });
 
         jLabel3.setText("Nombre *");
         jLabel3.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
 
         nombreTxtField.setEditable(false);
         nombreTxtField.setPreferredSize(new java.awt.Dimension(90, 22));
+        nombreTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nombreTxtFieldKeyPressed(evt);
+            }
+        });
 
         jLabel4.setText("Dirección");
         jLabel4.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
@@ -371,6 +382,14 @@ public class ModificarClienteView extends javax.swing.JPanel {
             controller.cargaDatosDeNumeroCliente();
         }
     }//GEN-LAST:event_numeroClienteTxtFieldKeyPressed
+
+    private void nifTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nifTxtFieldKeyPressed
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_nifTxtFieldKeyPressed
+
+    private void nombreTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreTxtFieldKeyPressed
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_nombreTxtFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

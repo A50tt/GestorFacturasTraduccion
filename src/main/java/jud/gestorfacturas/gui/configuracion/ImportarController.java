@@ -27,6 +27,9 @@ import utils.FrameUtils;
 import utils.JSONUtils;
 
 public class ImportarController implements Controller {
+    
+    public static final String VIEW_NAME = "Importar";
+    public String finalViewName;
 
     ImportarView importarView;
     JLabel importarBDEmisorResultLbl;
@@ -64,8 +67,6 @@ public class ImportarController implements Controller {
     List<Cliente> clientesToImport = new ArrayList<Cliente>();
     List<Factura> facturasToImport = new ArrayList<Factura>();
 
-    private String viewName = "Importar";
-
     public ImportarController(GlobalController globalController) {
         this.importarView = new ImportarView(this);
         initialize();
@@ -80,16 +81,6 @@ public class ImportarController implements Controller {
 
     public JPanel getView() {
         return this.importarView;
-    }
-
-    @Override
-    public String getViewName() {
-        return this.viewName;
-    }
-
-    @Override
-    public void setViewName(String newName) {
-        this.viewName = newName;
     }
 
     public void importFile(JButton sourceButton, JLabel resultLabel, boolean multi) {
@@ -222,6 +213,7 @@ public class ImportarController implements Controller {
             try {
                 JSONObject root = JSONUtils.readJsonFile(bdEmisor.getFirst());
                 emisorToImport = Emisor.getInstanceFromJson(root);
+                emisorToImport.setImportado(true);
                 bdEmisor.remove(bdEmisor.getFirst());
             } catch (JSONException ex) {
                 ex.getStackTrace();
@@ -238,7 +230,9 @@ public class ImportarController implements Controller {
                     for (int i = 0; i < clientesArr.length(); i++) {
                         try {
                             JSONObject clienteJson = clientesArr.getJSONObject(i);
-                            jsonTempClients.add(Cliente.getInstanceFromJson(clienteJson));
+                            Cliente tempCliente = Cliente.getInstanceFromJson(clienteJson);
+                            tempCliente.setImportado(true);
+                            jsonTempClients.add(tempCliente);
                         } catch (JSONException ex) {
                             ex.getStackTrace();
                             correctImport = false;
@@ -267,7 +261,9 @@ public class ImportarController implements Controller {
                     for (int i = 0; i < facturasArr.length(); i++) {
                         try {
                             JSONObject facturaJson = facturasArr.getJSONObject(i);
-                            jsonTempFacturas.add(Factura.getInstanceFromJson(facturaJson));
+                            Factura tempFactura = Factura.getInstanceFromJson(facturaJson);
+                            tempFactura.setImportado(true);
+                            jsonTempFacturas.add(tempFactura);
                         } catch (JSONException ex) {
                             ex.getStackTrace();
                             correctImport = false;
@@ -341,7 +337,7 @@ public class ImportarController implements Controller {
 
     public void ejecutarImportacionGlobal() {
         if (!importarView.importacionesPendientesModel.isEmpty()) {
-            if (checkJsonFilesIntegrityOrResetThem() == 1) { // El usuario no ha querido reparar un JSON dañado que estaba incluido, se aborta la importación.
+            if (checkJsonFilesIntegrityOrResetThem() == 0) { // El usuario no ha querido reparar un JSON dañado que estaba incluido, se aborta la importación.
                 int respuesta = FrameUtils.showQuestionBoxContinuarCancelar("Aviso importante", "Está seguro que quiere importar estos archivos? Esto sobreescribirá las base de datos en las que se aplique,\npor lo que se recomienda que se haga solo sobre una base de datos vacía.");
                 if (respuesta == JOptionPane.OK_OPTION) {
                     loadFiles();
@@ -357,5 +353,19 @@ public class ImportarController implements Controller {
         } else {
             FrameUtils.showInfoMessage("Aviso", "No se ha seleccionado ningún fichero para importar.");
         }
+    }
+
+    @Override
+    public String getViewName() {
+        if (this.finalViewName != null) {
+            return finalViewName;
+        } else {
+            return this.VIEW_NAME;
+        }
+    }
+
+    @Override
+    public void setViewName(String str) {
+        finalViewName = str;
     }
 }

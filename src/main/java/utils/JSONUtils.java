@@ -23,12 +23,12 @@ public class JSONUtils {
     public static final String WORKING_DIR = System.getProperty("user.dir");
     public static final String JSON_FILEPATH = Paths.get(WORKING_DIR, "src", "main", "resources", "META-INF").toString();
     public static final String[] jsonObjNames = {"emisor", "clientes", "facturas"};
-    public static final String tagClienteEnJsonFacturas = "cliente";
+    public static final String[] jsonChildObjNames = {"emisor", "cliente", "factura"};
     public static final String[] dbFileNames = {jsonObjNames[0] + ".json", jsonObjNames[1] + ".json", jsonObjNames[2] + ".json"};
 
     public static int checkJsonFilesIntegrityOrResetThem(List<String> jsonsToCheck) {
-        if (jsonsToCheck.contains(dbFileNames[0]) && findEmisorGuardado() == null) {
-            int respuesta = FrameUtils.showErrorQuestionBoxSiNo("Base de datos dañada", "La base de datos está dañada y no se puede leer. ¿Repararla? (Esto eliminará todos los datos de 'Emisor').");
+        if (jsonsToCheck.contains(dbFileNames[0]) && readJsonEmisor() == null) {
+            int respuesta = FrameUtils.showErrorQuestionBoxSiNo("Base de datos dañada", "La base de datos 'Emisor' está dañada y no se puede leer. ¿Repararla?\n(Tendrá que introducir de nuevo sus datos fiscales en 'Editar' > 'Editar datos personales...').");
             if (respuesta == JOptionPane.OK_OPTION) {
                 try (FileWriter file = new FileWriter(Paths.get(JSON_FILEPATH, dbFileNames[0]).toFile())) {
                     String jsonText = "{}";
@@ -42,7 +42,7 @@ public class JSONUtils {
             
         }
         if (jsonsToCheck.contains(dbFileNames[1]) && readJsonClientes() == null) {
-            int respuesta = FrameUtils.showErrorQuestionBoxSiNo("Base de datos dañada", "La base de datos está dañada y no se puede leer. ¿Repararla? (Esto eliminará todos los datos de 'Clientes').");
+            int respuesta = FrameUtils.showErrorQuestionBoxSiNo("Base de datos dañada", "La base de datos 'Clientes' está dañada y no se puede leer. ¿Repararla? (Esto eliminará todos sus datos).");
             if (respuesta == JOptionPane.OK_OPTION) {
                 try (FileWriter file = new FileWriter(Paths.get(JSON_FILEPATH, dbFileNames[1]).toFile())) {
                     String jsonText = "{\"" + jsonObjNames[1] + "\":[]}";
@@ -55,7 +55,7 @@ public class JSONUtils {
             }
         }
         if (jsonsToCheck.contains(dbFileNames[2]) && readJsonFacturas() == null) {
-            int respuesta = FrameUtils.showErrorQuestionBoxSiNo("Base de datos dañada", "La base de datos está dañada y no se puede leer. ¿Repararla? (Esto eliminará todos los datos de 'Facturas')");
+            int respuesta = FrameUtils.showErrorQuestionBoxSiNo("Base de datos dañada", "La base de datos 'Facturas' está dañada y no se puede leer. ¿Repararla? (Esto eliminará todos sus datos).");
             if (respuesta == JOptionPane.OK_OPTION) {
                 try (FileWriter file = new FileWriter(Paths.get(JSON_FILEPATH, dbFileNames[2]).toFile())) {
                     String jsonText = "{\"" + jsonObjNames[2] + "\":[]}";
@@ -67,7 +67,7 @@ public class JSONUtils {
                 return -1;
             }
         }
-        return 1;
+        return 0;
     }
     
     public static JSONObject readJsonFile(File file) {
@@ -76,14 +76,14 @@ public class JSONUtils {
             // 1. Leer el archivo existente
             String content = new String(Files.readAllBytes(jsonFile));
             return new JSONObject(content);
-        } catch (IOException ex) {
+        } catch (IOException | JSONException ex) {
             FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         }
     }
 
     // EMISOR
-    public static void saveEmisor(Emisor emisor, boolean showResultado) {
+    public static int saveEmisor(Emisor emisor, boolean showResultado) {
         // 1. Leer el root
         Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[0]);
         try {
@@ -96,9 +96,39 @@ public class JSONUtils {
                 if (showResultado) {
                     FrameUtils.showPlainMessage("Éxito", "El emisor se ha guardado correctamente.");
                 }
+                return 0;
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
+            return -1;
+        }
+    }
+    
+    public static JSONObject readJsonEmisor() {
+        Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[0]);
+        try {
+            // 1. Leer el archivo existente
+            String content = new String(Files.readAllBytes(jsonFile));
+            if (content.contains("{") && content.contains("}")) { // JSON Vacío
+                try {
+                    Emisor emisor = Emisor.getInstanceFromJson(new JSONObject(content));
+                    return Emisor.buildJsonWithoutTimestamp(emisor);
+                } catch (JSONException ex) {
+                    if (content.equals("{}")) {
+                        return new JSONObject(); // El archivo está vacío pero inicializado.
+                    } else {
+                        return null;
+                    }
+                }
+            } else {
+                return null;
+            }
+        } catch (IOException ex) {
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            return null;
+        } catch (JSONException ex) {
+            ex.getStackTrace();
+            return null;
         }
     }
 
@@ -132,7 +162,7 @@ public class JSONUtils {
         }
     }
 
-    public static void saveAllClientes(List<Cliente> clientes, boolean showResultado) {
+    public static int saveAllClientes(List<Cliente> clientes, boolean showResultado) {
         try {
             // 1. Leer el root
             Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[1]);
@@ -154,13 +184,15 @@ public class JSONUtils {
                 if (showResultado) {
                     FrameUtils.showPlainMessage("Éxito", "Clientes guardadas correctamente.");
                 }
+                return 0;
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
+            return -1;
         }
     }
     
-    public static void replaceAllClientes(List<Cliente> clientes, boolean showResultado) {
+    public static int replaceAllClientes(List<Cliente> clientes, boolean showResultado) {
         try {
             // 1. Leer el root
             Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[1]);
@@ -182,13 +214,15 @@ public class JSONUtils {
                 if (showResultado) {
                     FrameUtils.showPlainMessage("Éxito", "Clientes guardadas correctamente.");
                 }
+                return 0;
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
+            return -1;
         }
     }
-
-    public static void replaceCliente(int index, Cliente cliente) {
+    
+    public static int replaceCliente(int index, Cliente cliente) {
         try {
             // 1. Leer el root
             Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[1]);
@@ -205,14 +239,19 @@ public class JSONUtils {
             // 5. Guardar el archivo (sobreescribe, pero con el array ampliado)
             try (FileWriter file = new FileWriter(jsonFile.toFile())) {
                 file.write(root.toString(4));
-                FrameUtils.showPlainMessage("Éxito", "El cliente se ha actualizado correctamente.");
+                return 0;
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
+            return -1;
         }
     }
 
-    public static void saveCliente(Cliente cliente) {
+    public static int saveCliente(Cliente cliente) {
+        if (getClienteByNif(cliente.getNif()) != null) {
+            FrameUtils.showErrorMessage("Error", "Ya existe un cliente con este NIF.");
+            return -2;
+        }
         // 1. Leer el root
         Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[1]);
         try {
@@ -230,13 +269,15 @@ public class JSONUtils {
             try (FileWriter file = new FileWriter(jsonFile.toFile())) {
                 file.write(root.toString(4));
                 FrameUtils.showPlainMessage("Éxito", "El cliente se ha guardado correctamente.");
+                return 0;
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
+            return -1;
         }
     }
 
-    public static void actualizaCliente(Cliente cliente) {
+    public static int actualizaCliente(Cliente cliente) {
         List<Cliente> listClientes = getAllClientes();
         int oldClientIndex = 0;
         for (Cliente listClient : listClientes) {
@@ -247,7 +288,7 @@ public class JSONUtils {
                 oldClientIndex++;
             }
         }
-        replaceCliente(oldClientIndex, cliente);
+        return replaceCliente(oldClientIndex, cliente) == 0 ? 0 : -1;
     }
 
     public static List<Cliente> getAllClientes() {
@@ -265,6 +306,16 @@ public class JSONUtils {
         List<Cliente> allClientesList = getAllClientes();
         for (Cliente cliente : allClientesList) {
             if (id == cliente.getId()) {
+                return cliente;
+            }
+        }
+        return null;
+    }
+    
+    public static Cliente getClienteByNif(String nif) {
+        List<Cliente> allClientesList = getAllClientes();
+        for (Cliente cliente : allClientesList) {
+            if (nif.equals(cliente.getNif())) {
                 return cliente;
             }
         }
@@ -298,17 +349,17 @@ public class JSONUtils {
         return listaClientesFiltrados.isEmpty() ? null : listaClientesFiltrados;
     }
 
-    public static boolean nifClienteYaExiste(String nif) {
+    public static int nifClienteYaExiste(String nif) {
         JSONObject root = readJsonClientes();
         JSONArray JSONArray = root.getJSONArray(jsonObjNames[1]);
         for (int i = 0; i < JSONArray.length(); i++) {
             JSONObject loadedItem = JSONArray.getJSONObject(i);
             String objNif = loadedItem.getString("nif");
             if (nif.equals(objNif)) {
-                return true;
+                return 0;
             }
         }
-        return false;
+        return -1;
     }
 
     public static boolean idClienteYaExiste(int id) {
@@ -334,14 +385,14 @@ public class JSONUtils {
         }
     }
     
-    public static List<Factura> getFacturasByClienteFilter(String value, String jsonProperty) {
+    public static List<Factura> getFacturasByClienteFilter(String value, String jsonProperty, boolean ignoreCase) {
         List<Factura> listaFacturasFiltradas = new ArrayList();
         JSONObject root = readJsonFacturas();
         JSONArray facturasObj = root.getJSONArray(jsonObjNames[2]);
 
         for (int i = 0; i < facturasObj.length(); i++) {
             JSONObject factura = facturasObj.getJSONObject(i);
-            JSONObject clientesObj = factura.getJSONObject(tagClienteEnJsonFacturas);
+            JSONObject clientesObj = factura.getJSONObject(jsonChildObjNames[1]);
             String jsonValue;
             switch (jsonProperty) {
                 case "id":
@@ -360,8 +411,14 @@ public class JSONUtils {
                     listaFacturasFiltradas.add(Factura.getInstanceFromJson(factura));
                 }
             } else {
-                if (value.equals(jsonValue)) {
-                    listaFacturasFiltradas.add(Factura.getInstanceFromJson(factura));
+                if (ignoreCase) {
+                    if (value.toLowerCase().equals(jsonValue.toLowerCase())) {
+                        listaFacturasFiltradas.add(Factura.getInstanceFromJson(factura));
+                    }
+                } else {
+                    if (value.equals(jsonValue)) {
+                        listaFacturasFiltradas.add(Factura.getInstanceFromJson(factura));
+                    }
                 }
             }
         }
@@ -385,10 +442,10 @@ public class JSONUtils {
         }
     }
 
-    public static void saveFactura(Factura factura) {
+    public static int saveFactura(Factura factura) {
         if (isNumFacturaExistente(factura.getNumFactura())) {
             FrameUtils.showErrorMessage("Error", "Ya existe una factura con este n.º de factura. No se permiten duplicados.");
-            return;
+            return -1;
         }
         // 1. Leer el root
         Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[2]);
@@ -407,16 +464,18 @@ public class JSONUtils {
             try (FileWriter file = new FileWriter(jsonFile.toFile())) {
                 file.write(root.toString(4));
                 FrameUtils.showPlainMessage("Éxito", "La factura se ha guardado correctamente.");
+                return 0;
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
+            return -1;
         }
     }
 
-    public static void saveAllFacturas(List<Factura> facturas, boolean showResultado) {
+    public static int saveAllFacturas(List<Factura> facturas, boolean showResultado) {
         // 1. Leer el root
-        Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[2]);
         try {
+            Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[2]);
             JSONObject root = readJsonFacturas();
             // 2. Obtener el array de facturas
             JSONArray facturasObj = root.getJSONArray(jsonObjNames[2]);
@@ -435,13 +494,15 @@ public class JSONUtils {
                 if (showResultado) {
                     FrameUtils.showPlainMessage("Éxito", "Facturas guardadas correctamente.");
                 }
+                return 0;
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
+            return -1;
         }
     }
     
-    public static void replaceAllFacturas(List<Factura> facturas, boolean showResultado) {
+    public static int replaceAllFacturas(List<Factura> facturas, boolean showResultado) {
         // 1. Leer el root
         Path jsonFile = Path.of(JSON_FILEPATH, dbFileNames[2]);
         try {
@@ -464,9 +525,11 @@ public class JSONUtils {
                 if (showResultado) {
                     FrameUtils.showPlainMessage("Éxito", "Facturas guardadas correctamente.");
                 }
+                return 0;
             }
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
+            return -1;
         }
     }
 
@@ -483,7 +546,7 @@ public class JSONUtils {
         return null;
     }
 
-    public static List<Factura> getFacturasByFilter(String searchValue, String jsonProperty) {
+    public static List<Factura> getFacturasByFilter(String searchValue, String jsonProperty, boolean ignoreCase) {
         List<Factura> listaFacturasFiltradas = new ArrayList();
         try {
             JSONObject root = readJsonFacturas();
@@ -536,8 +599,14 @@ public class JSONUtils {
                             break;
                     }
                 } else {
-                    if (searchValue.equals(jsonValue)) {
-                        listaFacturasFiltradas.add(Factura.getInstanceFromJson(loadedItem));
+                    if (ignoreCase) {
+                        if (searchValue.toLowerCase().equals(jsonValue.toLowerCase())) {
+                            listaFacturasFiltradas.add(Factura.getInstanceFromJson(loadedItem));
+                        }
+                    } else {
+                        if (searchValue.equals(jsonValue)) {
+                            listaFacturasFiltradas.add(Factura.getInstanceFromJson(loadedItem));
+                        }
                     }
                 }
             }
@@ -546,10 +615,6 @@ public class JSONUtils {
             ex.getStackTrace();
             return null;
         }
-    }
-    
-    public static List<Factura> getFacturasByFilter(String value, Double jsonProperty) {
-        return getFacturasByFilter(value, jsonProperty.toString());
     }
 
     public static List<Factura> findAllFacturas() {

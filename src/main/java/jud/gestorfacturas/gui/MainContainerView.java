@@ -35,7 +35,6 @@ public class MainContainerView extends javax.swing.JFrame {
         herramientasMenu = new javax.swing.JMenu();
         importarItemMenu = new javax.swing.JMenuItem();
         configuracionItemMenu = new javax.swing.JMenuItem();
-        ayudaItemMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,14 +122,6 @@ public class MainContainerView extends javax.swing.JFrame {
         });
         herramientasMenu.add(configuracionItemMenu);
 
-        ayudaItemMenu.setText("Ayuda");
-        ayudaItemMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ayudaItemMenuActionPerformed(evt);
-            }
-        });
-        herramientasMenu.add(ayudaItemMenu);
-
         jMenuBar1.add(herramientasMenu);
 
         setJMenuBar(jMenuBar1);
@@ -183,12 +174,7 @@ public class MainContainerView extends javax.swing.JFrame {
         controller.openImportar();
     }//GEN-LAST:event_importarItemMenuActionPerformed
 
-    private void ayudaItemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ayudaItemMenuActionPerformed
-        FrameUtils.showInfoMessage("Lo siento", "Esta sección está aún por hacer   :(");
-    }//GEN-LAST:event_ayudaItemMenuActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem ayudaItemMenu;
     private javax.swing.JMenuItem buscarFacturaItemMenu;
     private javax.swing.JMenu buscarMenu;
     private javax.swing.JMenuItem configuracionItemMenu;

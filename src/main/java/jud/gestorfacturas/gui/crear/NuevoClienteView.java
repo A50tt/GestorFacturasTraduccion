@@ -1,6 +1,7 @@
 
 package jud.gestorfacturas.gui.crear;
 
+import javax.swing.JTextField;
 import jud.gestorfacturas.gui.crear.NuevoClienteController;
 
 public class NuevoClienteView extends javax.swing.JPanel {
@@ -56,10 +57,20 @@ public class NuevoClienteView extends javax.swing.JPanel {
         jLabel2.setText("NIF *");
 
         nifTxtField.setPreferredSize(new java.awt.Dimension(80, 20));
+        nifTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nifTxtFieldKeyPressed(evt);
+            }
+        });
 
         jLabel3.setText("Nombre *");
 
         nombreTxtField.setPreferredSize(new java.awt.Dimension(80, 20));
+        nombreTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nombreTxtFieldKeyPressed(evt);
+            }
+        });
 
         jLabel4.setText("Dirección");
 
@@ -89,7 +100,7 @@ public class NuevoClienteView extends javax.swing.JPanel {
                             .addComponent(nombreTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nifTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,6 +206,14 @@ public class NuevoClienteView extends javax.swing.JPanel {
     private void anadirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anadirBtnActionPerformed
         controller.guardarCliente();
     }//GEN-LAST:event_anadirBtnActionPerformed
+
+    private void nifTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nifTxtFieldKeyPressed
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_nifTxtFieldKeyPressed
+
+    private void nombreTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreTxtFieldKeyPressed
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_nombreTxtFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

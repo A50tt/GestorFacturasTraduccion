@@ -2,6 +2,8 @@
 package jud.gestorfacturas.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import org.json.JSONObject;
 import jud.gestorfacturas.interfaces.JsonDataType;
 
@@ -13,7 +15,8 @@ import jud.gestorfacturas.interfaces.JsonDataType;
     "iban": "ES42",
     "direccion": "Mi dirección",
     "nif": "A123",
-    "nombre": "Mi nombre"
+    "nombre": "Mi nombre",
+    "importado": false
 }
 */
 
@@ -26,14 +29,14 @@ public class Emisor extends Interviniente implements JsonDataType {
         super();
     }
     
-    public Emisor (String _nif, String _nombre, String _nombreCompleto, String _direccion, String _codigoPostal, String _iban) {
-        super(_nif, _nombre, _direccion, _codigoPostal);
+    public Emisor (String _nif, String _nombre, String _nombreCompleto, String _direccion, String _codigoPostal, String _iban, boolean _importado) {
+        super(_nif, _nombre, _direccion, _codigoPostal, _importado);
         this.nombreCompleto = _nombreCompleto;
         this.iban = _iban;
     }
     
-        public Emisor (String _nif, String _nombre, String _nombreCompleto, String _direccion, String _codigoPostal, String _iban, Timestamp _fechaUltActualizacion) {
-        super(_nif, _nombre, _direccion, _codigoPostal, _fechaUltActualizacion);
+        public Emisor (String _nif, String _nombre, String _nombreCompleto, String _direccion, String _codigoPostal, String _iban, boolean _importado, Timestamp _fechaUltActualizacion) {
+        super(_nif, _nombre, _direccion, _codigoPostal, _importado, _fechaUltActualizacion);
         this.nombreCompleto = _nombreCompleto;
         this.iban = _iban;
     }
@@ -68,6 +71,7 @@ public class Emisor extends Interviniente implements JsonDataType {
         emisorObj.put("direccion", emisor.getDireccion());
         emisorObj.put("codigo_postal", emisor.getCodigoPostal());
         emisorObj.put("iban", emisor.getIban());
+        emisorObj.put("importado", emisor.isImportado());
         return emisorObj;
     }
     
@@ -79,7 +83,25 @@ public class Emisor extends Interviniente implements JsonDataType {
                 emisorObj.optString("direccion"),
                 emisorObj.optString("codigo_postal"),
                 emisorObj.optString("iban"),
+                emisorObj.getBoolean("importado"),
                 Timestamp.valueOf(emisorObj.getString("ult_actualizacion"))
         );
+    }
+    
+    public static List<Emisor> cleanDuplicates(List<Emisor> emisores) {
+        List<String> nifsFound = new ArrayList<>();
+        List<Emisor> emisoresToRemove = new ArrayList<>();
+        for (Emisor emisor : emisores) {
+            if (nifsFound.contains(emisor.getNif())) {
+                emisoresToRemove.add(emisor);
+            } else {
+                nifsFound.add(emisor.getNif());
+            }
+        }
+
+        for (Emisor emisorToRemove : emisoresToRemove) {
+            emisores.remove(emisorToRemove);
+        }
+        return emisores;
     }
 }

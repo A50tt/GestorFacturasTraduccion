@@ -4,8 +4,6 @@ package jud.gestorfacturas.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import org.json.JSONObject;
 import jud.gestorfacturas.interfaces.JsonDataType;
 
@@ -19,7 +17,8 @@ import jud.gestorfacturas.interfaces.JsonDataType;
             "direccion": "Dirección 2",
             "nif": "X87654321",
             "id": 1,
-            "nombre": "Nombre 2"
+            "nombre": "Nombre 2",
+            "importado": false
         }
     ]
 }
@@ -34,21 +33,17 @@ public class Cliente extends Interviniente implements JsonDataType {
         super();
     }
     
-    public static Cliente getDummyInstance() {
-        return new Cliente("dummy", null, null, null);
-    }
-    
-    public Cliente(int _id, String _nif, String _nombre, String _direccion, String _codigoPostal) {
-        super(_nif, _nombre, _direccion, _codigoPostal);
+    public Cliente(int _id, String _nif, String _nombre, String _direccion, String _codigoPostal, boolean _importado) {
+        super(_nif, _nombre, _direccion, _codigoPostal, _importado);
         this.id = _id;
     }
 
-    public Cliente (String _nif, String _nombre, String _direccion, String _codigoPostal) {
-        super(_nif, _nombre, _direccion, _codigoPostal);
+    public Cliente (String _nif, String _nombre, String _direccion, String _codigoPostal, boolean _importado) {
+        super(_nif, _nombre, _direccion, _codigoPostal, _importado);
     }
     
-     public Cliente(String _nif, String _nombre, String _direccion, String _codigoPostal, Timestamp _fechaUltActualizacion) {
-        super(_nif, _nombre, _direccion, _codigoPostal, _fechaUltActualizacion);
+     public Cliente(String _nif, String _nombre, String _direccion, String _codigoPostal, boolean _importado, Timestamp _fechaUltActualizacion) {
+        super(_nif, _nombre, _direccion, _codigoPostal, _importado, _fechaUltActualizacion);
     }
 
     public boolean isActivado() {
@@ -81,6 +76,7 @@ public class Cliente extends Interviniente implements JsonDataType {
         clienteObj.put("direccion", cliente.getDireccion());
         clienteObj.put("codigo_postal", cliente.getCodigoPostal());
         clienteObj.put("activado", cliente.isActivado());
+        clienteObj.put("importado", cliente.isImportado());
         return clienteObj;
     }
 
@@ -90,6 +86,7 @@ public class Cliente extends Interviniente implements JsonDataType {
                 clienteObj.getString("nombre"),
                 clienteObj.getString("direccion"),
                 clienteObj.getString("codigo_postal"),
+                clienteObj.getBoolean("importado"),
                 Timestamp.valueOf(clienteObj.getString("ult_actualizacion")));
         cliente.setId(clienteObj.getInt("id"));
         cliente.setActivado(clienteObj.getBoolean("activado"));

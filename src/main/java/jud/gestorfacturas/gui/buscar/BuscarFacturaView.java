@@ -24,17 +24,26 @@ public class BuscarFacturaView extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         resultadosTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         campoBusquedaComboBox = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        questionMarkImgLbl = new javax.swing.JLabel();
+        ignoreCaseCheckBox = new javax.swing.JCheckBox();
         inputTextField = new javax.swing.JTextField();
 
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
         setMinimumSize(new java.awt.Dimension(800, 0));
-        setPreferredSize(new java.awt.Dimension(800, 661));
+        setPreferredSize(new java.awt.Dimension(950, 661));
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(800, 0));
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 661));
+        jPanel1.setMinimumSize(new java.awt.Dimension(840, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(840, 661));
+        jPanel1.setRequestFocusEnabled(false);
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane2.setMinimumSize(new java.awt.Dimension(800, 16));
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(800, 402));
+        jScrollPane2.setAutoscrolls(true);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(452, 402));
+        jScrollPane2.setRowHeaderView(null);
+        jScrollPane2.setViewportView(null);
 
         resultadosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -59,16 +68,35 @@ public class BuscarFacturaView extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        resultadosTable.setMinimumSize(new java.awt.Dimension(800, 0));
+        resultadosTable.setFillsViewportHeight(true);
+        resultadosTable.setMinimumSize(null);
         resultadosTable.setName(""); // NOI18N
-        resultadosTable.setPreferredSize(new java.awt.Dimension(800, 0));
-        resultadosTable.setRowSelectionAllowed(false);
+        resultadosTable.setPreferredSize(null);
+        resultadosTable.setShowGrid(true);
+        resultadosTable.setShowHorizontalLines(true);
         resultadosTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 resultadosTableMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(resultadosTable);
+
+        jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.add(campoBusquedaComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, 160, 26));
+
+        questionMarkImgLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/question_mark.png"))); // NOI18N
+        questionMarkImgLbl.setToolTipText("<html>\n· Si la opción no está marcada, la búsqueda es sensible a mayúsculas y minúsculas.<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Buscar por el texto <b>nombre</b> NO encontraría el resultado <b>Nombre</b>.<br>\n· Se puede utilizar el símbolo <b> * </b> como carácter comodín.<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Por ejemplo, <b>*bc*</b> encontraría el texto <b>abcd</b>.<br>\n· Tratando con cifras, es posible usar los comparadores <b>&lt</b>, <b>&gt;</b>, <b>&lt=</b>, <b>&gt;=</b>.<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La búsqueda <b>&gt;=300</b> encontraría las cifras <b>mayores o igual a 300</b>.<br>\n</html>");
+        questionMarkImgLbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        ignoreCaseCheckBox.setText("Ignorar mayúsculas y minúsculas");
+        ignoreCaseCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ignoreCaseCheckBoxStateChanged(evt);
+            }
+        });
 
         inputTextField.setPreferredSize(new java.awt.Dimension(64, 26));
         inputTextField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -77,43 +105,52 @@ public class BuscarFacturaView extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(campoBusquedaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(inputTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29))
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ignoreCaseCheckBox)
+                    .addComponent(inputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(619, Short.MAX_VALUE)
+                    .addComponent(questionMarkImgLbl)
+                    .addContainerGap()))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(campoBusquedaComboBox)
-                    .addComponent(inputTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
-                .addContainerGap())
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(inputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ignoreCaseCheckBox)
+                .addContainerGap(12, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(questionMarkImgLbl)
+                    .addContainerGap(39, Short.MAX_VALUE)))
         );
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 650, 70));
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -129,12 +166,24 @@ public class BuscarFacturaView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_inputTextFieldKeyReleased
 
+    private void ignoreCaseCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ignoreCaseCheckBoxStateChanged
+        if (inputTextField.getText().equals("")) {
+            controller.lookupAllInvoices();
+        } else {
+            controller.lookupInvoice();
+        }
+    }//GEN-LAST:event_ignoreCaseCheckBoxStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox<String> campoBusquedaComboBox;
+    public javax.swing.JCheckBox ignoreCaseCheckBox;
     public javax.swing.JTextField inputTextField;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel questionMarkImgLbl;
     public javax.swing.JTable resultadosTable;
     // End of variables declaration//GEN-END:variables
 }

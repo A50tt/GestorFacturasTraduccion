@@ -1,86 +1,74 @@
-{"facturas": [
-    {
-        "fecha_vencimiento": "2025-11-30",
-        "base_imponible": 2025,
-        "ult_actualizacion": "2025-08-23 17:57:50.964",
-        "forma_pago": "Transferencia bancaria",
-        "num_factura": "2025-001",
-        "irpf": -141.75,
-        "tasa_irpf": 7,
-        "servicios": [{
-            "descripcion": "95",
-            "precio_unitario": 45,
-            "tipo": "Clip",
-            "precio_final": 2025,
-            "idioma_origen": "62",
-            "cantidad": 45,
-            "idioma_destino": "45"
-        }],
-        "cliente": {
-            "codigo_postal": "00001",
-            "ult_actualizacion": "2025-08-23 14:06:24.511",
-            "activado": true,
-            "direccion": "Dirección 1",
-            "nif": "B12345678",
-            "id": 1,
-            "nombre": "Nombre 1"
+{"facturas": [{
+    "fecha_vencimiento": "2025-10-27",
+    "base_imponible": 2187.5,
+    "ult_actualizacion": "2025-08-28 16:57:48.468",
+    "forma_pago": "Transferencia bancaria",
+    "num_factura": "2025-001",
+    "irpf": -153.13,
+    "tasa_irpf": 7,
+    "servicios": [
+        {
+            "descripcion": "Concepto 1",
+            "precio_unitario": 0.08,
+            "tipo": "Palabra",
+            "precio_final": 480,
+            "idioma_origen": "IDO1",
+            "cantidad": 6000,
+            "idioma_destino": "IDD1"
         },
-        "importe_total": 2308.5,
-        "tasa_iva": 21,
-        "iva": 425.25,
-        "fecha_emision": "2025-08-23",
-        "ruta_pdf": "2025-001.pdf",
-        "dias_pago": 99,
-        "emisor": {
-            "nombre_completo": "Nombre completo propio",
-            "codigo_postal": "",
-            "ult_actualizacion": "2025-08-23 15:00:20.409",
-            "iban": "ES40",
-            "direccion": "",
-            "nif": "X55555555",
-            "nombre": "Nombre propio"
+        {
+            "descripcion": "Concepto 2",
+            "precio_unitario": 0.07,
+            "tipo": "Hora",
+            "precio_final": 560,
+            "idioma_origen": "IDO2",
+            "cantidad": 8000,
+            "idioma_destino": "IDD2"
+        },
+        {
+            "descripcion": "Concepto 3",
+            "precio_unitario": 0.075,
+            "tipo": "Minuto",
+            "precio_final": 562.5,
+            "idioma_origen": "IDO3",
+            "cantidad": 7500,
+            "idioma_destino": "IDD3"
+        },
+        {
+            "descripcion": "Concepto 4",
+            "precio_unitario": 0.09,
+            "tipo": "Clip",
+            "precio_final": 585,
+            "idioma_origen": "IDO4",
+            "cantidad": 6500,
+            "idioma_destino": "IDD4"
         }
+    ],
+    "cliente": {
+        "codigo_postal": "",
+        "importado": false,
+        "ult_actualizacion": "2025-08-28 16:55:34.615",
+        "activado": true,
+        "direccion": "Dirección Cliente 1",
+        "nif": "B12346578",
+        "id": 1,
+        "nombre": "Nombre Cliente 1"
     },
-    {
-        "fecha_vencimiento": "2025-11-21",
-        "base_imponible": 144,
-        "ult_actualizacion": "2025-08-23 18:22:36.18",
-        "forma_pago": "Transferencia bancaria",
-        "num_factura": "2025-002",
-        "irpf": -10.08,
-        "tasa_irpf": 7,
-        "servicios": [{
-            "descripcion": "122",
-            "precio_unitario": 12,
-            "tipo": "Clip",
-            "precio_final": 144,
-            "idioma_origen": "12",
-            "cantidad": 12,
-            "idioma_destino": "12"
-        }],
-        "cliente": {
-            "codigo_postal": "00001",
-            "ult_actualizacion": "2025-08-23 14:06:24.511",
-            "activado": true,
-            "direccion": "Dirección 1",
-            "nif": "B12345678",
-            "id": 1,
-            "nombre": "Nombre 1"
-        },
-        "importe_total": 164.16,
-        "tasa_iva": 21,
-        "iva": 30.24,
-        "fecha_emision": "2025-08-23",
-        "ruta_pdf": "2025-002.pdf",
-        "dias_pago": 90,
-        "emisor": {
-            "nombre_completo": "Nombre completo propio",
-            "codigo_postal": "",
-            "ult_actualizacion": "2025-08-23 15:00:20.409",
-            "iban": "ES40",
-            "direccion": "",
-            "nif": "X55555555",
-            "nombre": "Nombre propio"
-        }
+    "importe_total": 2493.75,
+    "tasa_iva": 21,
+    "iva": 459.38,
+    "importado": false,
+    "fecha_emision": "2025-08-28",
+    "ruta_pdf": "2025-001.pdf",
+    "dias_pago": 60,
+    "emisor": {
+        "nombre_completo": "Nombre propio completo",
+        "codigo_postal": "",
+        "importado": false,
+        "ult_actualizacion": "2025-08-28 16:57:39.964",
+        "iban": "ES42 0515 5467 4564 7654 1234",
+        "direccion": "Dirección propia",
+        "nif": "A12345678",
+        "nombre": "Nombre propio"
     }
-]}
+}]}
