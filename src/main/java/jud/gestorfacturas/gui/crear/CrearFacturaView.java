@@ -3,6 +3,7 @@ package jud.gestorfacturas.gui.crear;
 
 import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 public class CrearFacturaView extends javax.swing.JPanel {
@@ -39,13 +40,14 @@ public class CrearFacturaView extends javax.swing.JPanel {
         fechaVencimientoTxtField = new javax.swing.JTextField();
         formaPagolbl = new javax.swing.JLabel();
         formaPagoComboBox = new javax.swing.JComboBox<>();
-        clientePanel1 = new javax.swing.JPanel();
+        clientePanel = new javax.swing.JPanel();
         datosClientePanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         clienteTitulolbl1 = new javax.swing.JLabel();
-        nombreClienteSearchBtn = new javax.swing.JButton();
+        clienteSearchBtn = new javax.swing.JButton();
         numeroClienteTxtField = new javax.swing.JTextField();
+        clienteEraseBtn = new javax.swing.JButton();
         clienteInfoTxtFieldPanel = new javax.swing.JPanel();
         nombreClientelbl1 = new javax.swing.JLabel();
         nombreClienteTxtField = new javax.swing.JTextField();
@@ -55,7 +57,6 @@ public class CrearFacturaView extends javax.swing.JPanel {
         direccionClienteTxtField = new javax.swing.JTextField();
         codigoPostalClientelbl1 = new javax.swing.JLabel();
         codigoPostalClienteTxtField = new javax.swing.JTextField();
-        jPanel9 = new javax.swing.JPanel();
         msgPanel1 = new javax.swing.JPanel();
         msgContainerPanel1 = new javax.swing.JPanel();
         msgLbl = new javax.swing.JLabel();
@@ -98,7 +99,7 @@ public class CrearFacturaView extends javax.swing.JPanel {
         item2ComboBox = new javax.swing.JComboBox<>();
         item3ComboBox = new javax.swing.JComboBox<>();
         item4ComboBox = new javax.swing.JComboBox<>();
-        buttonsPanel1 = new javax.swing.JPanel();
+        buttonsPanel = new javax.swing.JPanel();
         refrescarFacturaBtn = new javax.swing.JButton();
         verificarFichaBtn = new javax.swing.JButton();
         previewFacturaBtn = new javax.swing.JButton();
@@ -133,6 +134,12 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.ipadx = 10;
         gridBagConstraints.weightx = 0.2;
         datosFacturaCuerpoPanel.add(numeroFralbl, gridBagConstraints);
+
+        numeroFraTxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                numeroFraTxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -152,6 +159,9 @@ public class CrearFacturaView extends javax.swing.JPanel {
 
         fechaEmisionTxtField.setToolTipText("Son válidos cualquiera de los siguientes formatos:\ndd/MM/yyyy\ndd-MM-yyyy\ndd/MM/yy\ndd-MM-yy\nddMMyyyy\nddMMyy");
         fechaEmisionTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fechaEmisionTxtFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 fechaEmisionTxtFieldKeyReleased(evt);
             }
@@ -173,6 +183,9 @@ public class CrearFacturaView extends javax.swing.JPanel {
 
         diasParaPagoTxtField.setToolTipText("Ha de ser un número entero");
         diasParaPagoTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                diasParaPagoTxtFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 diasParaPagoTxtFieldKeyReleased(evt);
             }
@@ -194,8 +207,8 @@ public class CrearFacturaView extends javax.swing.JPanel {
         datosFacturaCuerpoPanel.add(fechaVencimientolbl, gridBagConstraints);
 
         fechaVencimientoTxtField.setEditable(false);
+        fechaVencimientoTxtField.setBackground(new java.awt.Color(70, 73, 75));
         fechaVencimientoTxtField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        fechaVencimientoTxtField.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -214,6 +227,11 @@ public class CrearFacturaView extends javax.swing.JPanel {
         datosFacturaCuerpoPanel.add(formaPagolbl, gridBagConstraints);
 
         formaPagoComboBox.setModel(new DefaultComboBoxModel(controller.FORMAS_PAGO));
+        formaPagoComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formaPagoComboBoxMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -223,8 +241,8 @@ public class CrearFacturaView extends javax.swing.JPanel {
 
         facturaPanel1.add(datosFacturaCuerpoPanel, java.awt.BorderLayout.CENTER);
 
-        clientePanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        clientePanel1.setLayout(new java.awt.BorderLayout());
+        clientePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        clientePanel.setLayout(new java.awt.BorderLayout());
 
         datosClientePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
         datosClientePanel.setLayout(new java.awt.BorderLayout());
@@ -243,22 +261,22 @@ public class CrearFacturaView extends javax.swing.JPanel {
         clienteTitulolbl1.setPreferredSize(new java.awt.Dimension(50, 16));
         jPanel7.add(clienteTitulolbl1, java.awt.BorderLayout.WEST);
 
-        nombreClienteSearchBtn.setToolTipText("Buscar...");
-        nombreClienteSearchBtn.setAlignmentX(0.5F);
-        nombreClienteSearchBtn.setFocusable(false);
-        nombreClienteSearchBtn.setOpaque(true);
-        nombreClienteSearchBtn.setPreferredSize(new java.awt.Dimension(30, 22));
-        nombreClienteSearchBtn.addActionListener(new java.awt.event.ActionListener() {
+        clienteSearchBtn.setToolTipText("Buscar...");
+        clienteSearchBtn.setAlignmentX(0.5F);
+        clienteSearchBtn.setFocusable(false);
+        clienteSearchBtn.setOpaque(true);
+        clienteSearchBtn.setPreferredSize(new java.awt.Dimension(30, 22));
+        clienteSearchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreClienteSearchBtnActionPerformed(evt);
+                clienteSearchBtnActionPerformed(evt);
             }
         });
-        jPanel7.add(nombreClienteSearchBtn, java.awt.BorderLayout.EAST);
+        jPanel7.add(clienteSearchBtn, java.awt.BorderLayout.EAST);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.4;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         jPanel6.add(jPanel7, gridBagConstraints);
@@ -271,12 +289,27 @@ public class CrearFacturaView extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel6.add(numeroClienteTxtField, gridBagConstraints);
+
+        clienteEraseBtn.setToolTipText("Buscar...");
+        clienteEraseBtn.setAlignmentX(0.5F);
+        clienteEraseBtn.setFocusable(false);
+        clienteEraseBtn.setOpaque(true);
+        clienteEraseBtn.setPreferredSize(new java.awt.Dimension(30, 22));
+        clienteEraseBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clienteEraseBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        jPanel6.add(clienteEraseBtn, gridBagConstraints);
 
         datosClientePanel.add(jPanel6, java.awt.BorderLayout.NORTH);
 
@@ -322,12 +355,7 @@ public class CrearFacturaView extends javax.swing.JPanel {
 
         datosClientePanel.add(clienteInfoTxtFieldPanel, java.awt.BorderLayout.CENTER);
 
-        clientePanel1.add(datosClientePanel, java.awt.BorderLayout.CENTER);
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
-        jPanel9.setName(""); // NOI18N
-        jPanel9.setLayout(new java.awt.GridBagLayout());
-        clientePanel1.add(jPanel9, java.awt.BorderLayout.NORTH);
+        clientePanel.add(datosClientePanel, java.awt.BorderLayout.CENTER);
 
         msgPanel1.setMinimumSize(new java.awt.Dimension(100, 100));
         msgPanel1.setLayout(new java.awt.GridBagLayout());
@@ -407,6 +435,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.3;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         conceptosPanel.add(totalImporteTituloLabel, gridBagConstraints);
+
+        concepto1TxtField.setColumns(23);
+        concepto1TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                concepto1TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -414,7 +449,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(concepto1TxtField, gridBagConstraints);
 
+        cantidad1TxtField.setColumns(6);
         cantidad1TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
+        cantidad1TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cantidad1TxtFieldMouseClicked(evt);
+            }
+        });
         cantidad1TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 cantidad1TxtFieldKeyReleased(evt);
@@ -427,7 +468,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(cantidad1TxtField, gridBagConstraints);
 
+        precio1TxtField.setColumns(5);
         precio1TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
+        precio1TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                precio1TxtFieldMouseClicked(evt);
+            }
+        });
         precio1TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 precio1TxtFieldKeyReleased(evt);
@@ -441,6 +488,7 @@ public class CrearFacturaView extends javax.swing.JPanel {
         conceptosPanel.add(precio1TxtField, gridBagConstraints);
 
         totalImporte1TxtField.setEditable(false);
+        totalImporte1TxtField.setColumns(8);
         totalImporte1TxtField.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -448,6 +496,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(totalImporte1TxtField, gridBagConstraints);
+
+        concepto2TxtField.setColumns(23);
+        concepto2TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                concepto2TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -455,7 +510,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(concepto2TxtField, gridBagConstraints);
 
+        cantidad2TxtField.setColumns(6);
         cantidad2TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
+        cantidad2TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cantidad2TxtFieldMouseClicked(evt);
+            }
+        });
         cantidad2TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 cantidad2TxtFieldKeyReleased(evt);
@@ -468,7 +529,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(cantidad2TxtField, gridBagConstraints);
 
+        precio2TxtField.setColumns(5);
         precio2TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
+        precio2TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                precio2TxtFieldMouseClicked(evt);
+            }
+        });
         precio2TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 precio2TxtFieldKeyReleased(evt);
@@ -482,6 +549,7 @@ public class CrearFacturaView extends javax.swing.JPanel {
         conceptosPanel.add(precio2TxtField, gridBagConstraints);
 
         totalImporte2TxtField.setEditable(false);
+        totalImporte2TxtField.setColumns(8);
         totalImporte2TxtField.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -489,6 +557,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(totalImporte2TxtField, gridBagConstraints);
+
+        concepto3TxtField.setColumns(23);
+        concepto3TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                concepto3TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -496,7 +571,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(concepto3TxtField, gridBagConstraints);
 
+        cantidad3TxtField.setColumns(6);
         cantidad3TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
+        cantidad3TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cantidad3TxtFieldMouseClicked(evt);
+            }
+        });
         cantidad3TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 cantidad3TxtFieldKeyReleased(evt);
@@ -509,7 +590,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(cantidad3TxtField, gridBagConstraints);
 
+        precio3TxtField.setColumns(5);
         precio3TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
+        precio3TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                precio3TxtFieldMouseClicked(evt);
+            }
+        });
         precio3TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 precio3TxtFieldKeyReleased(evt);
@@ -523,6 +610,7 @@ public class CrearFacturaView extends javax.swing.JPanel {
         conceptosPanel.add(precio3TxtField, gridBagConstraints);
 
         totalImporte3TxtField.setEditable(false);
+        totalImporte3TxtField.setColumns(8);
         totalImporte3TxtField.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -530,6 +618,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(totalImporte3TxtField, gridBagConstraints);
+
+        concepto4TxtField.setColumns(23);
+        concepto4TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                concepto4TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -537,7 +632,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(concepto4TxtField, gridBagConstraints);
 
+        cantidad4TxtField.setColumns(6);
         cantidad4TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
+        cantidad4TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cantidad4TxtFieldMouseClicked(evt);
+            }
+        });
         cantidad4TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 cantidad4TxtFieldKeyReleased(evt);
@@ -550,7 +651,13 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(cantidad4TxtField, gridBagConstraints);
 
+        precio4TxtField.setColumns(5);
         precio4TxtField.setToolTipText("El formato ha de ser un número (entero o decimal) que no contenga espacios ni letras.");
+        precio4TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                precio4TxtFieldMouseClicked(evt);
+            }
+        });
         precio4TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 precio4TxtFieldKeyReleased(evt);
@@ -564,6 +671,7 @@ public class CrearFacturaView extends javax.swing.JPanel {
         conceptosPanel.add(precio4TxtField, gridBagConstraints);
 
         totalImporte4TxtField.setEditable(false);
+        totalImporte4TxtField.setColumns(8);
         totalImporte4TxtField.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -581,24 +689,52 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         conceptosPanel.add(idiomaOrigenTituloLabel, gridBagConstraints);
+
+        idiomaOrigen1TxtField.setColumns(3);
+        idiomaOrigen1TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                idiomaOrigen1TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(idiomaOrigen1TxtField, gridBagConstraints);
+
+        idiomaOrigen2TxtField.setColumns(3);
+        idiomaOrigen2TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                idiomaOrigen2TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(idiomaOrigen2TxtField, gridBagConstraints);
+
+        idiomaOrigen3TxtField.setColumns(3);
+        idiomaOrigen3TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                idiomaOrigen3TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(idiomaOrigen3TxtField, gridBagConstraints);
+
+        idiomaOrigen4TxtField.setColumns(3);
+        idiomaOrigen4TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                idiomaOrigen4TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -616,25 +752,52 @@ public class CrearFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         conceptosPanel.add(idiomaDestinoTituloLabel, gridBagConstraints);
 
+        idiomaDestino1TxtField.setColumns(3);
         idiomaDestino1TxtField.setToolTipText("");
+        idiomaDestino1TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                idiomaDestino1TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(idiomaDestino1TxtField, gridBagConstraints);
+
+        idiomaDestino2TxtField.setColumns(3);
+        idiomaDestino2TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                idiomaDestino2TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(idiomaDestino2TxtField, gridBagConstraints);
+
+        idiomaDestino3TxtField.setColumns(3);
+        idiomaDestino3TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                idiomaDestino3TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
         conceptosPanel.add(idiomaDestino3TxtField, gridBagConstraints);
+
+        idiomaDestino4TxtField.setColumns(3);
+        idiomaDestino4TxtField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                idiomaDestino4TxtFieldMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -653,6 +816,11 @@ public class CrearFacturaView extends javax.swing.JPanel {
         conceptosPanel.add(TipoTituloLabel, gridBagConstraints);
 
         item1ComboBox.setModel(new DefaultComboBoxModel(controller.TIPOS_UNIDAD));
+        item1ComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                item1ComboBoxMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
@@ -661,6 +829,11 @@ public class CrearFacturaView extends javax.swing.JPanel {
         conceptosPanel.add(item1ComboBox, gridBagConstraints);
 
         item2ComboBox.setModel(new DefaultComboBoxModel(controller.TIPOS_UNIDAD));
+        item2ComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                item2ComboBoxMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
@@ -669,6 +842,11 @@ public class CrearFacturaView extends javax.swing.JPanel {
         conceptosPanel.add(item2ComboBox, gridBagConstraints);
 
         item3ComboBox.setModel(new DefaultComboBoxModel(controller.TIPOS_UNIDAD));
+        item3ComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                item3ComboBoxMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 3;
@@ -677,6 +855,11 @@ public class CrearFacturaView extends javax.swing.JPanel {
         conceptosPanel.add(item3ComboBox, gridBagConstraints);
 
         item4ComboBox.setModel(new DefaultComboBoxModel(controller.TIPOS_UNIDAD));
+        item4ComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                item4ComboBoxMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 4;
@@ -686,77 +869,82 @@ public class CrearFacturaView extends javax.swing.JPanel {
 
         facturacionPanel1.add(conceptosPanel, java.awt.BorderLayout.CENTER);
 
-        buttonsPanel1.setLayout(new java.awt.GridLayout(1, 4, 10, 0));
+        buttonsPanel.setLayout(new java.awt.GridLayout(1, 4, 10, 0));
 
+        refrescarFacturaBtn.setBackground(new java.awt.Color(204, 204, 204));
+        refrescarFacturaBtn.setForeground(new java.awt.Color(0, 0, 0));
         refrescarFacturaBtn.setText("Nueva factura");
         refrescarFacturaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refrescarFacturaBtnActionPerformed(evt);
             }
         });
-        buttonsPanel1.add(refrescarFacturaBtn);
+        buttonsPanel.add(refrescarFacturaBtn);
 
+        verificarFichaBtn.setBackground(new java.awt.Color(255, 255, 204));
+        verificarFichaBtn.setForeground(new java.awt.Color(0, 0, 0));
         verificarFichaBtn.setText("Verificar");
         verificarFichaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 verificarFichaBtnActionPerformed(evt);
             }
         });
-        buttonsPanel1.add(verificarFichaBtn);
+        buttonsPanel.add(verificarFichaBtn);
 
-        previewFacturaBtn.setText("Preview Factura");
+        previewFacturaBtn.setText("Visualizar factura");
         previewFacturaBtn.setEnabled(false);
         previewFacturaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 previewFacturaBtnActionPerformed(evt);
             }
         });
-        buttonsPanel1.add(previewFacturaBtn);
+        buttonsPanel.add(previewFacturaBtn);
 
-        registrarFacturaBtn.setText("Registrar Factura");
+        registrarFacturaBtn.setText("Registrar factura");
         registrarFacturaBtn.setEnabled(false);
         registrarFacturaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registrarFacturaBtnActionPerformed(evt);
             }
         });
-        buttonsPanel1.add(registrarFacturaBtn);
+        buttonsPanel.add(registrarFacturaBtn);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 786, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(facturaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
-                            .addComponent(clientePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(facturacionPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(facturaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(clientePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(msgPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(facturacionPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(facturaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clientePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(msgPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(facturacionPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(buttonsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 812, Short.MAX_VALUE)
+            .addGap(0, 850, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -778,9 +966,9 @@ public class CrearFacturaView extends javax.swing.JPanel {
         controller.calculaFechaVencimiento(fechaEmisionTxtField, diasParaPagoTxtField, fechaVencimientoTxtField);
     }//GEN-LAST:event_diasParaPagoTxtFieldKeyReleased
 
-    private void nombreClienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreClienteSearchBtnActionPerformed
+    private void clienteSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteSearchBtnActionPerformed
         controller.abrirClienteLookupFrame();
-    }//GEN-LAST:event_nombreClienteSearchBtnActionPerformed
+    }//GEN-LAST:event_clienteSearchBtnActionPerformed
 
     private void cantidad1TxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidad1TxtFieldKeyReleased
         controller.calculaPrecioServicio(cantidad1TxtField, precio1TxtField, totalImporte1TxtField);
@@ -830,25 +1018,139 @@ public class CrearFacturaView extends javax.swing.JPanel {
         controller.reiniciarView();
     }//GEN-LAST:event_refrescarFacturaBtnActionPerformed
 
+    private void fechaEmisionTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaEmisionTxtFieldKeyPressed
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_fechaEmisionTxtFieldKeyPressed
+
+    private void diasParaPagoTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_diasParaPagoTxtFieldKeyPressed
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_diasParaPagoTxtFieldKeyPressed
+
+    private void formaPagoComboBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formaPagoComboBoxMouseClicked
+        controller.setDefaultBackground((JComboBox)evt.getSource());
+    }//GEN-LAST:event_formaPagoComboBoxMouseClicked
+
+    private void numeroFraTxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_numeroFraTxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_numeroFraTxtFieldMouseClicked
+
+    private void concepto1TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_concepto1TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_concepto1TxtFieldMouseClicked
+
+    private void idiomaOrigen1TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idiomaOrigen1TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_idiomaOrigen1TxtFieldMouseClicked
+
+    private void idiomaDestino1TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idiomaDestino1TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_idiomaDestino1TxtFieldMouseClicked
+
+    private void cantidad1TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cantidad1TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_cantidad1TxtFieldMouseClicked
+
+    private void precio1TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_precio1TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_precio1TxtFieldMouseClicked
+
+    private void item1ComboBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_item1ComboBoxMouseClicked
+        controller.setDefaultBackground((JComboBox)evt.getSource());
+    }//GEN-LAST:event_item1ComboBoxMouseClicked
+
+    private void concepto2TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_concepto2TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_concepto2TxtFieldMouseClicked
+
+    private void idiomaOrigen2TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idiomaOrigen2TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_idiomaOrigen2TxtFieldMouseClicked
+
+    private void idiomaDestino2TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idiomaDestino2TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_idiomaDestino2TxtFieldMouseClicked
+
+    private void cantidad2TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cantidad2TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_cantidad2TxtFieldMouseClicked
+
+    private void precio2TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_precio2TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_precio2TxtFieldMouseClicked
+
+    private void item2ComboBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_item2ComboBoxMouseClicked
+        controller.setDefaultBackground((JComboBox)evt.getSource());
+    }//GEN-LAST:event_item2ComboBoxMouseClicked
+
+    private void concepto3TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_concepto3TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_concepto3TxtFieldMouseClicked
+
+    private void idiomaOrigen3TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idiomaOrigen3TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_idiomaOrigen3TxtFieldMouseClicked
+
+    private void idiomaDestino3TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idiomaDestino3TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_idiomaDestino3TxtFieldMouseClicked
+
+    private void cantidad3TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cantidad3TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_cantidad3TxtFieldMouseClicked
+
+    private void precio3TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_precio3TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_precio3TxtFieldMouseClicked
+
+    private void item3ComboBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_item3ComboBoxMouseClicked
+        controller.setDefaultBackground((JComboBox)evt.getSource());
+    }//GEN-LAST:event_item3ComboBoxMouseClicked
+
+    private void concepto4TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_concepto4TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_concepto4TxtFieldMouseClicked
+
+    private void idiomaOrigen4TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idiomaOrigen4TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_idiomaOrigen4TxtFieldMouseClicked
+
+    private void idiomaDestino4TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idiomaDestino4TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_idiomaDestino4TxtFieldMouseClicked
+
+    private void cantidad4TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cantidad4TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_cantidad4TxtFieldMouseClicked
+
+    private void precio4TxtFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_precio4TxtFieldMouseClicked
+        controller.setDefaultBackground((JTextField)evt.getSource());
+    }//GEN-LAST:event_precio4TxtFieldMouseClicked
+
+    private void item4ComboBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_item4ComboBoxMouseClicked
+        controller.setDefaultBackground((JComboBox)evt.getSource());
+    }//GEN-LAST:event_item4ComboBoxMouseClicked
+
+    private void clienteEraseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteEraseBtnActionPerformed
+        controller.clearDatosCliente();
+    }//GEN-LAST:event_clienteEraseBtnActionPerformed
+
     private void numeroClienteTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroClienteTxtFieldKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            controller.recibeClienteLookup(((JTextField)evt.getSource()).getText());
-        } else {
-            controller.setDefaultBackground((JTextField)evt.getSource());
-        }
+        controller.toggleNumeroClienteEntered(evt);
     }//GEN-LAST:event_numeroClienteTxtFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TipoTituloLabel;
-    private javax.swing.JPanel buttonsPanel1;
+    public javax.swing.JPanel buttonsPanel;
     public javax.swing.JTextField cantidad1TxtField;
     public javax.swing.JTextField cantidad2TxtField;
     public javax.swing.JTextField cantidad3TxtField;
     public javax.swing.JTextField cantidad4TxtField;
     private javax.swing.JLabel cantidadTituloLabel;
+    public javax.swing.JButton clienteEraseBtn;
     public javax.swing.JPanel clienteInfoTxtFieldPanel;
-    public javax.swing.JPanel clientePanel1;
+    public javax.swing.JPanel clientePanel;
+    public javax.swing.JButton clienteSearchBtn;
     private javax.swing.JLabel clienteTitulolbl1;
     public javax.swing.JTextField codigoPostalClienteTxtField;
     private javax.swing.JLabel codigoPostalClientelbl1;
@@ -893,13 +1195,11 @@ public class CrearFacturaView extends javax.swing.JPanel {
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel6;
     public javax.swing.JPanel jPanel7;
-    public javax.swing.JPanel jPanel9;
     public javax.swing.JPanel msgContainerPanel1;
     public javax.swing.JLabel msgLbl;
     public javax.swing.JPanel msgPanel1;
     public javax.swing.JTextField nifClienteTxtField;
     private javax.swing.JLabel nifClientelbl1;
-    public javax.swing.JButton nombreClienteSearchBtn;
     public javax.swing.JTextField nombreClienteTxtField;
     private javax.swing.JLabel nombreClientelbl1;
     public javax.swing.JTextField numeroClienteTxtField;

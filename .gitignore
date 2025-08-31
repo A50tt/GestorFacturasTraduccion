@@ -3,6 +3,7 @@
 /src/main/resources/META-INF/clientes.json
 /src/main/resources/META-INF/emisor.json
 /src/main/resources/META-INF/facturas.json
+/src/main/application.log
 
 # NetBeans project files
 nbproject/

@@ -18,5 +18,15 @@
         "nif": "B12345678",
         "id": 2,
         "nombre": "sq"
+    },
+    {
+        "codigo_postal": "D4WQ89D4W",
+        "importado": false,
+        "ult_actualizacion": "2025-09-01 00:06:59.646",
+        "activado": true,
+        "direccion": "D4WQ98D489D74",
+        "nif": "X234567897948",
+        "id": 3,
+        "nombre": "878974WD94QD"
     }
 ]}

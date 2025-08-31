@@ -4,6 +4,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import jud.gestorfacturas.manager.PDFGenerator;
@@ -14,10 +15,14 @@ public class FrameUtils {
     private static final String[] RESPUESTAS_MSGBOX_CONTINUAR_CANCELAR = {"Continuar", "Cancelar"};
     private static final String[] RESPUESTAS_MSGBOX_SI_NO = {"Sí", "No"};
     public static final FlatSVGIcon REDO_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "redo_black_icon.svg"));
-    public static final FlatSVGIcon STANDBY_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "standby_status_icon.svg"));
+//    public static final FlatSVGIcon STANDBY_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "standby_status_icon.svg"));
+    public static final ImageIcon STANDBY_FLATSVGICON = new ImageIcon(PDFGenerator.IMAGES_DIRECTORY + "standby_status_icon.png");
     public static final FlatSVGIcon SEARCH_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "busqueda_black_icon.svg"));
-    public static final FlatSVGIcon OK_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ok_status_icon.svg"));
-    public static final FlatSVGIcon KO_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ko_status_icon.svg"));
+    public static final FlatSVGIcon ERASE_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "erase_icon.svg"));
+    public static final ImageIcon OK_FLATSVGICON = new ImageIcon(PDFGenerator.IMAGES_DIRECTORY + "ok_status_icon.png");
+//    public static final FlatSVGIcon OK_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ok_status_icon.svg"));
+    public static final ImageIcon KO_FLATSVGICON = new ImageIcon(PDFGenerator.IMAGES_DIRECTORY + "ko_status_icon.png");
+//    public static final FlatSVGIcon KO_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "ko_status_icon.svg"));
     public static final FlatSVGIcon CONFIG_FLATSVGICON = new FlatSVGIcon(new File(PDFGenerator.IMAGES_DIRECTORY + "config_icon.svg"));
 
     public static void centerViewOnScreen(JFrame view) {
@@ -33,6 +38,7 @@ public class FrameUtils {
 
     public static void showErrorMessage(String title, String msg) {
         showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
+//        DebugLogger.writeLog(ex.getStackTrace().toString());
     }
 
     public static void showInfoMessage(String title, String msg) {

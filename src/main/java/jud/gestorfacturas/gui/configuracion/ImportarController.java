@@ -22,6 +22,7 @@ import jud.gestorfacturas.model.Factura;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import utils.DebugLogger;
 import utils.FileUtils;
 import utils.FrameUtils;
 import utils.JSONUtils;
@@ -216,7 +217,7 @@ public class ImportarController implements Controller {
                 emisorToImport.setImportado(true);
                 bdEmisor.remove(bdEmisor.getFirst());
             } catch (JSONException ex) {
-                ex.getStackTrace();
+                DebugLogger.writeLog(ex.getMessage());
                 informeErrores.add("Error importando el fichero " + bdEmisor.getFirst().getAbsolutePath() + ". -> " + ex.getMessage());
             }
         }
@@ -234,13 +235,13 @@ public class ImportarController implements Controller {
                             tempCliente.setImportado(true);
                             jsonTempClients.add(tempCliente);
                         } catch (JSONException ex) {
-                            ex.getStackTrace();
+                            DebugLogger.writeLog(ex.getMessage());
                             correctImport = false;
                             informeErrores.add("Error importando el fichero " + clientesBdFile.getAbsolutePath() + ". -> " + ex.getMessage());
                         }
                     }
                 } catch (JSONException ex) {
-                    ex.getStackTrace();
+                    DebugLogger.writeLog(ex.getMessage());
                     correctImport = false;
                     informeErrores.add("Error importando el fichero " + clientesBdFile.getAbsolutePath() + ". -> " + ex.getMessage());
                 }
@@ -265,13 +266,13 @@ public class ImportarController implements Controller {
                             tempFactura.setImportado(true);
                             jsonTempFacturas.add(tempFactura);
                         } catch (JSONException ex) {
-                            ex.getStackTrace();
+                            DebugLogger.writeLog(ex.getMessage());
                             correctImport = false;
                             informeErrores.add("Error importando el fichero " + facturasBdFile.getAbsolutePath() + ". -> " + ex.getMessage());
                         }
                     }
                 } catch (JSONException ex) {
-                    ex.getStackTrace();
+                    DebugLogger.writeLog(ex.getMessage());
                     correctImport = false;
                     informeErrores.add("Error importando el fichero " + facturasBdFile.getAbsolutePath() + ". -> " + ex.getMessage());
                 }
@@ -338,7 +339,7 @@ public class ImportarController implements Controller {
     public void ejecutarImportacionGlobal() {
         if (!importarView.importacionesPendientesModel.isEmpty()) {
             if (checkJsonFilesIntegrityOrResetThem() == 0) { // El usuario no ha querido reparar un JSON dañado que estaba incluido, se aborta la importación.
-                int respuesta = FrameUtils.showQuestionBoxContinuarCancelar("Aviso importante", "Está seguro que quiere importar estos archivos? Esto sobreescribirá las base de datos en las que se aplique,\npor lo que se recomienda que se haga solo sobre una base de datos vacía.");
+                int respuesta = FrameUtils.showQuestionBoxContinuarCancelar("Aviso importante", "Está seguro que quiere importar estos archivos? Esto sobreescribirá las base de datos en las que se aplique, por lo que se recomienda que se haga solo sobre una base de datos vacía.");
                 if (respuesta == JOptionPane.OK_OPTION) {
                     loadFiles();
                     buildObjects();

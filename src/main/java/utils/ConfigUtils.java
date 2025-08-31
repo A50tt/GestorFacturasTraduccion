@@ -66,9 +66,11 @@ public class ConfigUtils {
             }
             props.store(out, null);
         } catch (FileNotFoundException ex) {
-            ex.getStackTrace();
+            DebugLogger.writeLog(ex.getStackTrace().toString());
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
         } catch (IOException ex) {
-            ex.getStackTrace();
+            DebugLogger.writeLog(ex.getStackTrace().toString());
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
         }
     }
     

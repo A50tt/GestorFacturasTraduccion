@@ -1,74 +1,121 @@
-{"facturas": [{
-    "fecha_vencimiento": "2025-10-27",
-    "base_imponible": 2187.5,
-    "ult_actualizacion": "2025-08-28 16:57:48.468",
-    "forma_pago": "Transferencia bancaria",
-    "num_factura": "2025-001",
-    "irpf": -153.13,
-    "tasa_irpf": 7,
-    "servicios": [
-        {
-            "descripcion": "Concepto 1",
-            "precio_unitario": 0.08,
-            "tipo": "Palabra",
-            "precio_final": 480,
-            "idioma_origen": "IDO1",
-            "cantidad": 6000,
-            "idioma_destino": "IDD1"
+{"facturas": [
+    {
+        "fecha_vencimiento": "2025-10-27",
+        "base_imponible": 2187.5,
+        "ult_actualizacion": "2025-08-28 16:57:48.468",
+        "forma_pago": "Transferencia bancaria",
+        "num_factura": "2025-001",
+        "irpf": -153.13,
+        "tasa_irpf": 7,
+        "servicios": [
+            {
+                "descripcion": "Concepto 1",
+                "precio_unitario": 0.08,
+                "tipo": "Palabra",
+                "precio_final": 480,
+                "idioma_origen": "IDO1",
+                "cantidad": 6000,
+                "idioma_destino": "IDD1"
+            },
+            {
+                "descripcion": "Concepto 2",
+                "precio_unitario": 0.07,
+                "tipo": "Hora",
+                "precio_final": 560,
+                "idioma_origen": "IDO2",
+                "cantidad": 8000,
+                "idioma_destino": "IDD2"
+            },
+            {
+                "descripcion": "Concepto 3",
+                "precio_unitario": 0.075,
+                "tipo": "Minuto",
+                "precio_final": 562.5,
+                "idioma_origen": "IDO3",
+                "cantidad": 7500,
+                "idioma_destino": "IDD3"
+            },
+            {
+                "descripcion": "Concepto 4",
+                "precio_unitario": 0.09,
+                "tipo": "Clip",
+                "precio_final": 585,
+                "idioma_origen": "IDO4",
+                "cantidad": 6500,
+                "idioma_destino": "IDD4"
+            }
+        ],
+        "cliente": {
+            "codigo_postal": "",
+            "importado": false,
+            "ult_actualizacion": "2025-08-28 16:55:34.615",
+            "activado": true,
+            "direccion": "Dirección Cliente 1",
+            "nif": "B12346578",
+            "id": 1,
+            "nombre": "Nombre Cliente 1"
         },
-        {
-            "descripcion": "Concepto 2",
-            "precio_unitario": 0.07,
-            "tipo": "Hora",
-            "precio_final": 560,
-            "idioma_origen": "IDO2",
-            "cantidad": 8000,
-            "idioma_destino": "IDD2"
-        },
-        {
-            "descripcion": "Concepto 3",
-            "precio_unitario": 0.075,
-            "tipo": "Minuto",
-            "precio_final": 562.5,
-            "idioma_origen": "IDO3",
-            "cantidad": 7500,
-            "idioma_destino": "IDD3"
-        },
-        {
-            "descripcion": "Concepto 4",
-            "precio_unitario": 0.09,
-            "tipo": "Clip",
-            "precio_final": 585,
-            "idioma_origen": "IDO4",
-            "cantidad": 6500,
-            "idioma_destino": "IDD4"
+        "importe_total": 2493.75,
+        "tasa_iva": 21,
+        "iva": 459.38,
+        "importado": false,
+        "fecha_emision": "2025-08-28",
+        "ruta_pdf": "2025-001.pdf",
+        "dias_pago": 60,
+        "emisor": {
+            "nombre_completo": "Nombre propio completo",
+            "codigo_postal": "",
+            "importado": false,
+            "ult_actualizacion": "2025-08-28 16:57:39.964",
+            "iban": "ES42 0515 5467 4564 7654 1234",
+            "direccion": "Dirección propia",
+            "nif": "A12345678",
+            "nombre": "Nombre propio"
         }
-    ],
-    "cliente": {
-        "codigo_postal": "",
-        "importado": false,
-        "ult_actualizacion": "2025-08-28 16:55:34.615",
-        "activado": true,
-        "direccion": "Dirección Cliente 1",
-        "nif": "B12346578",
-        "id": 1,
-        "nombre": "Nombre Cliente 1"
     },
-    "importe_total": 2493.75,
-    "tasa_iva": 21,
-    "iva": 459.38,
-    "importado": false,
-    "fecha_emision": "2025-08-28",
-    "ruta_pdf": "2025-001.pdf",
-    "dias_pago": 60,
-    "emisor": {
-        "nombre_completo": "Nombre propio completo",
-        "codigo_postal": "",
+    {
+        "fecha_vencimiento": "2025-09-11",
+        "base_imponible": 1,
+        "ult_actualizacion": "2025-08-31 22:48:34.469",
+        "forma_pago": "Cheque",
+        "num_factura": "2025-002",
+        "irpf": -0.07,
+        "tasa_irpf": 7,
+        "servicios": [{
+            "descripcion": "11",
+            "precio_unitario": 1,
+            "tipo": "Clip",
+            "precio_final": 1,
+            "idioma_origen": "1",
+            "cantidad": 1,
+            "idioma_destino": "1"
+        }],
+        "cliente": {
+            "codigo_postal": "60529",
+            "importado": false,
+            "ult_actualizacion": "2025-08-28 20:10:19.446",
+            "activado": true,
+            "direccion": "Dirección Cliente 1",
+            "nif": "B12346578",
+            "id": 1,
+            "nombre": "Nombre Cliente 1"
+        },
+        "importe_total": 1.14,
+        "tasa_iva": 21,
+        "iva": 0.21,
         "importado": false,
-        "ult_actualizacion": "2025-08-28 16:57:39.964",
-        "iban": "ES42 0515 5467 4564 7654 1234",
-        "direccion": "Dirección propia",
-        "nif": "A12345678",
-        "nombre": "Nombre propio"
+        "fecha_emision": "2025-08-31",
+        "ruta_pdf": "2025-002.pdf",
+        "dias_pago": 11,
+        "emisor": {
+            "nombre_completo": "Nombre propio completo",
+            "codigo_postal": "",
+            "importado": false,
+            "ult_actualizacion": "2025-08-28 20:07:57.907",
+            "iban": "ES42 0515 5467 4564 7654 1234",
+            "direccion": "Dirección propia",
+            "nif": "A12345678",
+            "nombre": "Nombre propio"
+        }
     }
-}]}
+]}

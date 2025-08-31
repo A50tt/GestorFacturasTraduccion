@@ -37,7 +37,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="1" pref="563" max="32767" attributes="0"/>
+          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -100,7 +100,6 @@
                   <Dimension value="null"/>
                 </Property>
                 <Property name="showGrid" type="boolean" value="true"/>
-                <Property name="showHorizontalLines" type="boolean" value="true"/>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
@@ -193,7 +192,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/img/question_mark.png"/>
                     </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&#xb7; Si la opci&#xf3;n no est&#xe1; marcada, la b&#xfa;squeda es sensible a may&#xfa;sculas y min&#xfa;sculas.&lt;br&gt;&#xa;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Buscar por el texto &lt;b&gt;nombre&lt;/b&gt; NO encontrar&#xed;a el resultado &lt;b&gt;Nombre&lt;/b&gt;.&lt;br&gt;&#xa;&#xb7; Se puede utilizar el s&#xed;mbolo &lt;b&gt; * &lt;/b&gt; como car&#xe1;cter comod&#xed;n.&lt;br&gt;&#xa;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Por ejemplo, &lt;b&gt;*bc*&lt;/b&gt; encontrar&#xed;a el texto &lt;b&gt;abcd&lt;/b&gt;.&lt;br&gt;&#xa;&#xb7; Tratando con cifras, es posible usar los comparadores &lt;b&gt;&amp;lt&lt;/b&gt;, &lt;b&gt;&amp;gt;&lt;/b&gt;, &lt;b&gt;&amp;lt=&lt;/b&gt;, &lt;b&gt;&amp;gt;=&lt;/b&gt;.&lt;br&gt;&#xa;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; La b&#xfa;squeda &lt;b&gt;&amp;gt;=300&lt;/b&gt; encontrar&#xed;a las cifras &lt;b&gt;mayores o igual a 300&lt;/b&gt;.&lt;br&gt;&#xa;&lt;/html&gt;"/>
+                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&#xb7; Si la opci&#xf3;n no est&#xe1; marcada, la b&#xfa;squeda es sensible a may&#xfa;sculas y min&#xfa;sculas.&lt;br&gt;&#xa;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Buscar por el texto &lt;b&gt;nombre&lt;/b&gt; NO encontrar&#xed;a el resultado &lt;b&gt;Nombre&lt;/b&gt;.&lt;br&gt;&#xa;&#xb7; Se puede utilizar el s&#xed;mbolo &lt;b&gt; * &lt;/b&gt; como car&#xe1;cter comod&#xed;n.&lt;br&gt;&#xa;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Por ejemplo, &lt;b&gt;*bc*&lt;/b&gt; encontrar&#xed;a el texto &lt;b&gt;abcd&lt;/b&gt;.&lt;br&gt;&#xa;&#xb7; Tratando con cifras, es posible usar los comparadores &lt;b&gt;&amp;lt&lt;/b&gt;, &lt;b&gt;&amp;gt;&lt;/b&gt;, &lt;b&gt;&amp;lt=&lt;/b&gt;, &lt;b&gt;&amp;gt;=&lt;/b&gt;.&lt;br&gt;&#xa;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; La b&#xfa;squeda &lt;b&gt;&amp;gt;=300&lt;/b&gt; encontrar&#xed;a las cifras &lt;b&gt;mayores o igual a 300,00&lt;/b&gt;.&lt;br&gt;&#xa;&lt;/html&gt;"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>
                     </Property>

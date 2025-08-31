@@ -34,7 +34,8 @@ public class JSONUtils {
                     String jsonText = "{}";
                     file.write(jsonText);
                 } catch (IOException ex) {
-                    ex.getStackTrace();
+                    DebugLogger.writeLog(ex.getStackTrace().toString());
+                    FrameUtils.showErrorMessage("Error", ex.getMessage());
                 }
             } else {
                 return -1;
@@ -48,7 +49,8 @@ public class JSONUtils {
                     String jsonText = "{\"" + jsonObjNames[1] + "\":[]}";
                     file.write(jsonText);
                 } catch (IOException ex) {
-                    ex.getStackTrace();
+                    DebugLogger.writeLog(ex.getStackTrace().toString());
+                    FrameUtils.showErrorMessage("Error", ex.getMessage());
                 }
             } else {
                 return -1;
@@ -61,7 +63,8 @@ public class JSONUtils {
                     String jsonText = "{\"" + jsonObjNames[2] + "\":[]}";
                     file.write(jsonText);
                 } catch (IOException ex) {
-                    ex.getStackTrace();
+                    DebugLogger.writeLog(ex.getStackTrace().toString());
+                    FrameUtils.showErrorMessage("Error", ex.getMessage());
                 }
             } else {
                 return -1;
@@ -127,7 +130,8 @@ public class JSONUtils {
             FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         } catch (JSONException ex) {
-            ex.getStackTrace();
+            DebugLogger.writeLog(ex.getStackTrace().toString());
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         }
     }
@@ -157,7 +161,8 @@ public class JSONUtils {
             FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         } catch (JSONException ex) {
-            ex.getStackTrace();
+            DebugLogger.writeLog(ex.getStackTrace().toString());
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         }
     }
@@ -437,7 +442,8 @@ public class JSONUtils {
                 return null;
             }
         } catch (IOException ex) {
-            ex.getStackTrace();
+            DebugLogger.writeLog(ex.getStackTrace().toString());
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         }
     }
@@ -612,7 +618,8 @@ public class JSONUtils {
             }
             return listaFacturasFiltradas.isEmpty() ? null : listaFacturasFiltradas;
         } catch (Exception ex) {
-            ex.getStackTrace();
+            DebugLogger.writeLog(ex.getStackTrace().toString());
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         }
     }

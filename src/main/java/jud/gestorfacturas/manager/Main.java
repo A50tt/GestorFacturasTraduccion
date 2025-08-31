@@ -4,10 +4,11 @@ import com.formdev.flatlaf.FlatLightLaf;
 import utils.FrameUtils;
 import javax.persistence.PersistenceException;
 import jud.gestorfacturas.gui.MainContainerController;
+import utils.DebugLogger;
 
 public class Main {
     
-    // automatiza pulsa enter y que traiga el cliente con el id
+    // NEUVA FACTURA NO REINICIAR EL CLIENTE
     // testea theme dark en nueva factura
     
     //TODO Testear entrada en vacío

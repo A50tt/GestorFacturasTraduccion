@@ -7,6 +7,8 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -15,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -30,6 +33,7 @@ import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Servicio;
 import utils.FrameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import utils.DebugLogger;
 import utils.JSONUtils;
 
 public class CrearFacturaController implements Controller, DataListenerController {
@@ -40,7 +44,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
     public String finalViewName;
 
     public Color defaultBackgroundTxtBoxColor = Color.white;
-    public Color clienteBackgroundTxtBoxColor = Color.white;
+    public Color clienteBackgroundTxtBoxColor = Color.gray;
     public final Color ERROR_BG_COLOR = Color.red;
     public final Color BLOCKED_STATE_BTN_COLOR = Color.orange;
     public Color freeStateBtnColor = Color.white;
@@ -60,7 +64,10 @@ public class CrearFacturaController implements Controller, DataListenerControlle
     private JComboBox formaPagoComboBox;
 
     private JPanel clienteInfoTxtFieldPanel;
-    private JButton nombreClienteSearchBtn;
+    private JPanel datosClientePanel;
+
+    private JButton clienteSearchBtn;
+    private JButton clienteEraseBtn;
     private JTextField numeroClienteTxtField;
     private JTextField nombreClienteTxtField;
     private JTextField nifClienteTxtField;
@@ -101,6 +108,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
     private JComboBox item4ComboBox;
     private JTextField totalImporte4TxtField;
 
+    private JPanel buttonsPanel;
     private JButton verificarFichaBtn;
     private JButton previewFacturaBtn;
     private JButton registrarFacturaBtn;
@@ -127,10 +135,13 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         diasParaPagoTxtField = facturaView.diasParaPagoTxtField;
         fechaVencimientoTxtField = facturaView.fechaVencimientoTxtField;
         formaPagoComboBox = facturaView.formaPagoComboBox;
-
+        
+        datosClientePanel = facturaView.datosClientePanel;
         clienteInfoTxtFieldPanel = facturaView.clienteInfoTxtFieldPanel;
-        nombreClienteSearchBtn = facturaView.nombreClienteSearchBtn;
-        nombreClienteSearchBtn.setIcon(FrameUtils.SEARCH_FLATSVGICON);
+        clienteSearchBtn = facturaView.clienteSearchBtn;
+        clienteSearchBtn.setIcon(FrameUtils.SEARCH_FLATSVGICON);
+        clienteEraseBtn = facturaView.clienteEraseBtn;
+        clienteEraseBtn.setIcon(FrameUtils.ERASE_FLATSVGICON);
         numeroClienteTxtField = facturaView.numeroClienteTxtField;
         nombreClienteTxtField = facturaView.nombreClienteTxtField;
         clienteBackgroundTxtBoxColor = nombreClienteTxtField.getBackground();
@@ -174,6 +185,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         item4ComboBox = facturaView.item4ComboBox;
         totalImporte4TxtField = facturaView.totalImporte4TxtField;
 
+        buttonsPanel = facturaView.buttonsPanel;
         verificarFichaBtn = facturaView.verificarFichaBtn;
         freeStateBtnColor = verificarFichaBtn.getBackground();
         previewFacturaBtn = facturaView.previewFacturaBtn;
@@ -186,18 +198,24 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         if (comp instanceof JPanel) {
             for (Component newComp : ((JPanel) comp).getComponents()) {
                 switch (newComp) {
-//                    case JTextField txtField:
-//                        txtField.setBackground(defaultBackgroundTxtBoxColor);
-//                        break;
                     case JPanel jPanel:
-                        if (jPanel != clienteInfoTxtFieldPanel) {
+                        // No toques los btns de este panel, los background deben ser siempre esos colores.
+                        if (jPanel != datosClientePanel && jPanel != buttonsPanel) {
                             setDefaultBackgroundToAllComponents(jPanel);
-                        } else {
-                            setDefaultBackground(numeroClienteTxtField);
                         }
                         break;
                     default:
-                        newComp.setBackground(defaultBackgroundTxtBoxColor);
+                        if (newComp == fechaVencimientoTxtField
+                                || newComp == totalImporte1TxtField
+                                || newComp == totalImporte2TxtField
+                                || newComp == totalImporte3TxtField
+                                || newComp == totalImporte4TxtField) {
+                            ((JTextField)newComp).setEditable(true);
+                            newComp.setBackground(defaultBackgroundTxtBoxColor);
+                            ((JTextField)newComp).setEditable(false);
+                        } else {
+                            newComp.setBackground(defaultBackgroundTxtBoxColor);
+                        }
                         break;
                 }
             }
@@ -249,7 +267,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         fechaVencimientoTxtField.setText("");
         formaPagoComboBox.setSelectedIndex(0);
 
-        nombreClienteSearchBtn.setEnabled(false);
+        clienteSearchBtn.setEnabled(false);
         numeroClienteTxtField.setText("");
         nombreClienteTxtField.setText("");
         nifClienteTxtField.setText("");
@@ -299,12 +317,9 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         diasParaPagoTxtField.setEditable(false);
         formaPagoComboBox.setEnabled(false);
 
-        nombreClienteSearchBtn.setEnabled(false);
-        numeroClienteTxtField.setEditable(false);
-        nombreClienteTxtField.setEditable(false);
-        nifClienteTxtField.setEditable(false);
-        direccionClienteTxtField.setEditable(false);
-        codigoPostalClienteTxtField.setEditable(false);
+        clienteSearchBtn.setEnabled(false);
+        clienteEraseBtn.setEnabled(false);
+//        numeroClienteTxtField.setEditable(false);
 
         concepto1TxtField.setEditable(false);
         idiomaOrigen1TxtField.setEditable(false);
@@ -344,8 +359,8 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         diasParaPagoTxtField.setEditable(true);
         formaPagoComboBox.setEnabled(true);
 
-        nombreClienteSearchBtn.setEnabled(true);
-        numeroClienteTxtField.setEditable(true);
+        clienteSearchBtn.setEnabled(true);
+        clienteEraseBtn.setEnabled(true);
 
         concepto1TxtField.setEditable(true);
         idiomaOrigen1TxtField.setEditable(true);
@@ -377,6 +392,16 @@ public class CrearFacturaController implements Controller, DataListenerControlle
 
         previewFacturaBtn.setEnabled(false);
         registrarFacturaBtn.setEnabled(false);
+    }
+    
+    public void toggleNumeroClienteEntered(KeyEvent evt) {
+        if (numeroClienteTxtField.isEditable()) {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                recibeClienteLookup(numeroClienteTxtField.getText());
+            } else {
+                setDefaultBackground(numeroClienteTxtField);
+            }
+        }
     }
 
     public Factura extraeFactura() {
@@ -420,11 +445,12 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         try {
             File file = File.createTempFile("invoice_" + factura.getNumFactura(), ".pdf");
             PDFGenerator pdfGen = new PDFGenerator(file.getName());
-            PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file);
+            PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file, false);
             pdDoc.save(file);
             return file;
         } catch (IOException ex) {
-            Logger.getLogger(CrearFacturaController.class.getName()).log(Level.SEVERE, null, ex);
+            DebugLogger.writeLog(ex.getStackTrace().toString());
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         }
     }
@@ -432,12 +458,13 @@ public class CrearFacturaController implements Controller, DataListenerControlle
     public File guardaFacturaPdf(Factura factura) {
         File file = new File(PDFGenerator.INVOICES_DIRECTORY + factura.getNumFactura() + ".pdf");
         PDFGenerator pdfGen = new PDFGenerator(file);
-        PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file);
+        PDDocument pdDoc = pdfGen.generaPDDocumentFactura(factura, file, true);
         try {
             pdDoc.save(file);
             return file;
         } catch (IOException ex) {
-            ex.getStackTrace();
+            DebugLogger.writeLog(ex.getStackTrace().toString());
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
             return null;
         }
     }
@@ -449,10 +476,8 @@ public class CrearFacturaController implements Controller, DataListenerControlle
             }
             Desktop.getDesktop().open(file);
         } catch (IOException ex1) {
-            Logger.getLogger(CrearFacturaController.class.getName()).log(Level.SEVERE, null, ex1);
             FrameUtils.showErrorMessage("ERROR", ex1 + ": La factura " + file.getName() + " no se ha podido encontrar.");
         } catch (NullPointerException ex2) {
-            Logger.getLogger(CrearFacturaController.class.getName()).log(Level.SEVERE, null, ex2);
             FrameUtils.showErrorMessage("ERROR", ex2 + ": La factura no se ha podido encontrar.");
         }
     }
@@ -526,23 +551,27 @@ public class CrearFacturaController implements Controller, DataListenerControlle
             isCorrect = false;
             setErrorBackground(numeroClienteTxtField);
         } else {
-            setDefaultBackground(numeroClienteTxtField);
+            setDefaultClienteBackground(numeroClienteTxtField);
+            
+            
         }
 
         //NOMBRE CLIENTE
         if (nombreClienteTxtField.getText().isBlank()) {
             isCorrect = false;
+            setErrorBackground(nombreClienteTxtField);
             setErrorBackground(numeroClienteTxtField);
         } else {
-            setDefaultBackground(numeroClienteTxtField);
+            setDefaultClienteBackground(nombreClienteTxtField);
         }
 
         //NIF
         if (nifClienteTxtField.getText().isBlank()) {
             isCorrect = false;
+            setErrorBackground(nifClienteTxtField);
             setErrorBackground(numeroClienteTxtField);
         } else {
-            setDefaultBackground(numeroClienteTxtField);
+            setDefaultClienteBackground(nifClienteTxtField);
             nifClienteTxtField.setText(nifClienteTxtField.getText().toUpperCase());
         }
 
@@ -619,15 +648,18 @@ public class CrearFacturaController implements Controller, DataListenerControlle
     }
 
     public void setOKStatus() {
-        setSVGIcon(msgLbl, FrameUtils.OK_FLATSVGICON);
+        setIcon(msgLbl, FrameUtils.OK_FLATSVGICON);
+//        setSVGIcon(msgLbl, FrameUtils.OK_FLATSVGICON);
     }
 
     public void setKOStatus() {
-        setSVGIcon(msgLbl, FrameUtils.KO_FLATSVGICON);
+        setIcon(msgLbl, FrameUtils.KO_FLATSVGICON);
+//        setSVGIcon(msgLbl, FrameUtils.KO_FLATSVGICON);
     }
 
     public void setStandbyStatus() {
-        setSVGIcon(msgLbl, FrameUtils.STANDBY_FLATSVGICON);
+        setIcon(msgLbl, FrameUtils.STANDBY_FLATSVGICON);
+//        setSVGIcon(msgLbl, FrameUtils.STANDBY_FLATSVGICON);
     }
 
     public void setDisabledBackground(JComponent comp) {
@@ -640,11 +672,34 @@ public class CrearFacturaController implements Controller, DataListenerControlle
 
     public void setDefaultBackground(JComponent comp) {
         ((JComponent) comp).setBackground(defaultBackgroundTxtBoxColor);
+        actualizaStatusFicha(0);
     }
 
-    public void setSVGIcon(javax.swing.JLabel label, FlatSVGIcon icon) {
-        label.setIcon(icon);
+    public void setDefaultClienteBackground(JComponent comp) {
+        ((JComponent) comp).setBackground(clienteBackgroundTxtBoxColor);
+        actualizaStatusFicha(0);
     }
+
+    public void setDefaultBackgroundToCamposCliente() {
+        numeroClienteTxtField.setBackground(defaultBackgroundTxtBoxColor);
+        nifClienteTxtField.setBackground(clienteBackgroundTxtBoxColor);
+        nombreClienteTxtField.setBackground(clienteBackgroundTxtBoxColor);
+        direccionClienteTxtField.setBackground(clienteBackgroundTxtBoxColor);
+        codigoPostalClienteTxtField.setBackground(clienteBackgroundTxtBoxColor);
+        actualizaStatusFicha(0);
+    }
+    
+    public void setIcon(JLabel label, ImageIcon icon) {
+        Image scaledImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        label.setIcon(scaledIcon);
+    }
+
+//    public void setSVGIcon(javax.swing.JLabel label, FlatSVGIcon icon) {
+//        label.setIcon(icon);
+//        String path = java.nio.file.Paths.get(PDFGenerator.IMAGES_DIRECTORY, "ok_status_icon.svg").toString();
+//        System.out.println("SVG path: " + path + ", exists: " + new File(path).exists());
+//    }
 
     public void setSVGIcon(javax.swing.JButton button, File icon) {
         button.setIcon(new FlatSVGIcon(icon));
@@ -717,13 +772,14 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         // Si está verificando los datos introducidos...
         if (fichaEsCorrecta == 0) {
             boolean verificacion = verificaEntradaDatos();
-            verificarFichaBtn.setBackground(BLOCKED_STATE_BTN_COLOR);
             fichaEsCorrecta = verificacion == true ? 1 : -1;
             if (fichaEsCorrecta == 1) {
                 actualizaStatusFicha(1);
                 disableAllEditables();
+                verificarFichaBtn.setBackground(BLOCKED_STATE_BTN_COLOR);
             } else if (fichaEsCorrecta == -1) {
                 actualizaStatusFicha(-1);
+                enableAllEditables();
             }
         } else { // Está retrocediendo la verificación para modificar datos.
             actualizaStatusFicha(0);
@@ -739,28 +795,32 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         codigoPostalClienteTxtField.setText(codigoPostal);
     }
 
-    public void cargaDatosDeNumeroCliente() {
+    public int cargaDatosDeNumeroCliente() {
         try {
         Cliente cliente = JSONUtils.getClienteById(Integer.parseInt(numeroClienteTxtField.getText()));
             if (cliente != null) {
                 if (cliente.isActivado()) {
                     if (cliente != null && cliente.getNif() != null) {
                         setCamposCliente(cliente.getNif(), cliente.getNombre(), cliente.getDireccion(), cliente.getCodigoPostal());
+                        return 1;
                     } else {
                         FrameUtils.showErrorMessage("Error", "El numero de cliente '" + numeroClienteTxtField.getText() + "' no existe.");
-
+                        return -1;
                     }
                 } else {
                     FrameUtils.showErrorMessage("Cliente desactivado", "El cliente no se puede utilizar porque está desactivado. Para activarlo, se ha de modificar desde '" + ModificarClienteController.VIEW_NAME + "'.");
                     clearDatosCliente();
+                    return -1;
                 }
             } else {
                 FrameUtils.showErrorMessage("Cliente no encontrado", "El cliente '" + numeroClienteTxtField.getText() + "' no se ha encontrado en la base de datos.");
                 clearDatosCliente();
+                return -1;
             }
         } catch (NumberFormatException ex) {
-            ex.getStackTrace();
-            return;
+            DebugLogger.writeLog(ex.getStackTrace().toString());
+            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            return -1;
         }
     }
 
@@ -780,17 +840,28 @@ public class CrearFacturaController implements Controller, DataListenerControlle
 
     public void clearDatosCliente() {
         numeroClienteTxtField.setText("");
+        numeroClienteTxtField.setEnabled(true);
+        numeroClienteTxtField.setEditable(true);
         nifClienteTxtField.setText("");
         nombreClienteTxtField.setText("");
         direccionClienteTxtField.setText("");
         codigoPostalClienteTxtField.setText("");
+        clienteEraseBtn.setEnabled(true);
+        setDefaultBackgroundToCamposCliente();
     }
 
     @Override
     public void recibeClienteLookup(String id) {
         clearDatosCliente();
         numeroClienteTxtField.setText(String.valueOf(id));
-        cargaDatosDeNumeroCliente();
+        if (cargaDatosDeNumeroCliente() == 1) {
+            //numeroClienteTxtField.setEnabled(false);
+            numeroClienteTxtField.setEditable(false);
+            setDefaultClienteBackground(numeroClienteTxtField);
+        } else {
+            //numeroClienteTxtField.setEnabled(true);
+            numeroClienteTxtField.setEditable(true);
+        }
     }
 
     public void abrirClienteLookupFrame() {

@@ -73,7 +73,6 @@ public class BuscarFacturaView extends javax.swing.JPanel {
         resultadosTable.setName(""); // NOI18N
         resultadosTable.setPreferredSize(null);
         resultadosTable.setShowGrid(true);
-        resultadosTable.setShowHorizontalLines(true);
         resultadosTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 resultadosTableMouseClicked(evt);
@@ -88,7 +87,7 @@ public class BuscarFacturaView extends javax.swing.JPanel {
         jPanel2.add(campoBusquedaComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, 160, 26));
 
         questionMarkImgLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/question_mark.png"))); // NOI18N
-        questionMarkImgLbl.setToolTipText("<html>\n· Si la opción no está marcada, la búsqueda es sensible a mayúsculas y minúsculas.<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Buscar por el texto <b>nombre</b> NO encontraría el resultado <b>Nombre</b>.<br>\n· Se puede utilizar el símbolo <b> * </b> como carácter comodín.<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Por ejemplo, <b>*bc*</b> encontraría el texto <b>abcd</b>.<br>\n· Tratando con cifras, es posible usar los comparadores <b>&lt</b>, <b>&gt;</b>, <b>&lt=</b>, <b>&gt;=</b>.<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La búsqueda <b>&gt;=300</b> encontraría las cifras <b>mayores o igual a 300</b>.<br>\n</html>");
+        questionMarkImgLbl.setToolTipText("<html>\n· Si la opción no está marcada, la búsqueda es sensible a mayúsculas y minúsculas.<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Buscar por el texto <b>nombre</b> NO encontraría el resultado <b>Nombre</b>.<br>\n· Se puede utilizar el símbolo <b> * </b> como carácter comodín.<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Por ejemplo, <b>*bc*</b> encontraría el texto <b>abcd</b>.<br>\n· Tratando con cifras, es posible usar los comparadores <b>&lt</b>, <b>&gt;</b>, <b>&lt=</b>, <b>&gt;=</b>.<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La búsqueda <b>&gt;=300</b> encontraría las cifras <b>mayores o igual a 300,00</b>.<br>\n</html>");
         questionMarkImgLbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         ignoreCaseCheckBox.setText("Ignorar mayúsculas y minúsculas");
@@ -150,7 +149,7 @@ public class BuscarFacturaView extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -1,7 +1,8 @@
 {
     "nombre_completo": "Nombre propio completo",
+    "codigo_postal": "",
     "importado": false,
-    "ult_actualizacion": "2025-08-28 20:07:57.907",
+    "ult_actualizacion": "2025-08-31 23:01:57.173",
     "iban": "ES42 0515 5467 4564 7654 1234",
     "direccion": "Dirección propia",
     "nif": "A12345678",

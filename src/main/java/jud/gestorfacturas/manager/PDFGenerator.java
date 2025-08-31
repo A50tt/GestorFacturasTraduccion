@@ -60,7 +60,7 @@ public final class PDFGenerator {
         }
     }
 
-    public PDDocument generaPDDocumentFactura(Factura factura, File path) {
+    public PDDocument generaPDDocumentFactura(Factura factura, File path, boolean facturaDefinitiva) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         try {
             document.addPage(page);
@@ -84,7 +84,11 @@ public final class PDFGenerator {
 
             //Encabezado datos factura
             contentStream.beginText();
+            if (facturaDefinitiva) {
             insertTextWithOffset("FACTURA", Standard14Fonts.FontName.HELVETICA_BOLD, 30, 380, 80);
+            } else {
+                insertTextWithOffset("FACTURA PRELIMINAR", Standard14Fonts.FontName.HELVETICA_BOLD, 18, 380, 80);
+            }
             insertNewLine();
             insertNewLine();
             insertText("N.º Factura: " + factura.getNumFactura(), Standard14Fonts.FontName.HELVETICA, 12);
@@ -217,7 +221,7 @@ public final class PDFGenerator {
             contentStream.endText();
             
             contentStream.beginText();
-            insertTextWithOffset(factura.getEmisor().getNombreCompleto(), Standard14Fonts.FontName.HELVETICA, 10, 150, 661);
+            insertTextWithOffset(factura.getEmisor().getNombreCompleto(), Standard14Fonts.FontName.HELVETICA, 10, 146, 660);
             insertNewLine();
             insertText(factura.getFormaPago(), Standard14Fonts.FontName.HELVETICA, 10);
             insertNewLine();
