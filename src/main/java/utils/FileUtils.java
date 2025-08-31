@@ -66,8 +66,7 @@ public class FileUtils {
             }
             Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
     }
 }

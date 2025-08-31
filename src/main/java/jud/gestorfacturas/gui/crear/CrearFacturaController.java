@@ -191,17 +191,17 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         previewFacturaBtn = facturaView.previewFacturaBtn;
         registrarFacturaBtn = facturaView.registrarFacturaBtn;
 
-        setDefaultBackgroundToAllComponents(jPanel);
+        setDefaultBackgroundGeneralComponents(jPanel);
     }
 
-    public void setDefaultBackgroundToAllComponents(Component comp) {
+    public void setDefaultBackgroundGeneralComponents(Component comp) {
         if (comp instanceof JPanel) {
             for (Component newComp : ((JPanel) comp).getComponents()) {
                 switch (newComp) {
                     case JPanel jPanel:
                         // No toques los btns de este panel, los background deben ser siempre esos colores.
                         if (jPanel != datosClientePanel && jPanel != buttonsPanel) {
-                            setDefaultBackgroundToAllComponents(jPanel);
+                            setDefaultBackgroundGeneralComponents(jPanel);
                         }
                         break;
                     default:
@@ -222,6 +222,11 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         } else {
             comp.setBackground(defaultBackgroundTxtBoxColor);
         }
+    }
+    
+    public void setDefaultBackgroundClientComponents() {
+        setDefaultBackground(numeroClienteTxtField);
+        setDefaultBackgroundToCamposCliente();
     }
 
     public void calculaFechaVencimiento(javax.swing.JTextField fechaEmision, javax.swing.JTextField diasSumar, javax.swing.JTextField fechaVencimiento) {
@@ -269,6 +274,9 @@ public class CrearFacturaController implements Controller, DataListenerControlle
 
         clienteSearchBtn.setEnabled(false);
         numeroClienteTxtField.setText("");
+        numeroClienteTxtField.setEditable(true);
+        numeroClienteTxtField.setEnabled(true);
+        setDefaultBackground(numeroClienteTxtField);
         nombreClienteTxtField.setText("");
         nifClienteTxtField.setText("");
         direccionClienteTxtField.setText("");
@@ -308,7 +316,8 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         
         actualizaStatusFicha(0);
         enableAllEditables();
-        setDefaultBackgroundToAllComponents(jPanel);        
+        setDefaultBackgroundGeneralComponents(jPanel);
+        setDefaultBackgroundClientComponents();
     }
 
     public void disableAllEditables() {
@@ -449,8 +458,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
             pdDoc.save(file);
             return file;
         } catch (IOException ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }
@@ -463,8 +471,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
             pdDoc.save(file);
             return file;
         } catch (IOException ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }
@@ -475,10 +482,10 @@ public class CrearFacturaController implements Controller, DataListenerControlle
                 throw new NullPointerException();
             }
             Desktop.getDesktop().open(file);
-        } catch (IOException ex1) {
-            FrameUtils.showErrorMessage("ERROR", ex1 + ": La factura " + file.getName() + " no se ha podido encontrar.");
-        } catch (NullPointerException ex2) {
-            FrameUtils.showErrorMessage("ERROR", ex2 + ": La factura no se ha podido encontrar.");
+        } catch (IOException ex) {
+            FrameUtils.showErrorMessage("ERROR", ex + ": La factura " + file.getName() + " no se ha podido encontrar.", ex);
+        } catch (NullPointerException ex) {
+            FrameUtils.showErrorMessage("ERROR", ex + ": La factura no se ha podido encontrar.", ex);
         }
     }
     
@@ -784,7 +791,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         } else { // Está retrocediendo la verificación para modificar datos.
             actualizaStatusFicha(0);
             enableAllEditables();
-            setDefaultBackgroundToAllComponents(jPanel);
+            setDefaultBackgroundGeneralComponents(jPanel);
         }
     }
     
@@ -818,8 +825,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
                 return -1;
             }
         } catch (NumberFormatException ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return -1;
         }
     }

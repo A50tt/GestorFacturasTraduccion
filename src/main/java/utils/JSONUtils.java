@@ -34,8 +34,7 @@ public class JSONUtils {
                     String jsonText = "{}";
                     file.write(jsonText);
                 } catch (IOException ex) {
-                    DebugLogger.writeLog(ex.getStackTrace().toString());
-                    FrameUtils.showErrorMessage("Error", ex.getMessage());
+                    FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
                 }
             } else {
                 return -1;
@@ -49,8 +48,7 @@ public class JSONUtils {
                     String jsonText = "{\"" + jsonObjNames[1] + "\":[]}";
                     file.write(jsonText);
                 } catch (IOException ex) {
-                    DebugLogger.writeLog(ex.getStackTrace().toString());
-                    FrameUtils.showErrorMessage("Error", ex.getMessage());
+                    FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
                 }
             } else {
                 return -1;
@@ -63,8 +61,7 @@ public class JSONUtils {
                     String jsonText = "{\"" + jsonObjNames[2] + "\":[]}";
                     file.write(jsonText);
                 } catch (IOException ex) {
-                    DebugLogger.writeLog(ex.getStackTrace().toString());
-                    FrameUtils.showErrorMessage("Error", ex.getMessage());
+                    FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
                 }
             } else {
                 return -1;
@@ -80,7 +77,7 @@ public class JSONUtils {
             String content = new String(Files.readAllBytes(jsonFile));
             return new JSONObject(content);
         } catch (IOException | JSONException ex) {
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }
@@ -102,7 +99,7 @@ public class JSONUtils {
                 return 0;
             }
         } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return -1;
         }
     }
@@ -127,11 +124,10 @@ public class JSONUtils {
                 return null;
             }
         } catch (IOException ex) {
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         } catch (JSONException ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }
@@ -158,11 +154,10 @@ public class JSONUtils {
                 return null;
             }
         } catch (IOException ex) {
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         } catch (JSONException ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }
@@ -192,7 +187,7 @@ public class JSONUtils {
                 return 0;
             }
         } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return -1;
         }
     }
@@ -222,7 +217,7 @@ public class JSONUtils {
                 return 0;
             }
         } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return -1;
         }
     }
@@ -247,7 +242,7 @@ public class JSONUtils {
                 return 0;
             }
         } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return -1;
         }
     }
@@ -277,7 +272,7 @@ public class JSONUtils {
                 return 0;
             }
         } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return -1;
         }
     }
@@ -442,8 +437,7 @@ public class JSONUtils {
                 return null;
             }
         } catch (IOException ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }
@@ -473,7 +467,7 @@ public class JSONUtils {
                 return 0;
             }
         } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return -1;
         }
     }
@@ -503,7 +497,7 @@ public class JSONUtils {
                 return 0;
             }
         } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return -1;
         }
     }
@@ -534,7 +528,7 @@ public class JSONUtils {
                 return 0;
             }
         } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return -1;
         }
     }
@@ -618,8 +612,7 @@ public class JSONUtils {
             }
             return listaFacturasFiltradas.isEmpty() ? null : listaFacturasFiltradas;
         } catch (Exception ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }

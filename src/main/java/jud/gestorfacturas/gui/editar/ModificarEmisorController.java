@@ -140,8 +140,8 @@ public class ModificarEmisorController implements Controller {
     private void saveEmisor(Emisor emisor) {
         try {
             JSONUtils.saveEmisor(emisor, true);
-        } catch (Exception e) {
-            FrameUtils.showErrorMessage("Error", "Ha ocurrido un error en el guardado a la base de datos.");
+        } catch (Exception ex) {
+            FrameUtils.showErrorMessage("Error", "Ha ocurrido un error en el guardado a la base de datos.", ex);
         }
     }
 

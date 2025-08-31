@@ -60,13 +60,13 @@ public class MainContainerController implements GlobalController {
         try {
             UIManager.setLookAndFeel(theme);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainContainerController.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(MainContainerController.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(MainContainerController.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(MainContainerController.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
     }
     

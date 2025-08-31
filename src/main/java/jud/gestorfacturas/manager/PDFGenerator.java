@@ -266,7 +266,7 @@ public final class PDFGenerator {
             
             return document;
         } catch (IOException ex) {
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }
@@ -275,7 +275,7 @@ public final class PDFGenerator {
         try {
             Desktop.getDesktop().open(tempFile);
         } catch (IOException | IllegalArgumentException ex) {
-            FrameUtils.showErrorMessage("Error", "No se ha podido abrir o no se ha encontrado la factura ubicada en " + tempFile.getAbsolutePath());
+            FrameUtils.showErrorMessage("Error", "No se ha podido abrir o no se ha encontrado la factura ubicada en " + tempFile.getAbsolutePath(), ex);
         }
     }
     
@@ -289,7 +289,7 @@ public final class PDFGenerator {
             contentStream.setNonStrokingColor(0f, 0f, 0f);
             contentStream.setLeading(14.5f);
         } catch (IOException ex) {
-            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
     }
 
@@ -299,7 +299,7 @@ public final class PDFGenerator {
             contentStream.setFont(new PDType1Font(font), fontSize);
             contentStream.showText(text);
         } catch (IOException ex) {
-            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
     }
 
@@ -309,7 +309,7 @@ public final class PDFGenerator {
             contentStream.setFont(new PDType1Font(font), fontSize);
             contentStream.showText(text);
         } catch (IOException ex) {
-            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
     }
 
@@ -317,7 +317,7 @@ public final class PDFGenerator {
         try {
             contentStream.newLine();
         } catch (IOException ex) {
-            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
     }
 
@@ -328,7 +328,7 @@ public final class PDFGenerator {
             contentStream.drawImage(image, 0, (float) this.height - (float) image.getHeight());
             contentStream.close();
         } catch (IOException ex) {
-            Logger.getLogger(PDFGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
     }
 }

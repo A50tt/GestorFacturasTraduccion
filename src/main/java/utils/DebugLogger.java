@@ -11,8 +11,8 @@ public class DebugLogger {
     public static void writeLog(String message) {
         try (FileWriter fw = new FileWriter(logFile, true)) {
             fw.write(LocalDateTime.now() + " - " + message + "\n");
-        } catch (IOException e) {
-            FrameUtils.showErrorMessage("Error interno", "Error intentando registrar el LOG: " + e.getMessage());
+        } catch (IOException ex) {
+            FrameUtils.showErrorMessage("Error interno", "Error intentando registrar el LOG: " + ex.getMessage());
         }
     }
 }

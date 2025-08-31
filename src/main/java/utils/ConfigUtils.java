@@ -37,8 +37,8 @@ public class ConfigUtils {
         try {
             props.load(new FileInputStream(CONFIG_FILEPATH));
             return props;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }
@@ -48,8 +48,8 @@ public class ConfigUtils {
         try {
             props.load(new FileInputStream(CONFIG_FILEPATH));
             return props.getProperty(key);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             return null;
         }
     }
@@ -66,11 +66,9 @@ public class ConfigUtils {
             }
             props.store(out, null);
         } catch (FileNotFoundException ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         } catch (IOException ex) {
-            DebugLogger.writeLog(ex.getStackTrace().toString());
-            FrameUtils.showErrorMessage("Error", ex.getMessage());
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
     }
     
@@ -79,14 +77,13 @@ public class ConfigUtils {
                 UIManager.setLookAndFeel(ConfigUtils.UI_THEMES.get(themeKey));
                 SwingUtilities.updateComponentTreeUI(MainContainerController.frameContainerView);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ConfigAparienciaController.class.getName()).log(Level.SEVERE, null, ex);
+                FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             } catch (InstantiationException ex) {
-                Logger.getLogger(ConfigAparienciaController.class.getName()).log(Level.SEVERE, null, ex);
+                FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(ConfigAparienciaController.class.getName()).log(Level.SEVERE, null, ex);
+                FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             } catch (UnsupportedLookAndFeelException ex) {
-                Logger.getLogger(ConfigAparienciaController.class.getName()).log(Level.SEVERE, null, ex);
+                FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
             }
-            
     }
 }

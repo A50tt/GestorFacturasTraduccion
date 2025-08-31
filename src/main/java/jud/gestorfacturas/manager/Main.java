@@ -4,13 +4,10 @@ import com.formdev.flatlaf.FlatLightLaf;
 import utils.FrameUtils;
 import javax.persistence.PersistenceException;
 import jud.gestorfacturas.gui.MainContainerController;
-import utils.DebugLogger;
 
 public class Main {
     
-    // NEUVA FACTURA NO REINICIAR EL CLIENTE
     // testea theme dark en nueva factura
-    
     //TODO Testear entrada en vacío
     //TODO Configuración VIEW
     //TODO Puntos de miles en factura
@@ -23,7 +20,7 @@ public class Main {
                 FlatLightLaf.setup();
                 new MainContainerController();
             } catch (PersistenceException ex) {
-                FrameUtils.showErrorMessage("Error iniciando la aplicación", ex.toString());
+                FrameUtils.showErrorMessage("Error iniciando la aplicación", ex.toString(), ex);
             }
         });
     }

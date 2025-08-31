@@ -35,10 +35,15 @@ public class FrameUtils {
     public static void showPlainMessage(String title, String msg) {
         showMessageDialog(null, msg, title, JOptionPane.PLAIN_MESSAGE);
     }
-
+    
     public static void showErrorMessage(String title, String msg) {
         showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
-//        DebugLogger.writeLog(ex.getStackTrace().toString());
+        DebugLogger.writeLog(msg);
+    }
+
+    public static void showErrorMessage(String title, String msg, Exception ex) {
+        showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
+        DebugLogger.writeLog(ex.getStackTrace().toString());
     }
 
     public static void showInfoMessage(String title, String msg) {

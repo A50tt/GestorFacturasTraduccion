@@ -24,7 +24,7 @@ public class FormatUtils {
         try {
             return FormatUtils.formatDecimalNumber(dou, decimalDigits, "#");
         } catch (CustomException ex) {
-            Logger.getLogger(FormatUtils.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
         return null;
     }
@@ -64,7 +64,7 @@ public class FormatUtils {
         try {
             return Double.parseDouble(FormatUtils.formatDecimalNumber(dou, decimalDigits, "#").replace(",","."));
         } catch (CustomException ex) {
-            Logger.getLogger(FormatUtils.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
         return null;
     }
@@ -73,7 +73,7 @@ public class FormatUtils {
         try {
             return FormatUtils.formatDecimalNumber(dou, decimalDigits, "0");
         } catch (CustomException ex) {
-            Logger.getLogger(FormatUtils.class.getName()).log(Level.SEVERE, null, ex);
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
         return null;
     }
