@@ -7,11 +7,8 @@ import jud.gestorfacturas.gui.MainContainerController;
 
 public class Main {
     
-    // testea theme dark en nueva factura
-    //TODO Testear entrada en vacío
-    //TODO Configuración VIEW
-    //TODO Puntos de miles en factura
-    //TODO Puntos de miles en factura
+    // TODO Testea theme dark en nueva factura
+    // TODO Testear entrada en vacío
     
     public static void main(String[] args) {
         // Optionally set default theme here

@@ -5,29 +5,17 @@ import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Locale;
 import java.util.regex.Pattern;
-import jud.gestorfacturas.manager.CustomException;
 
 public class FormatUtils {
 
-    public FormatUtils() {
-
-    }
-
-    public static String formatDecimalNumberToStringIfNecessary(Double dou, int decimalDigits) {
-        try {
-            return FormatUtils.formatDecimalNumber(dou, decimalDigits, "#");
-        } catch (CustomException ex) {
-            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
-        }
-        return null;
-    }
+    public FormatUtils() {}
     
     public static Double checkIfDecimalAndReturnDotDouble(String number) {
         if (number.contains(",") || number.contains(".")) {
@@ -60,46 +48,19 @@ public class FormatUtils {
         }
     }
     
-    public static Double formatDecimalNumberToDoubleIfNecessary(Double dou, int decimalDigits) {
+    public static String formatDecimalNumberToDoubleIfNecessary(Double dou, int decimalDigits) {
         try {
-            return Double.parseDouble(FormatUtils.formatDecimalNumber(dou, decimalDigits, "#").replace(",","."));
-        } catch (CustomException ex) {
-            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
-        }
-        return null;
-    }
-
-    public static String formatDecimalNumberToStringAlways(Double dou, int decimalDigits) {
-        try {
-            return FormatUtils.formatDecimalNumber(dou, decimalDigits, "0");
-        } catch (CustomException ex) {
-            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
-        }
-        return null;
-    }
-    
-    private static String formatDecimalNumber(Double dou, int decimalDigits, String optionalDecimal) throws CustomException {
-        DecimalFormat df;
-        if (decimalDigits > 0) {
-            String digits = "";
-            for (int i = 0; i < decimalDigits; i++) {
-                digits += optionalDecimal;
+            if (dou % 1 != 0 || Boolean.parseBoolean(ConfigUtils.loadProperty("factura.forzar_decimales_cantidad"))) { // Si tiene decimales o si en la configuración global siempre se quieren decimales 
+                return convertToLocaleThousandSeparatorAndDecimal(dou, 2);
             }
-            //We force to do the rounding only with the last decimal that we indicate in optionalDecimal
-            //If this is missing, the rounding will be done with the entire number, each decimal.
-            DecimalFormat dfAux = new DecimalFormat("0." + digits + optionalDecimal);
-            dou = Double.parseDouble(dfAux.format(dou).replace(",", "."));
-            df = new DecimalFormat("0." + digits);
-            df.setRoundingMode(RoundingMode.HALF_UP);
-        } else if (decimalDigits == 0) {
-            df = new DecimalFormat("#");
-        } else {
-            throw new CustomException("Decimals indicated to format < 0");
+            return convertToLocaleThousandSeparatorAndDecimal(dou, 0);
+        } catch (Exception ex) {
+            FrameUtils.showErrorMessage("Error", ex.getMessage(), ex);
         }
-        return df.format(dou);
+        return null;
     }
     
-    public java.sql.Date convertStringToDate(String str) {
+    public static java.sql.Date convertStringToDate(String str) {
         DateTimeFormatter formatter;
         try {
             if (Pattern.matches("\\d{2}-\\d{2}-\\d{4}", str)) { // 01-12-2024
@@ -129,5 +90,26 @@ public class FormatUtils {
         String pattern = format;
         DateFormat df = new SimpleDateFormat(pattern);
         return df.format(date);
+    }
+    
+    public static String convertToLocaleThousandSeparatorAndDecimal(Double number, int decimalPositions) {
+        Locale l = Locale.getDefault();
+        NumberFormat formatter = NumberFormat.getNumberInstance(l);
+        formatter.setMinimumFractionDigits(decimalPositions);
+        formatter.setMaximumFractionDigits(decimalPositions);
+        return formatter.format(number);
+    }
+
+    public static String convertToEngDecimalSystemString(Double number) {
+        String numberStr = String.valueOf(number);
+        return FormatUtils.convertToEngDecimalSystemString(numberStr);
+    }
+    
+    public static String convertToEngDecimalSystemString(String number) {
+        String numberStr = number;
+        String numberWithoutCommas = numberStr.replace(",", "#");
+        String numberWithoutDotsAndCommas = numberWithoutCommas.replace(".", ",");
+        String resultNumber = numberWithoutDotsAndCommas.replace("#", ".");
+        return resultNumber;
     }
 }

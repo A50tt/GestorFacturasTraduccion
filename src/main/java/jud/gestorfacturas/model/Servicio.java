@@ -21,9 +21,11 @@ public class Servicio implements Serializable {
         this.idiomaDestino = _idiomaDestino;
         this.descripcion = _descripcion;
         this.tipo = _tipo;
-        this.precioUnitario = FormatUtils.formatDecimalNumberToDoubleIfNecessary(_precioUnitario, 3);
-        this.cantidad = FormatUtils.formatDecimalNumberToDoubleIfNecessary(_cantidad, 2);
-        this.precioFinal = FormatUtils.formatDecimalNumberToDoubleIfNecessary(this.precioUnitario * this.cantidad, 2);
+        this.precioUnitario = _precioUnitario;
+        this.cantidad = _cantidad;
+        this.precioFinal = this.precioUnitario * this.cantidad;
+//        this.precioUnitario = FormatUtils.formatDecimalNumberToDoubleIfNecessary(_precioUnitario, 3);
+//        this.precioFinal = FormatUtils.formatDecimalNumberToDoubleIfNecessary(this.precioUnitario * this.cantidad, 2);
     }
 
     public String getIdiomaOrigen() {

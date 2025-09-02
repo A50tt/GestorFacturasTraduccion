@@ -2,6 +2,7 @@
 package jud.gestorfacturas.gui.configuracion;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JSpinner;
 
 public class ConfigFacturaView extends javax.swing.JPanel {
@@ -23,13 +24,14 @@ public class ConfigFacturaView extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
+        logoLbl = new javax.swing.JLabel();
+        logoPathPanel = new javax.swing.JPanel();
         firstRowAparienciaLblPanel = new javax.swing.JPanel();
         firstRowAparienciaLbl = new javax.swing.JLabel();
         firstRowAparienciaConfigPanel = new javax.swing.JPanel();
         firstRowExaminarBtn = new javax.swing.JButton();
         firstRowNombreArchivoLogoLbl = new javax.swing.JLabel();
-        secondRowAparienciaPanel = new javax.swing.JPanel();
+        logoDimensionesPanel = new javax.swing.JPanel();
         secondRowAparienciaLblPanel = new javax.swing.JPanel();
         secondRowAparienciaLbl = new javax.swing.JLabel();
         firstRowConfigPanel = new javax.swing.JPanel();
@@ -43,15 +45,28 @@ public class ConfigFacturaView extends javax.swing.JPanel {
         logoPosYSpinner = new javax.swing.JSpinner();
         logoAnchoSpinner = new javax.swing.JSpinner();
         logoAlturaSpinner = new javax.swing.JSpinner();
+        facturacionLbl = new javax.swing.JLabel();
+        precioUnitarioNumDecimalesPanel = new javax.swing.JPanel();
+        rowCantidadesPanel1 = new javax.swing.JPanel();
+        mostrarSiempreDecimalesLabel1 = new javax.swing.JLabel();
+        decimalesPrecioJSpinner = new javax.swing.JSpinner();
+        questionMarkImgLbl = new javax.swing.JLabel();
+        cantidadDecimalesPanel = new javax.swing.JPanel();
+        rowCantidadesPanel = new javax.swing.JPanel();
+        mostrarSiempreDecimalesLabel = new javax.swing.JLabel();
+        mostrarSiempreDecimalesCheckBox = new javax.swing.JCheckBox();
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        logoLbl.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        logoLbl.setText("LOGO");
+
+        logoPathPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         firstRowAparienciaLblPanel.setLayout(new java.awt.BorderLayout());
 
         firstRowAparienciaLbl.setText("Logo utilizado en facturas");
         firstRowAparienciaLblPanel.add(firstRowAparienciaLbl, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(firstRowAparienciaLblPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 35));
+        logoPathPanel.add(firstRowAparienciaLblPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 35));
 
         firstRowAparienciaConfigPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -78,16 +93,16 @@ public class ConfigFacturaView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         firstRowAparienciaConfigPanel.add(firstRowNombreArchivoLogoLbl, gridBagConstraints);
 
-        jPanel1.add(firstRowAparienciaConfigPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(182, -4, 250, 40));
+        logoPathPanel.add(firstRowAparienciaConfigPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(182, -4, 250, 40));
 
-        secondRowAparienciaPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        logoDimensionesPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         secondRowAparienciaLblPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         secondRowAparienciaLbl.setText("Dimensiones del logo en la factura");
         secondRowAparienciaLblPanel.add(secondRowAparienciaLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 5, -1, -1));
 
-        secondRowAparienciaPanel.add(secondRowAparienciaLblPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 50));
+        logoDimensionesPanel.add(secondRowAparienciaLblPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 50));
 
         firstRowConfigPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -188,7 +203,52 @@ public class ConfigFacturaView extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         firstRowConfigPanel.add(logoSizeSpinnerPanel, gridBagConstraints);
 
-        secondRowAparienciaPanel.add(firstRowConfigPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, -4, 270, 110));
+        logoDimensionesPanel.add(firstRowConfigPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, -4, 270, 110));
+
+        facturacionLbl.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        facturacionLbl.setText("FACTURACIÓN");
+
+        precioUnitarioNumDecimalesPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        rowCantidadesPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        mostrarSiempreDecimalesLabel1.setText("Posiciones decimales en el precio por unidad");
+        mostrarSiempreDecimalesLabel1.setPreferredSize(new java.awt.Dimension(200, 16));
+        rowCantidadesPanel1.add(mostrarSiempreDecimalesLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 25));
+
+        decimalesPrecioJSpinner.setMinimumSize(new java.awt.Dimension(150, 22));
+        decimalesPrecioJSpinner.setName("factura.numdecimales_precio"); // NOI18N
+        decimalesPrecioJSpinner.setPreferredSize(new java.awt.Dimension(100, 22));
+        decimalesPrecioJSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                decimalesPrecioJSpinnerStateChanged(evt);
+            }
+        });
+        rowCantidadesPanel1.add(decimalesPrecioJSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, -1, 25));
+
+        questionMarkImgLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/question_mark.png"))); // NOI18N
+        questionMarkImgLbl.setToolTipText("<html>\nIndependientemente de la cifra escogida, los cálculos se realizarán con <b>todos</b> los decimales.<br>\nAquí solo se elige lo que se visualizará en la factura.\n</html>");
+        questionMarkImgLbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        rowCantidadesPanel1.add(questionMarkImgLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, -1, -1));
+
+        precioUnitarioNumDecimalesPanel.add(rowCantidadesPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 25));
+
+        cantidadDecimalesPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        rowCantidadesPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        mostrarSiempreDecimalesLabel.setText("Mostrar siempre decimales en las cantidades");
+        rowCantidadesPanel.add(mostrarSiempreDecimalesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 35));
+
+        mostrarSiempreDecimalesCheckBox.setName("factura.forzar_decimales_cantidad"); // NOI18N
+        mostrarSiempreDecimalesCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                mostrarSiempreDecimalesCheckBoxStateChanged(evt);
+            }
+        });
+        rowCantidadesPanel.add(mostrarSiempreDecimalesCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 20, 35));
+
+        cantidadDecimalesPanel.add(rowCantidadesPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 35));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -196,19 +256,34 @@ public class ConfigFacturaView extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .addComponent(secondRowAparienciaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(147, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cantidadDecimalesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+                    .addComponent(logoDimensionesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(logoPathPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(logoLbl)
+                            .addComponent(facturacionLbl))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(precioUnitarioNumDecimalesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(logoLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(secondRowAparienciaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77))
+                .addComponent(logoPathPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logoDimensionesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(facturacionLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cantidadDecimalesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(precioUnitarioNumDecimalesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(48, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -232,8 +307,19 @@ public class ConfigFacturaView extends javax.swing.JPanel {
         controller.setNewLogoProperty((JSpinner)evt.getSource());
     }//GEN-LAST:event_logoAlturaSpinnerStateChanged
 
+    private void mostrarSiempreDecimalesCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mostrarSiempreDecimalesCheckBoxStateChanged
+        controller.setDecimalConfig((JCheckBox)evt.getSource());
+    }//GEN-LAST:event_mostrarSiempreDecimalesCheckBoxStateChanged
+
+    private void decimalesPrecioJSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_decimalesPrecioJSpinnerStateChanged
+        controller.setNewDecimalesPrecio((JSpinner)evt.getSource());
+    }//GEN-LAST:event_decimalesPrecioJSpinnerStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel cantidadDecimalesPanel;
+    public javax.swing.JSpinner decimalesPrecioJSpinner;
+    private javax.swing.JLabel facturacionLbl;
     private javax.swing.JPanel firstRowAparienciaConfigPanel;
     private javax.swing.JLabel firstRowAparienciaLbl;
     private javax.swing.JPanel firstRowAparienciaLblPanel;
@@ -244,15 +330,23 @@ public class ConfigFacturaView extends javax.swing.JPanel {
     public javax.swing.JLabel firstRowNombreArchivoLogoLbl;
     public javax.swing.JLabel firstRowNombreArchivoLogoPosXLbl;
     public javax.swing.JLabel firstRowNombreArchivoLogoPosYLbl;
-    private javax.swing.JPanel jPanel1;
     public javax.swing.JSpinner logoAlturaSpinner;
     public javax.swing.JSpinner logoAnchoSpinner;
+    private javax.swing.JPanel logoDimensionesPanel;
+    private javax.swing.JLabel logoLbl;
+    private javax.swing.JPanel logoPathPanel;
     public javax.swing.JSpinner logoPosXSpinner;
     public javax.swing.JSpinner logoPosYSpinner;
     private javax.swing.JPanel logoSizeLblPanel;
     private javax.swing.JPanel logoSizeSpinnerPanel;
+    public javax.swing.JCheckBox mostrarSiempreDecimalesCheckBox;
+    private javax.swing.JLabel mostrarSiempreDecimalesLabel;
+    private javax.swing.JLabel mostrarSiempreDecimalesLabel1;
+    private javax.swing.JPanel precioUnitarioNumDecimalesPanel;
+    private javax.swing.JLabel questionMarkImgLbl;
+    private javax.swing.JPanel rowCantidadesPanel;
+    private javax.swing.JPanel rowCantidadesPanel1;
     private javax.swing.JLabel secondRowAparienciaLbl;
     private javax.swing.JPanel secondRowAparienciaLblPanel;
-    private javax.swing.JPanel secondRowAparienciaPanel;
     // End of variables declaration//GEN-END:variables
 }

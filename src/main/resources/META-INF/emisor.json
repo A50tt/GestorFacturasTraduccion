@@ -1,10 +1,10 @@
 {
-    "nombre_completo": "Nombre propio completo",
-    "codigo_postal": "",
-    "importado": false,
+    "nombre_completo": "Judith Teresa Gracia Castells",
+    "codigo_postal": "43520 Roquetes",
+    "importado": true,
     "ult_actualizacion": "2025-08-31 23:01:57.173",
-    "iban": "ES42 0515 5467 4564 7654 1234",
-    "direccion": "Dirección propia",
-    "nif": "A12345678",
-    "nombre": "Nombre propio"
+    "iban": "ES10 2100 0178 7602 0059 8323",
+    "direccion": "C/ Sant Ramon 15 2º",
+    "nif": "47938584Y",
+    "nombre": "Judith Gracia Castells"
 }

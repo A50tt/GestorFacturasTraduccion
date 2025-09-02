@@ -15,8 +15,6 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -33,12 +31,10 @@ import jud.gestorfacturas.model.Factura;
 import jud.gestorfacturas.model.Servicio;
 import utils.FrameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import utils.DebugLogger;
 import utils.JSONUtils;
 
 public class CrearFacturaController implements Controller, DataListenerController {
 
-    FormatUtils utils = new FormatUtils();
     protected int fichaEsCorrecta = 0; // -1 si es INCORRECTA, 0 si es NEUTRAL, 1 si es CORRECTA
     public static final String VIEW_NAME = "Crear factura";
     public String finalViewName;
@@ -232,7 +228,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
     public void calculaFechaVencimiento(javax.swing.JTextField fechaEmision, javax.swing.JTextField diasSumar, javax.swing.JTextField fechaVencimiento) {
         if (!fechaEmision.getText().isBlank()) {
             try {
-                Date fechaEmisionDate = utils.convertStringToDate(fechaEmision.getText());
+                Date fechaEmisionDate = FormatUtils.convertStringToDate(fechaEmision.getText());
                 int dias = Integer.valueOf(diasParaPagoTxtField.getText());
                 Date date = Date.valueOf(fechaEmisionDate.toLocalDate().plusDays(dias));
                 Calendar calendar = Calendar.getInstance();
@@ -318,6 +314,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         enableAllEditables();
         setDefaultBackgroundGeneralComponents(jPanel);
         setDefaultBackgroundClientComponents();
+        verificarFichaBtn.setBackground(freeStateBtnColor);
     }
 
     public void disableAllEditables() {
@@ -328,7 +325,6 @@ public class CrearFacturaController implements Controller, DataListenerControlle
 
         clienteSearchBtn.setEnabled(false);
         clienteEraseBtn.setEnabled(false);
-//        numeroClienteTxtField.setEditable(false);
 
         concepto1TxtField.setEditable(false);
         idiomaOrigen1TxtField.setEditable(false);
@@ -415,7 +411,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
 
     public Factura extraeFactura() {
         String numFra = numeroFraTxtField.getText();
-        Date fechaEmision = utils.convertStringToDate(fechaEmisionTxtField.getText());
+        Date fechaEmision = FormatUtils.convertStringToDate(fechaEmisionTxtField.getText());
         int diasPago = Integer.valueOf(diasParaPagoTxtField.getText());
         String formaPago = formaPagoComboBox.getSelectedItem().toString();
         Cliente cliente = JSONUtils.getClienteById(Integer.parseInt(numeroClienteTxtField.getText()));
@@ -423,19 +419,19 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         Servicio servicio1 = null, servicio2 = null, servicio3 = null, servicio4 = null;
         int servicioCount = 0;
         if (!concepto1TxtField.getText().isBlank()) {
-            servicio1 = new Servicio(idiomaOrigen1TxtField.getText(), idiomaDestino1TxtField.getText(), concepto1TxtField.getText(), item1ComboBox.getSelectedItem().toString(), utils.checkIfDecimalAndReturnDotDouble(precio1TxtField.getText()), utils.checkIfDecimalAndReturnDotDouble(cantidad1TxtField.getText()));
+            servicio1 = new Servicio(idiomaOrigen1TxtField.getText(), idiomaDestino1TxtField.getText(), concepto1TxtField.getText(), item1ComboBox.getSelectedItem().toString(), Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(precio1TxtField.getText())), Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(cantidad1TxtField.getText())));
             servicioCount++;
         }
         if (!concepto2TxtField.getText().isBlank()) {
-            servicio2 = new Servicio(idiomaOrigen2TxtField.getText(), idiomaDestino2TxtField.getText(), concepto2TxtField.getText(), item2ComboBox.getSelectedItem().toString(), utils.checkIfDecimalAndReturnDotDouble(precio2TxtField.getText()), utils.checkIfDecimalAndReturnDotDouble(cantidad2TxtField.getText()));
+            servicio2 = new Servicio(idiomaOrigen2TxtField.getText(), idiomaDestino2TxtField.getText(), concepto2TxtField.getText(), item2ComboBox.getSelectedItem().toString(), Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(precio2TxtField.getText())), Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(cantidad2TxtField.getText())));
             servicioCount++;
         }
         if (!concepto3TxtField.getText().isBlank()) {
-            servicio3 = new Servicio(idiomaOrigen3TxtField.getText(), idiomaDestino3TxtField.getText(), concepto3TxtField.getText(), item3ComboBox.getSelectedItem().toString(), utils.checkIfDecimalAndReturnDotDouble(precio3TxtField.getText()), utils.checkIfDecimalAndReturnDotDouble(cantidad3TxtField.getText()));
+            servicio3 = new Servicio(idiomaOrigen3TxtField.getText(), idiomaDestino3TxtField.getText(), concepto3TxtField.getText(), item3ComboBox.getSelectedItem().toString(), Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(precio3TxtField.getText())), Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(cantidad3TxtField.getText())));
             servicioCount++;
         }
         if (!concepto4TxtField.getText().isBlank()) {
-            servicio4 = new Servicio(idiomaOrigen4TxtField.getText(), idiomaDestino4TxtField.getText(), concepto4TxtField.getText(), item4ComboBox.getSelectedItem().toString(), utils.checkIfDecimalAndReturnDotDouble(precio4TxtField.getText()), utils.checkIfDecimalAndReturnDotDouble(cantidad4TxtField.getText()));
+            servicio4 = new Servicio(idiomaOrigen4TxtField.getText(), idiomaDestino4TxtField.getText(), concepto4TxtField.getText(), item4ComboBox.getSelectedItem().toString(), Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(precio4TxtField.getText())), Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(cantidad4TxtField.getText())));
             servicioCount++;
         }
         Servicio[] serviciosAux = {servicio1, servicio2, servicio3, servicio4};
@@ -515,7 +511,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
             isCorrect = false;
             setErrorBackground(fechaEmisionTxtField);
         } else {
-            if (utils.convertStringToDate(fechaEmisionTxtField.getText()) != null) {
+            if (FormatUtils.convertStringToDate(fechaEmisionTxtField.getText()) != null) {
                 setDefaultBackground(fechaEmisionTxtField);
             } else {
                 isCorrect = false;
@@ -614,13 +610,13 @@ public class CrearFacturaController implements Controller, DataListenerControlle
                 } else {
                     setDefaultBackground(fila[2]);
                 }
-                if (((javax.swing.JTextField) fila[3]).getText().isBlank() || !utils.isParseableToDouble(((javax.swing.JTextField) fila[3]).getText().replace(",", "."))) {
+                if (((javax.swing.JTextField) fila[3]).getText().isBlank() || !FormatUtils.isParseableToDouble(((javax.swing.JTextField) fila[3]).getText().replace(",", "."))) {
                     isCorrect = false;
                     setErrorBackground(fila[3]);
                 } else {
                     setDefaultBackground(fila[3]);
                 }
-                if (((javax.swing.JTextField) fila[4]).getText().isBlank() || !utils.isParseableToDouble(((javax.swing.JTextField) fila[4]).getText().replace(",", "."))) {
+                if (((javax.swing.JTextField) fila[4]).getText().isBlank() || !FormatUtils.isParseableToDouble(((javax.swing.JTextField) fila[4]).getText().replace(",", "."))) {
                     isCorrect = false;
                     setErrorBackground(fila[4]);
                 } else {
@@ -712,27 +708,28 @@ public class CrearFacturaController implements Controller, DataListenerControlle
         button.setIcon(new FlatSVGIcon(icon));
     }
 
-    public void calculaPrecioServicio(javax.swing.JTextField txt1, javax.swing.JTextField txt2, javax.swing.JTextField txtTotal) {
+    public void calculaPrecioServicio(javax.swing.JTextField cantidadStr, javax.swing.JTextField precioStr, javax.swing.JTextField txtTotal) {
         try {
-            if (!txt1.getText().isBlank()) {
-                Double d1 = Double.valueOf(txt1.getText().replace(",", "."));
-                if (!txt2.getText().isBlank()) {
+            if (!cantidadStr.getText().isBlank()) {
+                Double d1 = Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(cantidadStr.getText()));
+                if (!precioStr.getText().isBlank()) {
                     double d2 = 0f;
                     try {
-                        d2 = Double.valueOf(txt2.getText().replace(",", "."));
-                        txtTotal.setText(utils.formatDecimalNumberToStringAlways(d1 * d2, 2));
+                        d2 = Double.parseDouble(FormatUtils.convertToEngDecimalSystemString(precioStr.getText()));
+                        txtTotal.setText(FormatUtils.convertToLocaleThousandSeparatorAndDecimal(d1 * d2, 2));
+//                        txtTotal.setText(FormatUtils.formatDecimalNumberToStringAlways(d1 * d2, 2));
                     } catch (NumberFormatException e) {
                         txtTotal.setText("");
                     }
-                    setDefaultBackground(txt1);
-                    setDefaultBackground(txt2);
+                    setDefaultBackground(cantidadStr);
+                    setDefaultBackground(precioStr);
                 }
             } else { //Is empty
-                setDefaultBackground(txt1);
+                setDefaultBackground(cantidadStr);
                 txtTotal.setText("");
             }
         } catch (NumberFormatException e) {
-            setErrorBackground(txt1);
+            setErrorBackground(cantidadStr);
             txtTotal.setText("");
         }
     }
@@ -792,6 +789,7 @@ public class CrearFacturaController implements Controller, DataListenerControlle
             actualizaStatusFicha(0);
             enableAllEditables();
             setDefaultBackgroundGeneralComponents(jPanel);
+//            verificarFichaBtn.setBackground(freeStateBtnColor);
         }
     }
     

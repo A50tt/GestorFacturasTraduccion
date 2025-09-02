@@ -5,8 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import jud.gestorfacturas.model.*;
 import utils.FormatUtils;
@@ -159,11 +157,7 @@ public final class PDFGenerator {
             insertTextWithOffset("", Standard14Fonts.FontName.HELVETICA, 12, 300, 398);
             contentStream.setLeading(15f);
             for (Servicio servicio : factura.getServicios()) {
-                if (servicio.getCantidad() % (int)servicio.getCantidad() == 0) { //is integer without decimal numbers
-                    insertText("      " + FormatUtils.formatDecimalNumberToStringIfNecessary(servicio.getCantidad(), 0), Standard14Fonts.FontName.HELVETICA, 12);
-                } else { //has decimals
-                    insertText("    " + FormatUtils.formatDecimalNumberToStringIfNecessary(servicio.getCantidad(), 2), Standard14Fonts.FontName.HELVETICA, 12);
-                }
+                insertText("      " + FormatUtils.formatDecimalNumberToDoubleIfNecessary(servicio.getCantidad(), 2), Standard14Fonts.FontName.HELVETICA, 12);
                 insertNewLine();
                 insertNewLine();
                 insertNewLine();
@@ -180,7 +174,7 @@ public final class PDFGenerator {
             contentStream.setLeading(15f);
             for (Servicio servicio : factura.getServicios()) {
                 insertNewLine();
-                insertText(FormatUtils.formatDecimalNumberToStringAlways(servicio.getPrecioUnitario() ,3), Standard14Fonts.FontName.HELVETICA, 12);
+                insertText(FormatUtils.convertToLocaleThousandSeparatorAndDecimal(servicio.getPrecioUnitario(), Integer.valueOf(ConfigUtils.loadProperty("factura.numdecimales_precio"))), Standard14Fonts.FontName.HELVETICA, 12);
                 insertNewLine();
                 insertText("€/ " + servicio.getTipo(), Standard14Fonts.FontName.HELVETICA, 12);
                 insertNewLine();
@@ -198,7 +192,7 @@ public final class PDFGenerator {
             insertTextWithOffset("", Standard14Fonts.FontName.HELVETICA, 12, 510, 395);
             contentStream.setLeading(15f);
             for (Servicio servicio : factura.getServicios()) {
-                insertText(FormatUtils.formatDecimalNumberToStringAlways(servicio.getPrecioFinal(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 12);
+                insertText(FormatUtils.convertToLocaleThousandSeparatorAndDecimal(servicio.getPrecioFinal(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 12);
                 insertNewLine();
                 insertNewLine();
                 insertNewLine();
@@ -240,9 +234,9 @@ public final class PDFGenerator {
             contentStream.setLeading(22f);
             insertTextWithOffset("BASE IMPONIBLE", Standard14Fonts.FontName.HELVETICA, 14, 320, 620);
             insertNewLine();
-            insertText("IVA (" + FormatUtils.formatDecimalNumberToStringAlways(factura.getTasaIva(), 2) + " %)", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText("IVA (" + factura.getTasaIva() + " %)", Standard14Fonts.FontName.HELVETICA, 14);
             insertNewLine();
-            insertText("IRPF (" + FormatUtils.formatDecimalNumberToStringAlways(factura.getTasaIrpf(), 2) + " %)", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText("IRPF (" + factura.getTasaIrpf() + " %)", Standard14Fonts.FontName.HELVETICA, 14);
             insertNewLine();
             contentStream.setNonStrokingColor(1f,1f,1f);
             insertText("TOTAL", Standard14Fonts.FontName.HELVETICA, 14);
@@ -251,14 +245,14 @@ public final class PDFGenerator {
             
             contentStream.beginText();
             contentStream.setLeading(22f);
-            insertTextWithOffset(FormatUtils.formatDecimalNumberToStringAlways(factura.getBaseImponible(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14, 480, 620);
+            insertTextWithOffset(FormatUtils.convertToLocaleThousandSeparatorAndDecimal(factura.getBaseImponible(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14, 480, 620);
             insertNewLine();
-            insertText(FormatUtils.formatDecimalNumberToStringAlways(factura.getIva(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText(FormatUtils.convertToLocaleThousandSeparatorAndDecimal(factura.getIva(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
             insertNewLine();
-            insertText(FormatUtils.formatDecimalNumberToStringAlways(factura.getIrpf(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText(FormatUtils.convertToLocaleThousandSeparatorAndDecimal(factura.getIrpf(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
             insertNewLine();
             contentStream.setNonStrokingColor(1f,1f,1f);
-            insertText(FormatUtils.formatDecimalNumberToStringAlways(factura.getImporteTotal(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
+            insertText(FormatUtils.convertToLocaleThousandSeparatorAndDecimal(factura.getImporteTotal(), 2) + " €", Standard14Fonts.FontName.HELVETICA, 14);
             contentStream.setNonStrokingColor(0f,0f,0f);
             contentStream.endText();
             

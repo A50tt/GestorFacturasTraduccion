@@ -3,6 +3,7 @@ package jud.gestorfacturas.gui.configuracion;
 
 import java.io.File;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import jud.gestorfacturas.manager.PDFGenerator;
@@ -21,6 +22,8 @@ public class ConfigFacturaController {
     JSpinner logoPosYSpinner;
     JSpinner logoAnchoSpinner;
     JSpinner logoAlturaSpinner;
+    JCheckBox mostrarSiempreDecimalesCheckBox;
+    JSpinner decimalesPrecioJSpinner;
     
 
     public ConfigFacturaController(ConfiguracionController _globalConfigController) {
@@ -35,6 +38,8 @@ public class ConfigFacturaController {
         logoPosYSpinner = configFacturaView.logoPosYSpinner;
         logoAnchoSpinner = configFacturaView.logoAnchoSpinner;
         logoAlturaSpinner = configFacturaView.logoAlturaSpinner;
+        mostrarSiempreDecimalesCheckBox = configFacturaView.mostrarSiempreDecimalesCheckBox;
+        decimalesPrecioJSpinner = configFacturaView.decimalesPrecioJSpinner;
         
         File iconFile = new File(ConfigUtils.loadProperty(firstRowExaminarBtn.getName()));
         configFacturaView.firstRowNombreArchivoLogoLbl.setText(iconFile.getName());
@@ -42,6 +47,8 @@ public class ConfigFacturaController {
         logoPosYSpinner.setValue(Integer.valueOf(ConfigUtils.loadProperty("factura.logo.y")));
         logoAnchoSpinner.setValue(Integer.valueOf(ConfigUtils.loadProperty("factura.logo.width")));
         logoAlturaSpinner.setValue(Integer.valueOf(ConfigUtils.loadProperty("factura.logo.height")));
+        mostrarSiempreDecimalesCheckBox.setSelected(Boolean.parseBoolean(ConfigUtils.loadProperty("factura.forzar_decimales_cantidad")));
+        decimalesPrecioJSpinner.setValue(Integer.valueOf(ConfigUtils.loadProperty("factura.numdecimales_precio")));
     }
     
     public JPanel getView() {
@@ -63,6 +70,14 @@ public class ConfigFacturaController {
     }
     
     public void setNewLogoProperty(JSpinner sourceSpinner) {
+        globalConfigController.addConfiguration(sourceSpinner.getName(), sourceSpinner.getValue().toString());
+    }
+    
+    public void setDecimalConfig(JCheckBox checkBox) {
+        globalConfigController.addConfiguration(checkBox.getName(), String.valueOf(checkBox.isSelected()));
+    }
+    
+    public void setNewDecimalesPrecio(JSpinner sourceSpinner) {
         globalConfigController.addConfiguration(sourceSpinner.getName(), sourceSpinner.getValue().toString());
     }
 }

@@ -86,8 +86,10 @@ public class Factura implements JsonDataType {
         this.emisor = _emisor;
         this.servicios = _servicios;
         calculaServicios(); //Calcula baseImponible a partir de servicios
-        this.iva = FormatUtils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
-        this.irpf = FormatUtils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
+        this.iva = baseImponible * (TASA_IVA / 100d);
+        this.irpf = -baseImponible * (TASA_IRPF / 100d);
+//        this.iva = FormatUtils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
+//        this.irpf = FormatUtils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
         this.importeTotal = baseImponible + iva + irpf;
         this.importado = _importado;
         this.fechaUltActualizacion = new Timestamp(System.currentTimeMillis());
@@ -103,8 +105,10 @@ public class Factura implements JsonDataType {
         this.emisor = _emisor;
         this.servicios = _servicios;
         calculaServicios(); //Calcula baseImponible a partir de servicios
-        this.iva = FormatUtils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
-        this.irpf = FormatUtils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
+        this.iva = baseImponible * (TASA_IVA / 100d);
+        this.irpf = -baseImponible * (TASA_IRPF / 100d);
+//        this.iva = FormatUtils.formatDecimalNumberToDoubleIfNecessary(baseImponible * (TASA_IVA / 100d), 2);
+//        this.irpf = FormatUtils.formatDecimalNumberToDoubleIfNecessary(-baseImponible * (TASA_IRPF / 100d), 2);
         this.importeTotal = baseImponible + iva + irpf;
         this.importado = _importado;
         this.fechaUltActualizacion = _fechaUltActualizacion;

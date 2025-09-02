@@ -1,32 +1,10 @@
-{"clientes": [
-    {
-        "codigo_postal": "60529",
-        "importado": false,
-        "ult_actualizacion": "2025-08-28 20:10:19.446",
-        "activado": true,
-        "direccion": "Dirección Cliente 1",
-        "nif": "B12346578",
-        "id": 1,
-        "nombre": "Nombre Cliente 1"
-    },
-    {
-        "codigo_postal": "q",
-        "importado": false,
-        "ult_actualizacion": "2025-08-28 20:17:07.936",
-        "activado": true,
-        "direccion": "qs",
-        "nif": "B12345678",
-        "id": 2,
-        "nombre": "sq"
-    },
-    {
-        "codigo_postal": "D4WQ89D4W",
-        "importado": false,
-        "ult_actualizacion": "2025-09-01 00:06:59.646",
-        "activado": true,
-        "direccion": "D4WQ98D489D74",
-        "nif": "X234567897948",
-        "id": 3,
-        "nombre": "878974WD94QD"
-    }
-]}
+{"clientes": [{
+    "codigo_postal": "08007 Barcelona",
+    "importado": true,
+    "ult_actualizacion": "2024-12-30 22:00:04.644",
+    "activado": true,
+    "direccion": "Rambla de Catalunya 62 5º 1ª B",
+    "nif": "B64713993",
+    "id": 1,
+    "nombre": "Interglossa SL"
+}]}

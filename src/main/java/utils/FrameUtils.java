@@ -43,7 +43,7 @@ public class FrameUtils {
 
     public static void showErrorMessage(String title, String msg, Exception ex) {
         showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
-        DebugLogger.writeLog(ex.getStackTrace().toString());
+        DebugLogger.writeLog(ex, ex.getStackTrace());
     }
 
     public static void showInfoMessage(String title, String msg) {

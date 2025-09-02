@@ -107,7 +107,7 @@ public class BuscarFacturaController implements Controller {
             String fechaVencimiento = FormatUtils.convertDateToString(factura.getFechaVencimiento(), "yyyy-MM-dd");
             int numCliente = Integer.valueOf(factura.getCliente().getId());
             String nombreCliente = factura.getCliente().getNombre();
-            String importeTotal = String.format("%.2f", factura.getImporteTotal()).replace(".", ",");
+            String importeTotal = FormatUtils.convertToLocaleThousandSeparatorAndDecimal(factura.getImporteTotal(), 2);
             model.addRow(new Object[]{numFactura, fechaEmision, fechaVencimiento, numCliente, nombreCliente, importeTotal});
         }
     }
