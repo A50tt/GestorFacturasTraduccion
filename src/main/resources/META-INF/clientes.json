@@ -1,10 +1,10 @@
 {"clientes": [{
-    "codigo_postal": "08007 Barcelona",
+    "codigo_postal": "00001, Barriomedio",
     "importado": true,
     "ult_actualizacion": "2024-12-30 22:00:04.644",
     "activado": true,
-    "direccion": "Rambla de Catalunya 62 5º 1ª B",
-    "nif": "B64713993",
+    "direccion": "Calle Falsa 123",
+    "nif": "B12345678",
     "id": 1,
-    "nombre": "Interglossa SL"
+    "nombre": "Empresa 1"
 }]}

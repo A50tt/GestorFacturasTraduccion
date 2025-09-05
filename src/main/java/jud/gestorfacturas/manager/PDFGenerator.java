@@ -109,7 +109,7 @@ public final class PDFGenerator {
             insertNewLine();
             insertText(factura.getCliente().getCodigoPostal(), Standard14Fonts.FontName.HELVETICA, 12);
             insertNewLine();
-            insertText("CIF: " + factura.getCliente().getNif(), Standard14Fonts.FontName.HELVETICA, 12);
+            insertText(factura.getCliente().getNif(), Standard14Fonts.FontName.HELVETICA, 12);
             contentStream.endText();
 
             contentStream.beginText();
