@@ -1,6 +1,6 @@
 
 src/main/resources/facturas
-src/main/resources/META-INF/*json
+src/main/resources/META-INF/*.json
 *application.log
 
 # NetBeans project files
