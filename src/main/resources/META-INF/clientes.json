@@ -1,1 +1,10 @@
-{"clientes": []}
+{"clientes": [{
+    "codigo_postal": "00001, Barriomedio",
+    "importado": true,
+    "ult_actualizacion": "2024-12-30 22:00:04.644",
+    "activado": true,
+    "direccion": "Calle Falsa 123",
+    "nif": "B12345678",
+    "id": 1,
+    "nombre": "Empresa 1"
+}]}

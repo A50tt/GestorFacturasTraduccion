@@ -1,1 +1,10 @@
-{}
+{
+    "nombre_completo": "Nombre Completo Emisor",
+    "codigo_postal": "00000, Monte Olivo",
+    "importado": true,
+    "ult_actualizacion": "2025-09-05 19:43:26.223",
+    "iban": "ES00 0000 0000 0000 0000 0000",
+    "direccion": "C/ Verdadera 321",
+    "nif": "12345678X",
+    "nombre": "Nombre Emisor"
+}
