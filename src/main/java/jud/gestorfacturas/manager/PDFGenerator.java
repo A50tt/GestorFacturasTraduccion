@@ -67,9 +67,12 @@ public final class PDFGenerator {
             contentStream.setLeading(14.5f);
 
             //Logo
-            String logoPath = ConfigUtils.loadProperty("factura.logo.path");
+            String logoPath = ConfigUtils.loadProperty("factura.logo.path"); // Check for ABSOLUTE PATH
             if (!new File(logoPath).exists()) {
-                throw new IOException("El archivo designado como logo '" + logoPath + "' no existe.");
+                logoPath = RESOURCES_DIRECTORY + ConfigUtils.loadProperty("factura.logo.path"); // Check for RELATIVE PATH
+                if (!new File(logoPath).exists()) {
+                    throw new IOException("El archivo designado como logo '" + logoPath + "' no existe.");
+                }
             }
             BufferedImage bufferedImage = ImageIO.read(new File(logoPath));
             PDImageXObject pdImage = LosslessFactory.createFromImage(document, bufferedImage);
